@@ -4,94 +4,700 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>MAALAVO CONTROL ROOM</title>
+
 <style>
-:root{--bg:#050507;--panel:#0d0914;--panel2:#120b1b;--line:#332044;--violet:#985cff;--violet2:#6e35ba;--text:#f6f1fb;--muted:#a99fb5;--danger:#ff5c82;--ok:#66e6a5}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:radial-gradient(circle at 50% -10%,#24103d 0,#08060c 42%,#050507 78%);color:var(--text);font:14px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-button,input,textarea,select{font:inherit}button{cursor:pointer}.hidden{display:none!important}
-.wrap{width:min(1180px,100%);margin:auto;padding:24px 16px 60px}.login{max-width:440px;padding-top:15vh}
-.panel,.stat{background:linear-gradient(145deg,#160d20,#09070d);border:1px solid var(--line);box-shadow:0 18px 60px #0008;border-radius:22px}
-.panel{padding:20px}.login .panel{padding:28px}.brand,.tag{letter-spacing:2px;font-weight:900}.tag{font-size:11px;color:#b98cff}
-h1{margin:5px 0 8px;font-size:30px}h2{margin:0 0 15px}.muted,.meta{color:var(--muted)}
-.field{display:flex;flex-direction:column;gap:7px;margin-top:12px}.field label{font-size:12px;color:var(--muted)}
-.field input,.field textarea,.field select,.tabs button,select{background:#09070d;color:#fff;border:1px solid #38234c;border-radius:13px;padding:12px;outline:none}
-.field textarea{min-height:120px;resize:vertical}.actions,.rowActions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.btn{border:1px solid #5b2c95;background:#1d0d30;color:#fff;border-radius:13px;padding:11px 15px}.btn.primary{background:linear-gradient(135deg,#8747db,#6a2eb2);border-color:#a36bff}.btn.danger{border-color:#71253e;color:#ff9bb0}.btn:disabled{opacity:.6;cursor:wait}
-.error{color:#ff91aa}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:22px}.pill{padding:8px 12px;border:1px solid #4b2a77;border-radius:999px;color:#cdbbe2;background:#130b21}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stat{padding:17px}.stat small{color:var(--muted)}.stat b{display:block;font-size:27px;margin-top:5px}
-.tabs{display:flex;gap:8px;overflow:auto;margin:20px 0}.tabs button{white-space:nowrap;color:#bdb1ca}.tabs button.active{background:#291044;border-color:#874bd3;color:#fff}
-.form{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.full{grid-column:1/-1}
-.row{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:15px 0;border-top:1px solid #261830}.row:first-child{border-top:0}.rowMain{display:flex;align-items:center;gap:12px;min-width:0}.rowMain>div{min-width:0}.thumb{width:54px;height:54px;object-fit:cover;border-radius:13px;border:1px solid #49305d;background:#09070d}.meta{font-size:12px;overflow-wrap:anywhere}.empty{padding:20px 0;color:var(--muted)}
-.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#180d25;border:1px solid #7540bd;padding:12px 16px;border-radius:14px;box-shadow:0 15px 40px #0009;transition:.2s;z-index:99}.toast.show{opacity:1;transform:translate(-50%,0)}.toast[data-type=error]{border-color:#8a2948;color:#ffafbf}.toast[data-type=success]{border-color:#3b906b;color:#a8f2cc}
-@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}.form{grid-template-columns:1fr}.row{align-items:flex-start;flex-direction:column}.rowActions{width:100%}}
-@media(max-width:480px){.wrap{padding:14px 11px 40px}.login{padding-top:10vh}.grid{gap:8px}.stat{padding:13px}.stat b{font-size:22px}h1{font-size:26px}.top{align-items:flex-start;flex-direction:column}}
+:root{
+  --bg:#050507;
+  --panel:#0d0914;
+  --panel2:#120b1b;
+  --line:#332044;
+  --violet:#985cff;
+  --violet2:#6e35ba;
+  --text:#f6f1fb;
+  --muted:#a99fb5;
+  --danger:#ff5c82;
+  --ok:#66e6a5
+}
+
+*{
+  box-sizing:border-box
+}
+
+html,
+body{
+  margin:0;
+  min-height:100%;
+  background:
+    radial-gradient(
+      circle at 50% -10%,
+      #24103d 0,
+      #08060c 42%,
+      #050507 78%
+    );
+  color:var(--text);
+  font:14px/1.45 system-ui,
+  -apple-system,
+  BlinkMacSystemFont,
+  "Segoe UI",
+  sans-serif
+}
+
+button,
+input,
+textarea,
+select{
+  font:inherit
+}
+
+button{
+  cursor:pointer
+}
+
+.hidden{
+  display:none!important
+}
+
+.wrap{
+  width:min(1180px,100%);
+  margin:auto;
+  padding:24px 16px 60px
+}
+
+.login{
+  max-width:440px;
+  padding-top:15vh
+}
+
+.panel,
+.stat{
+  background:
+    linear-gradient(
+      145deg,
+      #160d20,
+      #09070d
+    );
+  border:1px solid var(--line);
+  box-shadow:0 18px 60px #0008;
+  border-radius:22px
+}
+
+.panel{
+  padding:20px
+}
+
+.login .panel{
+  padding:28px
+}
+
+.brand,
+.tag{
+  letter-spacing:2px;
+  font-weight:900
+}
+
+.tag{
+  font-size:11px;
+  color:#b98cff
+}
+
+h1{
+  margin:5px 0 8px;
+  font-size:30px
+}
+
+h2{
+  margin:0 0 15px
+}
+
+.muted,
+.meta{
+  color:var(--muted)
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  margin-top:12px
+}
+
+.field label{
+  font-size:12px;
+  color:var(--muted)
+}
+
+.field input,
+.field textarea,
+.field select,
+.tabs button,
+select{
+  background:#09070d;
+  color:#fff;
+  border:1px solid #38234c;
+  border-radius:13px;
+  padding:12px;
+  outline:none
+}
+
+.field textarea{
+  min-height:120px;
+  resize:vertical
+}
+
+.actions,
+.rowActions{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  flex-wrap:wrap
+}
+
+.btn{
+  border:1px solid #5b2c95;
+  background:#1d0d30;
+  color:#fff;
+  border-radius:13px;
+  padding:11px 15px
+}
+
+.btn.primary{
+  background:
+    linear-gradient(
+      135deg,
+      #8747db,
+      #6a2eb2
+    );
+  border-color:#a36bff
+}
+
+.btn.danger{
+  border-color:#71253e;
+  color:#ff9bb0
+}
+
+.btn:disabled{
+  opacity:.6;
+  cursor:wait
+}
+
+.error{
+  color:#ff91aa
+}
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:22px
+}
+
+.pill{
+  padding:8px 12px;
+  border:1px solid #4b2a77;
+  border-radius:999px;
+  color:#cdbbe2;
+  background:#130b21
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px
+}
+
+.stat{
+  padding:17px
+}
+
+.stat small{
+  color:var(--muted)
+}
+
+.stat b{
+  display:block;
+  font-size:27px;
+  margin-top:5px
+}
+
+.tabs{
+  display:flex;
+  gap:8px;
+  overflow:auto;
+  margin:20px 0
+}
+
+.tabs button{
+  white-space:nowrap;
+  color:#bdb1ca
+}
+
+.tabs button.active{
+  background:#291044;
+  border-color:#874bd3;
+  color:#fff
+}
+
+.form{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px
+}
+
+.full{
+  grid-column:1/-1
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  padding:15px 0;
+  border-top:1px solid #261830
+}
+
+.row:first-child{
+  border-top:0
+}
+
+.rowMain{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:0
+}
+
+.rowMain>div{
+  min-width:0
+}
+
+.thumb{
+  width:54px;
+  height:54px;
+  object-fit:cover;
+  border-radius:13px;
+  border:1px solid #49305d;
+  background:#09070d
+}
+
+.meta{
+  font-size:12px;
+  overflow-wrap:anywhere
+}
+
+.empty{
+  padding:20px 0;
+  color:var(--muted)
+}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:22px;
+  transform:translate(-50%,20px);
+  opacity:0;
+  pointer-events:none;
+  background:#180d25;
+  border:1px solid #7540bd;
+  padding:12px 16px;
+  border-radius:14px;
+  box-shadow:0 15px 40px #0009;
+  transition:.2s;
+  z-index:99
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0)
+}
+
+.toast[data-type=error]{
+  border-color:#8a2948;
+  color:#ffafbf
+}
+
+.toast[data-type=success]{
+  border-color:#3b906b;
+  color:#a8f2cc
+}
+
+@media(max-width:800px){
+  .grid{
+    grid-template-columns:repeat(2,1fr)
+  }
+
+  .form{
+    grid-template-columns:1fr
+  }
+
+  .row{
+    align-items:flex-start;
+    flex-direction:column
+  }
+
+  .rowActions{
+    width:100%
+  }
+}
+
+@media(max-width:480px){
+  .wrap{
+    padding:14px 11px 40px
+  }
+
+  .login{
+    padding-top:10vh
+  }
+
+  .grid{
+    gap:8px
+  }
+
+  .stat{
+    padding:13px
+  }
+
+  .stat b{
+    font-size:22px
+  }
+
+  h1{
+    font-size:26px
+  }
+
+  .top{
+    align-items:flex-start;
+    flex-direction:column
+  }
+}
 </style>
 </head>
+
 <body>
+
 <div id="login" class="wrap login">
+
   <form id="loginForm" class="panel">
-    <div class="tag">MAALAVO STORE</div>
-    <h1>Control Room</h1>
-    <p class="muted">Вход администратора защищён сервером.</p>
+
+    <div class="tag">
+      MAALAVO STORE
+    </div>
+
+    <h1>
+      Control Room
+    </h1>
+
+    <p class="muted">
+      Вход администратора защищён сервером.
+    </p>
+
     <div class="field">
-      <label for="password">Пароль администратора</label>
-      <input id="password" type="password" autocomplete="current-password" placeholder="Введите пароль">
+
+      <label for="password">
+        Пароль администратора
+      </label>
+
+      <input
+        id="password"
+        type="password"
+        autocomplete="current-password"
+        placeholder="Введите пароль"
+      >
+
     </div>
-    <div class="actions" style="margin-top:14px">
-      <button id="loginButton" class="btn primary" type="submit">Войти</button>
+
+    <div
+      class="actions"
+      style="margin-top:14px"
+    >
+
+      <button
+        id="loginButton"
+        class="btn primary"
+        type="submit"
+      >
+        Войти
+      </button>
+
     </div>
+
   </form>
+
 </div>
+
 
 <div id="app" class="wrap hidden">
+
   <div class="top">
-    <div><div class="tag">MAALAVO STORE</div><h1>Control Room</h1></div>
-    <div class="pill">ADMIN · 8721768505</div>
+
+    <div>
+
+      <div class="tag">
+        MAALAVO STORE
+      </div>
+
+      <h1>
+        Control Room
+      </h1>
+
+    </div>
+
+    <div class="pill">
+      ADMIN · 8721768505
+    </div>
+
   </div>
+
 
   <div class="grid">
-    <div class="stat"><small>Пользователи</small><b id="sUsers">0</b></div>
-    <div class="stat"><small>Товары</small><b id="sProducts">0</b></div>
-    <div class="stat"><small>Заказы</small><b id="sOrders">0</b></div>
-    <div class="stat"><small>Выручка</small><b id="sRevenue">0 ₽</b></div>
+
+    <div class="stat">
+      <small>Пользователи</small>
+      <b id="sUsers">0</b>
+    </div>
+
+    <div class="stat">
+      <small>Товары</small>
+      <b id="sProducts">0</b>
+    </div>
+
+    <div class="stat">
+      <small>Заказы</small>
+      <b id="sOrders">0</b>
+    </div>
+
+    <div class="stat">
+      <small>Выручка</small>
+      <b id="sRevenue">0 ₽</b>
+    </div>
+
   </div>
+
 
   <div class="tabs">
-    <button class="active" onclick="tab('products',this)">Товары</button>
-    <button onclick="tab('orders',this)">Заказы</button>
-    <button onclick="tab('users',this)">Пользователи</button>
-    <button onclick="tab('about',this)">О проекте</button>
+
+    <button
+      class="active"
+      onclick="tab('products',this)"
+    >
+      Товары
+    </button>
+
+    <button onclick="tab('orders',this)">
+      Заказы
+    </button>
+
+    <button onclick="tab('users',this)">
+      Пользователи
+    </button>
+
+    <button onclick="tab('about',this)">
+      О проекте
+    </button>
+
   </div>
 
+
   <section id="products" class="tab">
+
     <div class="panel">
-      <h2>Добавить товар</h2>
+
+      <h2>
+        Добавить товар
+      </h2>
+
       <div class="form">
-        <div class="field"><label>Название</label><input id="pName" placeholder="Например: Premium Bot"></div>
-        <div class="field"><label>Категория</label><select id="pCat"><option value="bots">Боты</option><option value="apps">Приложения</option><option value="sites">Сайты</option><option value="plugins">Плагины</option><option value="avatars">Авы</option><option value="accounts">Аккаунты</option></select></div>
-        <div class="field"><label>Цена ₽</label><input id="pPrice" type="number" min="0" placeholder="1000"></div>
-        <div class="field"><label>Метка</label><input id="pTag" placeholder="БОТЫ"></div>
-        <div class="field full"><label>Описание</label><textarea id="pDesc" placeholder="Описание товара"></textarea></div>
-        <div class="field full"><label>Изображение URL</label><input id="pImage" placeholder="/assets/product.jpg"></div>
+
+        <div class="field">
+          <label>Название</label>
+          <input
+            id="pName"
+            placeholder="Например: Premium Bot"
+          >
+        </div>
+
+        <div class="field">
+          <label>Категория</label>
+
+          <select id="pCat">
+            <option value="bots">Боты</option>
+            <option value="apps">Приложения</option>
+            <option value="sites">Сайты</option>
+            <option value="plugins">Плагины</option>
+            <option value="avatars">Авы</option>
+            <option value="accounts">Аккаунты</option>
+          </select>
+
+        </div>
+
+        <div class="field">
+          <label>Цена ₽</label>
+
+          <input
+            id="pPrice"
+            type="number"
+            min="0"
+            placeholder="1000"
+          >
+        </div>
+
+        <div class="field">
+          <label>Метка</label>
+
+          <input
+            id="pTag"
+            placeholder="БОТЫ"
+          >
+        </div>
+
+        <div class="field full">
+          <label>Описание</label>
+
+          <textarea
+            id="pDesc"
+            placeholder="Описание товара"
+          ></textarea>
+
+        </div>
+
+        <div class="field full">
+          <label>Изображение URL</label>
+
+          <input
+            id="pImage"
+            placeholder="/assets/product.jpg"
+          >
+
+        </div>
+
       </div>
-      <div class="actions" style="margin-top:14px"><button class="btn primary" onclick="addProduct()">+ Добавить товар</button></div>
+
+      <div
+        class="actions"
+        style="margin-top:14px"
+      >
+
+        <button
+          class="btn primary"
+          onclick="addProduct()"
+        >
+          + Добавить товар
+        </button>
+
+      </div>
+
     </div>
-    <div class="panel"><h2>Каталог</h2><div id="productsList"></div></div>
-  </section>
 
-  <section id="orders" class="tab hidden"><div class="panel"><h2>Заказы</h2><div id="ordersList"></div></div></section>
-  <section id="users" class="tab hidden"><div class="panel"><h2>Пользователи</h2><div id="usersList"></div></div></section>
 
-  <section id="about" class="tab hidden">
     <div class="panel">
-      <h2>О проекте</h2>
-      <div class="field"><label>Заголовок</label><input id="aboutTitle"></div>
-      <div class="field"><label>Текст</label><textarea id="aboutText"></textarea></div>
-      <div class="actions" style="margin-top:14px"><button class="btn primary" onclick="saveAbout()">Сохранить</button></div>
+
+      <h2>
+        Каталог
+      </h2>
+
+      <div id="productsList"></div>
+
     </div>
+
   </section>
+
+
+  <section
+    id="orders"
+    class="tab hidden"
+  >
+
+    <div class="panel">
+
+      <h2>
+        Заказы
+      </h2>
+
+      <div id="ordersList"></div>
+
+    </div>
+
+  </section>
+
+
+  <section
+    id="users"
+    class="tab hidden"
+  >
+
+    <div class="panel">
+
+      <h2>
+        Пользователи
+      </h2>
+
+      <div id="usersList"></div>
+
+    </div>
+
+  </section>
+
+
+  <section
+    id="about"
+    class="tab hidden"
+  >
+
+    <div class="panel">
+
+      <h2>
+        О проекте
+      </h2>
+
+      <div class="field">
+
+        <label>
+          Заголовок
+        </label>
+
+        <input id="aboutTitle">
+
+      </div>
+
+      <div class="field">
+
+        <label>
+          Текст
+        </label>
+
+        <textarea id="aboutText"></textarea>
+
+      </div>
+
+      <div
+        class="actions"
+        style="margin-top:14px"
+      >
+
+        <button
+          class="btn primary"
+          onclick="saveAbout()"
+        >
+          Сохранить
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
 </div>
 
-<div id="toast" class="toast"></div>
-<script src="/admin/admin.js"></script>
+
+<div
+  id="toast"
+  class="toast"
+></div>
+
+
+<script src="/admin/admin.js?v=4"></script>
+
 </body>
 </html>
