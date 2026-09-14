@@ -1,0 +1,14 @@
+@media (prefers-reduced-motion:no-preference){
+  .page,.favoritesPage.show,.profilePage.show{animation:pageIn .38s ease-out both}
+  .card{animation:cardIn .38s ease-out both;animation-delay:calc(min(var(--i,0),10) * 35ms)}
+  .cat,.nav button,.profileMenuRow,.cartBtn,.favHeart,.shop,.btn,.close,.smallBtn{transition:transform .16s ease,background-color .16s ease,border-color .16s ease,box-shadow .16s ease}
+  .cat:active,.nav button:active,.profileMenuRow:active,.cartBtn:active,.favHeart:active,.shop:active,.btn:active,.close:active,.smallBtn:active{transform:scale(.975)}
+  .profileAvatarMain{animation:avatarFloat 4s ease-in-out infinite}
+  .profileScreenHead{animation:pageIn .42s ease-out both}
+  .profileCardMain{animation:pageIn .42s .05s ease-out both}
+  .profileStatsMain{animation:pageIn .42s .1s ease-out both}
+  .profileMenu{animation:pageIn .42s .14s ease-out both}
+  @keyframes pageIn{from{opacity:0;transform:translate3d(0,12px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+  @keyframes cardIn{from{opacity:0;transform:translate3d(0,12px,0) scale(.985)}to{opacity:1;transform:translate3d(0,0,0) scale(1)}}
+  @keyframes avatarFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+}
