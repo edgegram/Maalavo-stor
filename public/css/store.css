@@ -1,1511 +1,400 @@
+.splash{
+  position:fixed!important;
+  inset:0!important;
+  z-index:9999!important;
+  width:100%;
+  height:100dvh;
+  overflow:hidden;
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+  transform:translateY(0) scale(1);
+  transition:opacity .55s ease,visibility .55s ease,transform .65s cubic-bezier(.2,.75,.2,1);
+}
+
+.splash.hide{
+  opacity:0!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+  transform:translateY(-18px) scale(1.015)!important;
+}
+
+.splash.hide *{pointer-events:none!important}
+
 :root{
   --bg:#100408;
   --bg2:#17060d;
-
   --glass:rgba(47,10,23,.42);
-  --glass-strong:rgba(58,12,29,.58);
-  --glass-soft:rgba(93,28,58,.22);
-
-  --cherry:#6d1838;
-  --cherry2:#3a0c1e;
-
   --purple:#a968ff;
   --purple2:#7b3dcc;
-  --purple-light:#d2a8ff;
-
   --text:#fff8fb;
   --muted:#b79ca8;
-  --muted2:#846d78;
-
   --border:rgba(231,157,255,.20);
   --border-strong:rgba(191,113,255,.42);
-
-  --shadow:rgba(10,1,5,.45);
 }
 
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
-
-html,
-body{
+html,body{
   margin:0;
   min-height:100%;
-  background:#100408;
+  background:#100408!important;
   color:var(--text);
-  font-family:
-    Inter,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Arial,
-    sans-serif;
 }
 
-body{
-  overflow-x:hidden;
-  overscroll-behavior-y:none;
-}
-
-button,
-input,
-textarea,
-select{
-  font:inherit;
-}
-
-button{
-  cursor:pointer;
-  color:inherit;
-}
-
-button:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible{
-  outline:1px solid var(--purple);
-  outline-offset:2px;
-}
-
-/* =========================================================
-   GLOBAL BACKGROUND
-========================================================= */
+body{overflow-x:hidden}
 
 .app{
-  position:relative;
   min-height:100vh;
-
   background:
-    radial-gradient(
-      600px 420px at 100% -8%,
-      rgba(130,44,116,.18),
-      transparent 65%
-    ),
-    radial-gradient(
-      520px 420px at -15% 42%,
-      rgba(105,22,52,.20),
-      transparent 68%
-    ),
-    radial-gradient(
-      420px 320px at 70% 78%,
-      rgba(103,48,170,.09),
-      transparent 70%
-    ),
-    linear-gradient(
-      145deg,
-      #100408 0%,
-      #16060d 48%,
-      #0d0308 100%
-    );
+    radial-gradient(600px 420px at 100% -8%,rgba(130,44,116,.18),transparent 65%),
+    radial-gradient(520px 420px at -15% 42%,rgba(105,22,52,.20),transparent 68%),
+    linear-gradient(145deg,#100408,#16060d 48%,#0d0308);
 }
 
-.app::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  z-index:0;
-  pointer-events:none;
-
-  background:
-    radial-gradient(
-      circle at 50% 20%,
-      rgba(255,255,255,.025),
-      transparent 35%
-    );
-}
-
-/* =========================================================
-   COMMON
-========================================================= */
-
-.page,
-.favoritesPage,
-.profilePage{
+.page,.favoritesPage,.profilePage{
+  max-width:720px!important;
+  margin:0 auto;
   position:relative;
   z-index:1;
-  max-width:720px !important;
-  margin:0 auto;
 }
 
-.page,
-.favoritesPage{
-  padding-left:16px;
-  padding-right:16px;
-  padding-bottom:112px;
-}
-
-/* =========================================================
-   SPLASH
-========================================================= */
-
-.splash{
-  background:
-    radial-gradient(
-      600px 500px at 50% 30%,
-      rgba(102,30,67,.25),
-      transparent 60%
-    ),
-    linear-gradient(
-      145deg,
-      #100408,
-      #1b0710 52%,
-      #0d0308
-    ) !important;
-}
-
-.splash .background{
-  opacity:.55 !important;
-
-  background:
-    radial-gradient(
-      circle at 50% 35%,
-      rgba(139,54,102,.28),
-      transparent 42%
-    ),
-    radial-gradient(
-      circle at 20% 80%,
-      rgba(116,44,70,.16),
-      transparent 38%
-    ) !important;
-}
-
-.splash .header .brand,
-.splash .footer{
-  color:#d9b9c5 !important;
-  letter-spacing:3px;
-}
-
-.splash .hero h1{
-  letter-spacing:-2.5px !important;
-}
-
-.splash .hero p{
-  color:#b79ca8 !important;
-}
-
-.splash .shop{
-  border:1px solid rgba(202,130,255,.34) !important;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(84,19,47,.48),
-      rgba(73,32,113,.34)
-    ) !important;
-
-  backdrop-filter:blur(24px);
-  -webkit-backdrop-filter:blur(24px);
-
-  box-shadow:
-    0 18px 60px rgba(80,13,45,.35),
-    inset 0 1px rgba(255,255,255,.10) !important;
-}
-
-.splash .shop:hover{
-  border-color:rgba(215,143,255,.55) !important;
-
-  box-shadow:
-    0 20px 70px rgba(80,13,45,.45),
-    0 0 35px rgba(155,78,221,.13),
-    inset 0 1px rgba(255,255,255,.13) !important;
-}
-
-/* =========================================================
-   HEADER
-========================================================= */
+.page,.favoritesPage{padding:0 16px 120px}
 
 .top{
-  height:70px !important;
+  height:62px!important;
   display:flex;
   align-items:center;
 }
 
 .brand{
-  color:#fff3f7 !important;
-  font-weight:850 !important;
-  letter-spacing:2.8px !important;
-
-  text-shadow:
-    0 0 26px rgba(193,107,255,.12);
+  color:#fff3f7!important;
+  font-weight:850!important;
+  letter-spacing:2.5px!important;
+  text-shadow:0 0 26px rgba(193,107,255,.12);
 }
 
-/* =========================================================
-   HERO
-========================================================= */
+.welcome{padding:17px 0 17px!important}
+.welcomeSmall{color:#a98c98!important;font-size:12px}
+.welcome h1{font-size:39px!important;line-height:1.02}
 
-.welcome{
-  padding:26px 0 22px !important;
+.grad,.gradient-text{
+  background:linear-gradient(105deg,#fff8fb 12%,#e6c7ff 48%,#a86cff 100%)!important;
+  -webkit-background-clip:text!important;
+  background-clip:text!important;
+  color:transparent!important;
 }
-
-.welcomeSmall{
-  color:#a98c98 !important;
-  font-size:12px;
-}
-
-.welcome h1{
-  font-size:43px !important;
-  line-height:1.02;
-}
-
-.grad,
-.gradient-text{
-  background:
-    linear-gradient(
-      105deg,
-      #fff8fb 12%,
-      #e6c7ff 48%,
-      #a86cff 100%
-    ) !important;
-
-  -webkit-background-clip:text !important;
-  background-clip:text !important;
-  color:transparent !important;
-}
-
-/* =========================================================
-   SEARCH
-========================================================= */
 
 .search{
-  height:56px !important;
-
+  height:53px!important;
   display:flex;
   align-items:center;
   gap:10px;
-
-  margin-bottom:24px !important;
+  margin-bottom:20px!important;
   padding:0 16px;
-
-  border:1px solid var(--border) !important;
-  border-radius:21px !important;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(71,14,34,.34),
-      rgba(48,12,29,.23)
-    ) !important;
-
+  border:1px solid var(--border)!important;
+  border-radius:19px!important;
+  background:linear-gradient(135deg,rgba(71,14,34,.34),rgba(48,12,29,.23))!important;
   backdrop-filter:blur(25px) saturate(135%);
   -webkit-backdrop-filter:blur(25px) saturate(135%);
-
-  box-shadow:
-    0 18px 50px rgba(24,3,11,.28),
-    inset 0 1px rgba(255,255,255,.075) !important;
-
-  transition:
-    border-color .25s ease,
-    box-shadow .25s ease,
-    transform .25s ease;
+  box-shadow:0 18px 50px rgba(24,3,11,.28),inset 0 1px rgba(255,255,255,.075)!important;
 }
 
-.search:focus-within{
-  border-color:var(--border-strong) !important;
+.searchIcon{color:#c58cff!important}
+.search input{background:transparent!important;color:#fff8fb!important}
+.search input::placeholder{color:#806a75!important}
 
-  box-shadow:
-    0 0 0 4px rgba(145,72,209,.07),
-    0 18px 55px rgba(30,4,14,.34),
-    inset 0 1px rgba(255,255,255,.08) !important;
-}
-
-.searchIcon{
-  color:#c58cff !important;
-  font-size:23px;
-}
-
-.search input{
-  width:100%;
-  border:0;
-  outline:0;
-
-  background:transparent;
-
-  color:#fff8fb !important;
-  font-size:14px;
-}
-
-.search input::placeholder{
-  color:#806a75 !important;
-}
-
-/* =========================================================
-   SECTION HEAD
-========================================================= */
-
-.sectionHead{
-  display:flex;
-  align-items:center;
-  margin:0 0 13px !important;
-}
-
+.sectionHead{margin:0 0 11px!important}
 .sectionHead h2{
-  margin:0;
-
-  color:#c9b2be !important;
-
-  font-size:11px !important;
-  font-weight:800;
-
-  letter-spacing:2px !important;
+  color:#c9b2be!important;
+  font-size:10px!important;
+  letter-spacing:2px!important;
   text-transform:uppercase;
 }
 
-/* =========================================================
-   CATEGORIES
-========================================================= */
-
 .categories{
   display:flex;
-  gap:8px !important;
-
+  gap:8px!important;
   overflow-x:auto;
-
   margin:0 -16px;
-
-  padding:
-    2px 16px 9px;
-
+  padding:2px 16px 7px;
   scrollbar-width:none;
 }
 
-.categories::-webkit-scrollbar{
-  display:none;
-}
+.categories::-webkit-scrollbar{display:none}
 
 .cat{
   flex:0 0 auto;
-
-  border:1px solid rgba(224,151,255,.15) !important;
-  border-radius:999px !important;
-
-  padding:10px 16px;
-
-  background:
-    rgba(51,11,26,.30) !important;
-
-  color:#bca4af !important;
-
+  border:1px solid rgba(224,151,255,.15)!important;
+  border-radius:999px!important;
+  padding:9px 15px;
+  background:rgba(51,11,26,.30)!important;
+  color:#bca4af!important;
   backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-
-  box-shadow:
-    inset 0 1px rgba(255,255,255,.05) !important;
-}
-
-.cat:hover{
-  border-color:rgba(205,126,255,.34) !important;
-
-  background:
-    rgba(74,17,43,.42) !important;
-
-  transform:translateY(-1px);
 }
 
 .cat.active{
-  border-color:
-    rgba(199,126,255,.54) !important;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(102,31,65,.72),
-      rgba(75,31,121,.62)
-    ) !important;
-
-  color:#fff !important;
-
-  box-shadow:
-    0 0 28px rgba(134,56,188,.16),
-    inset 0 1px rgba(255,255,255,.11) !important;
+  border-color:rgba(199,126,255,.54)!important;
+  background:linear-gradient(135deg,rgba(102,31,65,.72),rgba(75,31,121,.62))!important;
+  color:#fff!important;
+  box-shadow:0 0 28px rgba(134,56,188,.16),inset 0 1px rgba(255,255,255,.11)!important;
 }
 
-/* =========================================================
-   PRODUCTS
-========================================================= */
+.spacer{height:22px}
 
-.spacer{
-  height:28px;
-}
-
-.products,
-.favGrid{
+.products,.favGrid{
   display:grid;
-
-  grid-template-columns:
-    repeat(2,minmax(0,1fr));
-
-  gap:14px !important;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px!important;
 }
-
-/* =========================================================
-   PRODUCT CARD
-========================================================= */
 
 .card{
   position:relative;
   overflow:hidden;
-
-  border:
-    1px solid rgba(226,148,255,.17) !important;
-
-  border-radius:22px !important;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(61,13,30,.38),
-      rgba(33,7,19,.30)
-    ) !important;
-
-  backdrop-filter:
-    blur(22px) saturate(125%);
-
-  -webkit-backdrop-filter:
-    blur(22px) saturate(125%);
-
-  box-shadow:
-    0 22px 55px rgba(18,2,9,.30),
-    inset 0 1px rgba(255,255,255,.07) !important;
-
-  transform:translateZ(0);
-
-  transition:
-    transform .28s cubic-bezier(.2,.75,.2,1),
-    box-shadow .28s ease,
-    border-color .28s ease;
+  border:1px solid rgba(226,148,255,.17)!important;
+  border-radius:21px!important;
+  background:linear-gradient(145deg,rgba(61,13,30,.38),rgba(33,7,19,.30))!important;
+  backdrop-filter:blur(22px) saturate(125%);
+  -webkit-backdrop-filter:blur(22px) saturate(125%);
+  box-shadow:0 22px 55px rgba(18,2,9,.30),inset 0 1px rgba(255,255,255,.07)!important;
 }
 
 .card::before{
   content:"";
-
   position:absolute;
   inset:0;
-
   z-index:0;
-
   pointer-events:none;
-
   border-radius:inherit;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,.045),
-      transparent 30%,
-      rgba(151,73,204,.025)
-    );
+  background:linear-gradient(145deg,rgba(255,255,255,.045),transparent 30%,rgba(151,73,204,.025));
 }
 
-.card::after{
-  display:none !important;
-}
-
-.card:hover{
-  transform:
-    translateY(-3px)
-    scale(1.005);
-
-  border-color:
-    rgba(205,127,255,.30) !important;
-
-  box-shadow:
-    0 25px 65px rgba(30,4,14,.42),
-    0 0 30px rgba(128,52,183,.08),
-    inset 0 1px rgba(255,255,255,.09) !important;
-}
-
-/* =========================================================
-   PRODUCT IMAGE
-========================================================= */
+.card::after{display:none!important}
 
 .productImage{
   position:relative;
   z-index:1;
-
-  height:158px !important;
-
+  height:145px!important;
   display:grid;
   place-items:center;
-
   overflow:hidden;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(74,15,37,.38),
-      rgba(40,10,27,.20)
-    ) !important;
-
-  border-bottom:
-    1px solid rgba(225,149,255,.10) !important;
+  background:linear-gradient(145deg,rgba(74,15,37,.38),rgba(40,10,27,.20))!important;
+  border-bottom:1px solid rgba(225,149,255,.10)!important;
 }
 
 .productImage img{
   width:100%;
   height:100%;
-
   object-fit:cover;
-
-  filter:
-    saturate(.94)
-    contrast(1.03);
-
-  transition:
-    transform .45s cubic-bezier(.2,.75,.2,1),
-    filter .35s ease;
+  filter:saturate(.94) contrast(1.03);
+  transition:transform .45s ease;
 }
 
-.card:hover .productImage img{
-  transform:scale(1.035);
-
-  filter:
-    saturate(1)
-    contrast(1.04);
-}
-
-.visualProduct{
-  width:100%;
-  height:100%;
-
-  display:grid;
-  place-items:center;
-
-  color:#bc83ff;
-
-  font-size:42px;
-
-  background:
-    radial-gradient(
-      circle at center,
-      rgba(130,54,190,.20),
-      transparent 54%
-    );
-
-  text-shadow:
-    0 0 35px rgba(174,100,255,.55);
-}
-
-/* =========================================================
-   CARD BODY
-========================================================= */
+.card:hover .productImage img{transform:scale(1.035)}
 
 .cardBody{
   position:relative;
   z-index:1;
-
-  padding:14px !important;
+  padding:12px!important;
 }
 
-.tag{
-  color:#ae8abf !important;
-
-  font-size:9px;
-
-  letter-spacing:1.3px !important;
-}
-
-.name{
-  color:#fff8fb !important;
-
-  font-size:15px !important;
-  font-weight:800;
-}
-
-.short{
-  color:#a18a95 !important;
-}
-
-.price{
-  color:#fff8fb !important;
-}
-
-/* =========================================================
-   CART BUTTON
-========================================================= */
-
-.cartBtn{
-  border:
-    1px solid rgba(205,128,255,.32) !important;
-
-  border-radius:14px !important;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(104,31,67,.60),
-      rgba(75,34,125,.48)
-    ) !important;
-
-  box-shadow:
-    inset 0 1px rgba(255,255,255,.08),
-    0 8px 25px rgba(54,10,35,.25) !important;
-}
-
-.cartBtn:hover{
-  border-color:
-    rgba(214,143,255,.58) !important;
-
-  box-shadow:
-    0 0 25px rgba(148,70,220,.18),
-    inset 0 1px rgba(255,255,255,.10) !important;
-}
-
-/* =========================================================
-   FAVORITE HEART
-========================================================= */
+.tag{color:#ae8abf!important;font-size:9px}
+.name{color:#fff8fb!important;font-size:14px!important;font-weight:800}
+.short{color:#a18a95!important;font-size:10px}
+.price{color:#fff8fb!important;font-weight:800}
 
 .favHeart{
-  border:
-    1px solid rgba(216,145,255,.20) !important;
-
-  background:
-    rgba(27,6,15,.48) !important;
-
+  border:1px solid rgba(216,145,255,.20)!important;
+  background:rgba(27,6,15,.48)!important;
   backdrop-filter:blur(15px);
-  -webkit-backdrop-filter:blur(15px);
-
-  color:#d0a5e6 !important;
-
-  box-shadow:
-    0 8px 20px rgba(15,2,7,.24) !important;
-
-  transition:
-    transform .2s ease,
-    background .25s ease,
-    border-color .25s ease,
-    box-shadow .25s ease;
-}
-
-.favHeart:hover{
-  transform:scale(1.08);
-  border-color:
-    rgba(218,140,255,.42) !important;
+  color:#d0a5e6!important;
 }
 
 .favHeart.active{
-  background:
-    rgba(104,31,67,.62) !important;
-
-  border-color:
-    rgba(225,146,255,.48) !important;
-
-  color:#fff !important;
-
-  box-shadow:
-    0 0 25px rgba(168,79,218,.28) !important;
+  background:rgba(104,31,67,.62)!important;
+  border-color:rgba(225,146,255,.48)!important;
+  color:#fff!important;
 }
 
-/* =========================================================
-   ABOUT
-========================================================= */
+.cartBtn{
+  border:1px solid rgba(205,128,255,.32)!important;
+  border-radius:13px!important;
+  background:linear-gradient(135deg,rgba(104,31,67,.60),rgba(75,34,125,.48))!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.08)!important;
+}
+
+.about,.profileCardMain,.profileMenu{
+  border:1px solid rgba(225,148,255,.17)!important;
+  background:rgba(51,11,27,.28)!important;
+  backdrop-filter:blur(25px) saturate(125%);
+  -webkit-backdrop-filter:blur(25px) saturate(125%);
+  box-shadow:0 22px 55px rgba(18,2,9,.28),inset 0 1px rgba(255,255,255,.07)!important;
+}
 
 .about{
-  position:relative;
-  overflow:hidden;
-
-  margin-top:28px !important;
-
-  border:
-    1px solid rgba(225,148,255,.17) !important;
-
-  border-radius:23px !important;
-
-  background:
-    rgba(51,11,27,.28) !important;
-
-  backdrop-filter:
-    blur(25px) saturate(125%);
-
-  -webkit-backdrop-filter:
-    blur(25px) saturate(125%);
-
-  box-shadow:
-    0 22px 55px rgba(18,2,9,.28),
-    inset 0 1px rgba(255,255,255,.07) !important;
+  margin-top:24px!important;
+  border-radius:22px!important;
 }
 
-.about::before,
-.about::after{
-  display:none !important;
-}
+.about::before,.about::after,
+.profileCardMain::before,.profileCardMain::after,
+.profileMenu::before,.profileMenu::after{display:none!important}
 
-.aboutLabel{
-  color:#b18ac1 !important;
-}
+.aboutLabel,.profileScreenLabel,.profileMenuTitle{color:#b18ac1!important}
+.about p,.profileScreenHead p{color:#a18b96!important}
 
-.about h3{
-  color:#fff8fb;
-}
-
-.about p{
-  color:#a18b96 !important;
-}
-
-/* =========================================================
-   PROFILE
-========================================================= */
-
-.profilePage{
-  display:none;
-
-  padding:
-    30px 16px 112px;
-}
-
-.profilePage.show{
-  display:block;
-}
-
-.profileScreenHead{
-  padding:
-    10px 4px 0 !important;
-}
-
-.profileScreenLabel{
-  color:#b18ac1 !important;
-
-  font-size:9px;
-  font-weight:900;
-  letter-spacing:2.4px;
-}
-
-.profileScreenHead h1{
-  background:
-    linear-gradient(
-      105deg,
-      #fff8fb 10%,
-      #e5ccff 48%,
-      #a76bff 100%
-    ) !important;
-
-  -webkit-background-clip:text !important;
-  background-clip:text !important;
-
-  color:transparent !important;
-}
-
-.profileScreenHead p{
-  color:#a18b96 !important;
-}
-
-/* =========================================================
-   PROFILE MAIN CARD
-========================================================= */
+.profilePage{padding:30px 16px 120px}
 
 .profileCardMain{
-  position:relative;
-  overflow:hidden;
-
-  margin-top:24px;
-
-  padding:
-    18px 15px 12px;
-
-  border:
-    1px solid rgba(226,149,255,.23) !important;
-
-  border-radius:25px !important;
-
-  background:
-    rgba(52,11,28,.34) !important;
-
-  backdrop-filter:
-    blur(28px) saturate(130%);
-
-  -webkit-backdrop-filter:
-    blur(28px) saturate(130%);
-
-  box-shadow:
-    0 25px 65px rgba(17,2,8,.38),
-    inset 0 1px rgba(255,255,255,.08) !important;
-}
-
-.profileCardMain::before,
-.profileCardMain::after{
-  display:none !important;
-}
-
-.profileHeroMain{
-  display:flex;
-  align-items:center;
-
-  gap:15px;
-
-  min-height:94px;
+  margin-top:22px;
+  padding:17px 14px 12px;
+  border-radius:23px!important;
 }
 
 .profileAvatarMain{
-  flex:
-    0 0 82px;
-
-  width:82px;
-  height:82px;
-
+  width:78px;
+  height:78px;
   border-radius:50%;
-
   overflow:hidden;
-
-  display:grid;
-  place-items:center;
-
-  font-size:29px;
-  font-weight:900;
-
-  color:#fff;
-
-  background:
-    rgba(48,10,28,.48) !important;
-
-  border:
-    1px solid rgba(220,144,255,.52) !important;
-
-  box-shadow:
-    0 0 0 6px rgba(139,55,174,.10),
-    0 0 42px rgba(159,75,221,.22) !important;
+  background:rgba(48,10,28,.48)!important;
+  border:1px solid rgba(220,144,255,.52)!important;
+  box-shadow:0 0 0 6px rgba(139,55,174,.10),0 0 42px rgba(159,75,221,.22)!important;
 }
 
-.profileAvatarMain img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.profileIdentityMain{
-  min-width:0;
-}
-
-.profileIdentityMain .pname{
-  color:#fff8fb;
-}
-
-.profileUsername{
-  color:#a18b96 !important;
-}
-
-.profileStatus{
-  border-color:
-    rgba(208,133,255,.22) !important;
-
-  background:
-    rgba(106,39,103,.20) !important;
-
-  color:#c7afcf !important;
-}
-
-/* =========================================================
-   PROFILE STATS
-========================================================= */
+.profileAvatarMain img{width:100%;height:100%;object-fit:cover}
 
 .profileStatsMain{
-  position:relative;
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(3,1fr);
-
-  margin-top:14px;
-
-  padding:13px 2px;
-
-  border:
-    1px solid rgba(225,148,255,.15) !important;
-
-  border-radius:19px !important;
-
-  background:
-    rgba(35,8,20,.27) !important;
-
+  border:1px solid rgba(225,148,255,.15)!important;
+  border-radius:18px!important;
+  background:rgba(35,8,20,.27)!important;
   backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-
-  box-shadow:
-    inset 0 1px rgba(255,255,255,.05) !important;
 }
-
-.profileStatsMain::before,
-.profileStatsMain::after{
-  display:none !important;
-}
-
-.profileStatsMain div{
-  border-right-color:
-    rgba(225,148,255,.12) !important;
-}
-
-.statIcon{
-  color:#b777ff !important;
-
-  text-shadow:
-    0 0 16px rgba(166,90,255,.55) !important;
-}
-
-.profileStatsMain div>span:last-child{
-  color:#9b848f !important;
-}
-
-/* =========================================================
-   PROFILE MENUS
-========================================================= */
 
 .profileMenu{
-  position:relative;
-  overflow:hidden;
-
-  margin-top:20px;
-
-  padding:
-    12px 10px 11px;
-
-  border:
-    1px solid rgba(225,148,255,.16) !important;
-
-  border-radius:23px !important;
-
-  background:
-    rgba(46,9,24,.29) !important;
-
-  backdrop-filter:blur(25px);
-  -webkit-backdrop-filter:blur(25px);
-
-  box-shadow:
-    0 20px 55px rgba(17,2,8,.28),
-    inset 0 1px rgba(255,255,255,.06) !important;
+  margin-top:18px;
+  padding:11px 9px;
+  border-radius:23px!important;
 }
 
-.profileMenu::before,
-.profileMenu::after{
-  display:none !important;
-}
-
-.profileMenuTitle{
-  color:#b48ec3 !important;
-}
-
-.profileMenuRow,
-.profileInfoRow{
-  border-color:
-    rgba(225,148,255,.12) !important;
-
-  border-radius:17px !important;
-
-  background:
-    rgba(51,12,29,.25) !important;
-
-  box-shadow:
-    inset 0 1px rgba(255,255,255,.045) !important;
-
-  backdrop-filter:blur(15px);
-  -webkit-backdrop-filter:blur(15px);
-}
-
-.profileMenuRow:hover{
-  background:
-    rgba(73,18,42,.34) !important;
-
-  border-color:
-    rgba(214,137,255,.25) !important;
-
-  transform:translateY(-1px);
+.profileMenuRow,.profileInfoRow{
+  border-color:rgba(225,148,255,.12)!important;
+  border-radius:16px!important;
+  background:rgba(51,12,29,.25)!important;
 }
 
 .profileMenuRow .rowIcon{
-  border-color:
-    rgba(211,134,255,.22) !important;
-
-  background:
-    rgba(103,37,115,.16) !important;
-
-  color:#c18bff !important;
-}
-
-.profileMenuRow b{
-  color:#b29aac !important;
-}
-
-.profileMenuRow::after{
-  color:#ad73ff !important;
-}
-
-.profileInfoRow span{
-  color:#9e8792 !important;
-}
-
-.profileInfoRow b{
-  color:#e1d1dd !important;
-}
-
-.profileInfoRow i{
-  color:#ad73ff !important;
-}
-
-/* =========================================================
-   FAVORITES
-========================================================= */
-
-.favoritesPage.show{
-  display:block;
+  border-color:rgba(211,134,255,.22)!important;
+  background:rgba(103,37,115,.16)!important;
+  color:#c18bff!important;
 }
 
 .favoritesTop{
-  padding:
-    30px 4px 22px;
-
-  display:flex;
-  align-items:end;
-  justify-content:space-between;
-
-  gap:14px;
+  padding:25px 4px 19px;
 }
 
 .favoritesTop h1{
-  margin:0;
-
-  background:
-    linear-gradient(
-      105deg,
-      #fff8fb,
-      #dcbcff 65%,
-      #a76bff
-    );
-
+  font-size:36px;
+  background:linear-gradient(105deg,#fff8fb,#dcbcff 65%,#a76bff);
   -webkit-background-clip:text;
   background-clip:text;
-
   color:transparent;
-
-  font-size:39px;
-  letter-spacing:-1.5px;
 }
 
-.favoritesTop p{
-  color:#a18a95 !important;
-}
+.favoritesTop p,.favoritesTop>span{color:#a18a95!important}
 
-.favoritesTop>span{
-  color:#a18a95 !important;
-}
-
-.emptyFav,
-.info{
-  border:
-    1px solid rgba(225,148,255,.15) !important;
-
-  border-radius:20px !important;
-
-  background:
-    rgba(47,10,25,.28) !important;
-
+.emptyFav,.info{
+  border:1px solid rgba(225,148,255,.15)!important;
+  border-radius:19px!important;
+  background:rgba(47,10,25,.28)!important;
   backdrop-filter:blur(22px);
-  -webkit-backdrop-filter:blur(22px);
-
-  color:#ab949f !important;
-
-  box-shadow:
-    inset 0 1px rgba(255,255,255,.05) !important;
+  color:#ab949f!important;
 }
 
-/* =========================================================
-   BOTTOM NAV
-========================================================= */
-
+/* compact glass navigation */
 .nav{
   position:fixed;
-
-  left:10px !important;
-  right:10px !important;
-  bottom:10px !important;
-
-  height:72px !important;
-
+  left:12px!important;
+  right:12px!important;
+  bottom:10px!important;
+  height:64px!important;
   z-index:200;
-
   display:grid;
-
-  grid-template-columns:
-    repeat(4,1fr);
-
-  gap:5px;
-
-  padding:5px !important;
-
-  border:
-    1px solid rgba(224,145,255,.25) !important;
-
-  border-radius:25px !important;
-
-  background:
-    rgba(34,7,17,.48) !important;
-
-  backdrop-filter:
-    blur(30px) saturate(145%);
-
-  -webkit-backdrop-filter:
-    blur(30px) saturate(145%);
-
-  box-shadow:
-    0 20px 60px rgba(5,1,4,.55),
-    0 0 35px rgba(102,37,139,.09),
-    inset 0 1px rgba(255,255,255,.08) !important;
+  grid-template-columns:repeat(4,1fr);
+  gap:4px;
+  padding:4px!important;
+  border:1px solid rgba(224,145,255,.23)!important;
+  border-radius:22px!important;
+  background:rgba(34,7,17,.52)!important;
+  backdrop-filter:blur(30px) saturate(145%);
+  -webkit-backdrop-filter:blur(30px) saturate(145%);
+  box-shadow:0 20px 60px rgba(5,1,4,.55),inset 0 1px rgba(255,255,255,.08)!important;
 }
 
-.nav::before,
-.nav::after{
-  display:none !important;
-}
+.nav::before,.nav::after{display:none!important}
 
 .nav button{
-  position:relative;
-
   border:0;
-
-  border-radius:19px !important;
-
+  border-radius:17px!important;
   background:transparent;
-
-  color:#9d858f !important;
-
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-
-  gap:2px;
+  color:#9d858f!important;
 }
 
-.navIcon{
-  color:#ad91bd !important;
-
-  text-shadow:none !important;
-
-  font-size:24px;
-}
-
-.nav button small{
-  color:#9c858f !important;
-}
+.navIcon{color:#ad91bd!important;font-size:21px}
+.nav button small{color:#9c858f!important;font-size:9px}
 
 .nav .active{
-  border:
-    1px solid rgba(216,139,255,.28) !important;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(106,30,68,.48),
-      rgba(74,34,126,.40)
-    ) !important;
-
-  box-shadow:
-    0 0 28px rgba(139,57,191,.13),
-    inset 0 1px rgba(255,255,255,.07) !important;
+  border:1px solid rgba(216,139,255,.25)!important;
+  background:linear-gradient(135deg,rgba(106,30,68,.48),rgba(74,34,126,.40))!important;
+  box-shadow:0 0 28px rgba(139,57,191,.13),inset 0 1px rgba(255,255,255,.07)!important;
 }
 
-.nav .active .navIcon,
-.nav .active small{
-  color:#fff !important;
-
-  text-shadow:
-    0 0 14px rgba(190,122,255,.45) !important;
+.nav .active .navIcon,.nav .active small{
+  color:#fff!important;
+  text-shadow:0 0 14px rgba(190,122,255,.45)!important;
 }
-
-.nav button:hover{
-  background:
-    rgba(111,32,73,.18);
-}
-
-/* =========================================================
-   OVERLAY
-========================================================= */
 
 .overlay{
-  position:fixed;
-  inset:0;
-
-  z-index:250;
-
-  background:
-    rgba(8,1,5,.70) !important;
-
+  background:rgba(8,1,5,.70)!important;
   backdrop-filter:blur(7px);
-  -webkit-backdrop-filter:blur(7px);
-
-  display:none;
 }
-
-.overlay.show{
-  display:block;
-}
-
-/* =========================================================
-   BOTTOM SHEET
-========================================================= */
 
 .sheet{
-  position:absolute;
-
-  left:50%;
-  bottom:0;
-
-  width:min(680px,100%);
-
-  max-height:88vh;
-
-  overflow:auto;
-
-  transform:translateX(-50%);
-
-  padding:
-    18px 16px 28px;
-
-  border:
-    1px solid rgba(225,148,255,.24) !important;
-
-  border-bottom:0 !important;
-
-  border-radius:
-    27px 27px 0 0 !important;
-
-  background:
-    rgba(38,8,20,.72) !important;
-
-  backdrop-filter:
-    blur(34px) saturate(140%);
-
-  -webkit-backdrop-filter:
-    blur(34px) saturate(140%);
-
-  box-shadow:
-    0 -25px 90px rgba(40,4,22,.50),
-    inset 0 1px rgba(255,255,255,.08) !important;
+  background:rgba(38,8,20,.72)!important;
+  border:1px solid rgba(225,148,255,.24)!important;
+  border-bottom:0!important;
+  border-radius:27px 27px 0 0!important;
+  backdrop-filter:blur(34px) saturate(140%);
+  -webkit-backdrop-filter:blur(34px) saturate(140%);
+  box-shadow:0 -25px 90px rgba(40,4,22,.50),inset 0 1px rgba(255,255,255,.08)!important;
 }
 
-.sheet::before,
-.sheet::after{
-  display:none !important;
-}
-
-.sheet h2{
-  color:#fff8fb !important;
-}
+.sheet::before,.sheet::after{display:none!important}
 
 .close{
-  border:
-    1px solid rgba(220,141,255,.22) !important;
-
-  border-radius:13px !important;
-
-  background:
-    rgba(75,18,42,.34) !important;
-
-  color:#dfc4e8 !important;
-
-  backdrop-filter:blur(15px);
-  -webkit-backdrop-filter:blur(15px);
+  border:1px solid rgba(220,141,255,.22)!important;
+  border-radius:13px!important;
+  background:rgba(75,18,42,.34)!important;
+  color:#dfc4e8!important;
 }
-
-.close:hover{
-  border-color:
-    rgba(220,141,255,.42) !important;
-
-  background:
-    rgba(89,24,50,.44) !important;
-}
-
-/* =========================================================
-   CART
-========================================================= */
-
-.cartRow{
-  border-bottom-color:
-    rgba(225,148,255,.10) !important;
-}
-
-.muted{
-  color:#9e8792 !important;
-}
-
-.qty button{
-  border:
-    1px solid rgba(214,137,255,.20) !important;
-
-  background:
-    rgba(74,20,47,.35) !important;
-
-  border-radius:10px !important;
-}
-
-.qty button:hover{
-  border-color:
-    rgba(214,137,255,.42) !important;
-
-  background:
-    rgba(92,25,54,.42) !important;
-}
-
-.cartTotal{
-  border-top-color:
-    rgba(225,148,255,.12) !important;
-}
-
-.productDetailPrice{
-  color:#fff8fb !important;
-}
-
-/* =========================================================
-   PRIMARY BUTTONS
-========================================================= */
 
 .btn.primary{
-  border:
-    1px solid rgba(218,140,255,.34) !important;
-
-  border-radius:16px !important;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(111,33,68,.72),
-      rgba(82,40,137,.62)
-    ) !important;
-
-  box-shadow:
-    0 12px 32px rgba(69,15,55,.30),
-    inset 0 1px rgba(255,255,255,.09) !important;
+  border:1px solid rgba(218,140,255,.34)!important;
+  border-radius:16px!important;
+  background:linear-gradient(135deg,rgba(111,33,68,.72),rgba(82,40,137,.62))!important;
+  box-shadow:0 12px 32px rgba(69,15,55,.30),inset 0 1px rgba(255,255,255,.09)!important;
 }
-
-.btn.primary:hover{
-  border-color:
-    rgba(220,145,255,.52) !important;
-
-  box-shadow:
-    0 0 30px rgba(150,71,220,.18),
-    0 14px 35px rgba(69,15,55,.34),
-    inset 0 1px rgba(255,255,255,.10) !important;
-
-  transform:translateY(-1px);
-}
-
-/* =========================================================
-   TOAST
-========================================================= */
 
 .toast{
-  border:
-    1px solid rgba(224,145,255,.24) !important;
-
-  border-radius:15px !important;
-
-  background:
-    rgba(43,9,23,.70) !important;
-
+  border:1px solid rgba(224,145,255,.24)!important;
+  border-radius:15px!important;
+  background:rgba(43,9,23,.70)!important;
   backdrop-filter:blur(24px);
   -webkit-backdrop-filter:blur(24px);
-
-  box-shadow:
-    0 18px 45px rgba(18,2,9,.42),
-    inset 0 1px rgba(255,255,255,.07) !important;
 }
-
-/* =========================================================
-   MOBILE
-========================================================= */
 
 @media (max-width:520px){
-
-  .page,
-  .favoritesPage{
-    padding-left:14px !important;
-    padding-right:14px !important;
-  }
-
-  .profilePage{
-    padding-left:14px !important;
-    padding-right:14px !important;
-  }
-
-  .categories{
-    margin-left:-14px !important;
-    margin-right:-14px !important;
-
-    padding-left:14px !important;
-    padding-right:14px !important;
-  }
-
-  .welcome h1{
-    font-size:39px !important;
-  }
-
-  .products,
-  .favGrid{
-    gap:11px !important;
-  }
-
-  .productImage{
-    height:145px !important;
-  }
-
-  .card{
-    border-radius:20px !important;
-  }
-
-  .cardBody{
-    padding:12px !important;
-  }
-
-  .name{
-    font-size:14px !important;
-  }
-
-  .short{
-    font-size:10px !important;
-  }
-
-  .price{
-    font-size:14px !important;
-  }
-
-  .cartBtn{
-    width:36px;
-    height:36px;
-  }
-}
-
-/* =========================================================
-   ANIMATIONS
-========================================================= */
-
-@media (prefers-reduced-motion:no-preference){
-
-  .search,
-  .categories,
-  .about,
-  .profileCardMain,
-  .profileMenu,
-  .nav,
-  .sheet{
-    animation:
-      glassAppear .45s ease both;
-  }
-
-  .card{
-    transition:
-      transform .28s cubic-bezier(.2,.75,.2,1),
-      box-shadow .28s ease,
-      border-color .28s ease;
-  }
-
-  @keyframes glassAppear{
-    from{
-      opacity:0;
-      transform:translateY(8px);
-    }
-
-    to{
-      opacity:1;
-      transform:translateY(0);
-    }
-  }
+  .page,.favoritesPage,.profilePage{padding-left:14px!important;padding-right:14px!important}
+  .categories{margin-left:-14px;margin-right:-14px;padding-left:14px;padding-right:14px}
+  .welcome h1{font-size:37px!important}
+  .products,.favGrid{gap:10px!important}
+  .productImage{height:138px!important}
+  .card{border-radius:19px!important}
 }
