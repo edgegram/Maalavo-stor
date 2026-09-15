@@ -1,49 +1,88 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="theme-color" content="#050507">
-<title>MAALAVO STORE</title>
-<script src="https://telegram.org/js/telegram-web-app.js?63"></script>
-<script src="config.js"></script>
-<link rel="stylesheet" href="css/store.css">
-<link rel="stylesheet" href="animations/animations.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+  <meta name="theme-color" content="#09040a">
+  <meta name="color-scheme" content="dark">
+  <title>MAALAVO STORE</title>
+
+  <script src="https://telegram.org/js/telegram-web-app.js?63"></script>
+  <script src="config.js"></script>
+
+  <link rel="stylesheet" href="css/store.css">
+  <link rel="stylesheet" href="animations/animations.css">
 </head>
+
 <body>
 <div class="app">
+
+  <!-- SPLASH -->
   <div class="splash" id="splash">
-    <div class="welcomeInner">
-      <div class="background"></div>
-      <div class="noise"></div>
-      <main class="welcomeContent">
-        <header class="header"><div class="brand">MAALAVO STORE</div></header>
-        <section class="hero">
-          <div class="eyebrow">Добро пожаловать</div>
-          <h1><span>Всё</span><span class="gradient-text">нужное.</span></h1>
-          <p>Цифровые товары, которые хочется купить. Боты, приложения, сайты, плагины и многое другое — в одном месте.</p>
-        </section>
-        <section class="bottom">
-          <button class="shop" id="shopButton" onclick="enterStore()">За покупками 🛍️ <b>→</b></button>
-          <div class="footer">MAALAVO STORE</div>
-        </section>
-      </main>
-    </div>
+    <div class="splashGlow splashGlowOne"></div>
+    <div class="splashGlow splashGlowTwo"></div>
+    <div class="splashGrid"></div>
+
+    <main class="splashContent">
+      <div class="splashTop">
+        <div class="brandMark">M</div>
+        <div>
+          <div class="splashBrand">MAALAVO</div>
+          <div class="splashBrandSub">DIGITAL STORE</div>
+        </div>
+      </div>
+
+      <section class="splashHero">
+        <div class="splashKicker">DIGITAL GOODS · 2026</div>
+        <h1>Всё нужное.<br><span>В одном месте.</span></h1>
+        <p>Боты, приложения, сайты, плагины и другие цифровые продукты.</p>
+      </section>
+
+      <section class="splashBottom">
+        <button class="shop" id="shopButton" onclick="enterStore()">
+          <span>Открыть магазин</span>
+          <b>→</b>
+        </button>
+        <div class="splashHint">MAALAVO STORE</div>
+      </section>
+    </main>
   </div>
 
+  <!-- HOME -->
   <main class="page" id="homePage">
-    <header class="top"><div class="brand">MAALAVO STORE</div></header>
-    <section class="welcome">
-      <div class="welcomeSmall">Рады видеть тебя здесь</div>
-      <h1><span class="grad">Выбирай своё.</span></h1>
+    <header class="top">
+      <div class="topBrand">
+        <div class="miniLogo">M</div>
+        <div>
+          <div class="brand">MAALAVO</div>
+          <div class="brandSub">STORE</div>
+        </div>
+      </div>
+      <button class="topAction" onclick="openCart()" aria-label="Корзина">
+        <span>◇</span>
+        <i id="topCartCount">0</i>
+      </button>
+    </header>
+
+    <section class="heroHome">
+      <div class="welcomeSmall">МАГАЗИН ЦИФРОВЫХ ТОВАРОВ</div>
+      <h1>Выбирай<br><span class="grad">своё.</span></h1>
+      <p>Продукты, которые экономят время и делают твои проекты лучше.</p>
     </section>
 
     <div class="search">
       <span class="searchIcon">⌕</span>
-      <input id="search" placeholder="Найти товар..." autocomplete="off">
+      <input id="search" placeholder="Найти товар..." autocomplete="off" spellcheck="false">
+      <button class="searchClear" id="searchClear" type="button" aria-label="Очистить">×</button>
     </div>
 
-    <div class="sectionHead"><h2>Категории</h2></div>
+    <div class="sectionHead">
+      <div>
+        <span class="sectionEyebrow">КАТАЛОГ</span>
+        <h2>Категории</h2>
+      </div>
+    </div>
+
     <div class="categories" id="categories">
       <button class="cat active" data-cat="all">Все</button>
       <button class="cat" data-cat="bots">Боты</button>
@@ -54,81 +93,200 @@
       <button class="cat" data-cat="accounts">Аккаунты</button>
     </div>
 
-    <div class="spacer"></div>
-    <div class="sectionHead"><h2>Товары</h2></div>
+    <div class="catalogBar">
+      <div>
+        <span class="catalogLabel">МАГАЗИН</span>
+        <strong>Товары</strong>
+      </div>
+      <span class="catalogCount" id="catalogCount"></span>
+    </div>
+
     <div class="products" id="products"></div>
 
     <section class="about">
+      <div class="aboutOrb"></div>
       <div class="aboutLabel">MAALAVO STORE</div>
       <h3 id="aboutTitle">Зачем создан магазин</h3>
       <p id="aboutText">Магазин создан, чтобы цифровые товары можно было находить и покупать быстро, удобно и без лишней суеты.</p>
+      <div class="aboutLine"></div>
+      <div class="aboutMeta">
+        <span>Цифровые товары</span>
+        <span>•</span>
+        <span>Быстрая покупка</span>
+      </div>
     </section>
   </main>
 
+  <!-- PROFILE -->
   <main class="profilePage" id="profilePage">
     <section class="profileScreenHead">
       <div>
-        <div class="profileScreenLabel">АККАУНТ</div>
+        <div class="profileScreenLabel">ACCOUNT</div>
         <h1>Профиль</h1>
-        <p>Твой аккаунт и покупки в одном месте.</p>
+        <p>Твой аккаунт, избранное и покупки — здесь.</p>
       </div>
     </section>
+
     <section class="profileCardMain">
+      <div class="profileCardGlow"></div>
+
       <div class="profileHeroMain">
         <div class="avatar profileAvatarMain" id="profileAvatar">Г</div>
+
         <div class="profileIdentityMain">
           <div class="pname" id="profileName">Гость</div>
           <div class="profileUsername" id="profileUsername">Telegram не подключён</div>
-          <div class="profileStatus" id="profileStatus">Гостевой режим</div>
+          <div class="profileStatus" id="profileStatus">
+            <span class="statusDot"></span>
+            Гостевой режим
+          </div>
         </div>
       </div>
+
       <div class="profileStatsMain">
-        <div><span class="statIcon">⌑</span><b id="profileOrders">0</b><span>Заказов</span></div>
-        <div><span class="statIcon">♡</span><b id="profileFavs">0</b><span>Избранное</span></div>
-        <div><span class="statIcon">◇</span><b id="profileCart">0</b><span>В корзине</span></div>
+        <div>
+          <span class="statIcon">⌑</span>
+          <b id="profileOrders">0</b>
+          <span>Заказов</span>
+        </div>
+        <div>
+          <span class="statIcon">♡</span>
+          <b id="profileFavs">0</b>
+          <span>Избранное</span>
+        </div>
+        <div>
+          <span class="statIcon">◇</span>
+          <b id="profileCart">0</b>
+          <span>В корзине</span>
+        </div>
       </div>
     </section>
+
     <section class="profileMenu">
       <div class="profileMenuTitle">Мой аккаунт</div>
-      <button class="profileMenuRow" onclick="openCart()"><span class="rowIcon">◇</span><span class="rowText">Корзина</span><b id="profileCartLabel">0</b></button>
-      <button class="profileMenuRow" onclick="openFavs()"><span class="rowIcon">♡</span><span class="rowText">Избранное</span><b id="profileFavLabel">0</b></button>
-      <button class="profileMenuRow" onclick="openOrdersInfo()"><span class="rowIcon">▱</span><span class="rowText">Мои заказы</span><b id="profileOrdersLabel">0</b></button>
+
+      <button class="profileMenuRow" onclick="openCart()">
+        <span class="rowIcon">◇</span>
+        <span class="rowText">Корзина</span>
+        <b id="profileCartLabel">0</b>
+        <i>›</i>
+      </button>
+
+      <button class="profileMenuRow" onclick="openFavs()">
+        <span class="rowIcon">♡</span>
+        <span class="rowText">Избранное</span>
+        <b id="profileFavLabel">0</b>
+        <i>›</i>
+      </button>
+
+      <button class="profileMenuRow" onclick="openOrdersInfo()">
+        <span class="rowIcon">▱</span>
+        <span class="rowText">Мои заказы</span>
+        <b id="profileOrdersLabel">0</b>
+        <i>›</i>
+      </button>
     </section>
+
     <section class="profileMenu">
-      <div class="profileMenuTitle">Аккаунт</div>
-      <div class="profileInfoRow"><span>Имя</span><b id="profileInfoName">Гость</b><i>›</i></div>
-      <div class="profileInfoRow"><span>Username</span><b id="profileInfoUsername">—</b><i>›</i></div>
-      <div class="profileInfoRow"><span>Telegram ID</span><b id="profileInfoId">—</b><i>›</i></div>
+      <div class="profileMenuTitle">Данные аккаунта</div>
+
+      <div class="profileInfoRow">
+        <span>Имя</span>
+        <b id="profileInfoName">Гость</b>
+        <i>›</i>
+      </div>
+
+      <div class="profileInfoRow">
+        <span>Username</span>
+        <b id="profileInfoUsername">—</b>
+        <i>›</i>
+      </div>
+
+      <div class="profileInfoRow">
+        <span>Telegram ID</span>
+        <b id="profileInfoId">—</b>
+        <i>›</i>
+      </div>
     </section>
+
     <section class="profileMenu" id="adminProfileSection" style="display:none">
       <div class="profileMenuTitle">Управление</div>
-      <button class="profileMenuRow" onclick="openAdmin()"><span>Админ-панель</span><b>Открыть</b></button>
+      <button class="profileMenuRow" onclick="openAdmin()">
+        <span class="rowText">Админ-панель</span>
+        <b>Открыть</b>
+        <i>›</i>
+      </button>
     </section>
   </main>
 
+  <!-- FAVORITES -->
   <main class="favoritesPage" id="favoritesPage">
     <section class="favoritesTop">
       <div>
+        <div class="profileScreenLabel">SAVED</div>
         <h1>Избранное</h1>
         <p>Товары, которые ты сохранил.</p>
       </div>
       <span id="favCount">0 сохранено</span>
     </section>
+
     <div class="favGrid" id="favProducts"></div>
   </main>
 
+  <!-- NAVIGATION -->
   <nav class="nav">
-    <button class="active" id="homeNav" onclick="showHome()"><span class="navIcon">⌂</span><small>Главная</small></button>
-    <button id="favNav" onclick="openFavs()"><span class="navIcon">♡</span><small>Избранное</small></button>
-    <button id="profileNav" onclick="openProfile()"><span class="navIcon">♙</span><small>Профиль</small></button>
-    <button onclick="openSupport()"><span class="navIcon">✦</span><small>Поддержка</small></button>
+    <button class="active" id="homeNav" onclick="showHome()">
+      <span class="navIcon">⌂</span>
+      <small>Главная</small>
+    </button>
+
+    <button id="favNav" onclick="openFavs()">
+      <span class="navIcon">♡</span>
+      <small>Избранное</small>
+    </button>
+
+    <button id="profileNav" onclick="openProfile()">
+      <span class="navIcon">♙</span>
+      <small>Профиль</small>
+    </button>
+
+    <button onclick="openSupport()">
+      <span class="navIcon">✦</span>
+      <small>Поддержка</small>
+    </button>
   </nav>
 
-  <div class="overlay" id="overlay"><div class="sheet" id="sheet"></div></div>
+  <!-- SHEET / TOAST -->
+  <div class="overlay" id="overlay">
+    <div class="sheet" id="sheet"></div>
+  </div>
+
   <div class="toast" id="toast"></div>
+
 </div>
 
 <script src="js/store.js"></script>
 <script src="animations/profile.js"></script>
+
+<script>
+(function(){
+  const search = document.getElementById('search');
+  const clear = document.getElementById('searchClear');
+
+  if(search && clear){
+    const sync = () => {
+      clear.classList.toggle('show', !!search.value);
+    };
+    search.addEventListener('input', sync);
+    clear.addEventListener('click', () => {
+      search.value = '';
+      search.dispatchEvent(new Event('input', {bubbles:true}));
+      search.focus();
+      sync();
+    });
+    sync();
+  }
+})();
+</script>
 </body>
 </html>
