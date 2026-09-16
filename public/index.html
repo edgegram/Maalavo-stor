@@ -1,51 +1,37 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-  <meta name="theme-color" content="#09040a">
-  <meta name="color-scheme" content="dark">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>MAALAVO STORE</title>
-  <script src="https://telegram.org/js/telegram-web-app.js?63"></script>
-  <script src="config.js"></script>
-  <link rel="stylesheet" href="css/store.css">
-  <link rel="stylesheet" href="animations/animations.css">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+    html,body{width:100%;height:100%;overflow:hidden;background:#100509;color:#fff;font-family:Inter,Arial,sans-serif}
+    body{min-height:100vh}
+    .screen{position:relative;width:100%;height:100vh;overflow:hidden;background:radial-gradient(circle at 15% 18%,rgba(155,92,255,.18),transparent 32%),radial-gradient(circle at 88% 75%,rgba(112,42,145,.18),transparent 34%),linear-gradient(145deg,#100509 0%,#18070d 45%,#0d0408 100%)}
+    .glow{position:absolute;width:300px;height:300px;border-radius:50%;filter:blur(90px);pointer-events:none;opacity:.32}
+    .glow.one{top:-130px;left:-120px;background:#9b5cff}.glow.two{right:-150px;bottom:-120px;background:#742cff}
+    .content{position:relative;z-index:2;width:100%;height:100%;padding:calc(env(safe-area-inset-top) + 34px) 24px calc(env(safe-area-inset-bottom) + 28px);display:flex;flex-direction:column;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:12px}.logo{width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:14px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.11);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 10px 35px rgba(0,0,0,.25);font-size:21px;font-weight:800;color:#fff}.brand-text{display:flex;flex-direction:column;gap:2px}.brand-name{font-size:15px;font-weight:800;letter-spacing:.18em}.brand-sub{font-size:9px;letter-spacing:.24em;color:rgba(255,255,255,.42)}
+    .hero{margin-top:auto;margin-bottom:auto;padding-top:45px;transform:translateY(-37px)}
+    .eyebrow{display:inline-flex;padding:8px 13px;border-radius:999px;border:1px solid rgba(196,154,255,.16);background:rgba(155,92,255,.07);color:rgba(214,190,255,.72);font-size:9px;font-weight:700;letter-spacing:.2em;margin-bottom:22px;box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 0 25px rgba(155,92,255,.04)}
+    h1{max-width:360px;font-size:clamp(45px,13vw,68px);line-height:.93;letter-spacing:-.055em;font-weight:800;background:linear-gradient(110deg,#c5a3ff 0%,#a66cff 18%,#d2baff 35%,#9250ff 52%,#bd92ff 68%,#9c61ff 84%,#c5a3ff 100%);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:welcomeShine 5s ease-in-out infinite;filter:drop-shadow(0 8px 30px rgba(132,65,220,.10))}
+    @keyframes welcomeShine{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+    .description{max-width:330px;margin-top:24px;color:rgba(255,255,255,.52);font-size:14px;line-height:1.65}.bottom{width:100%}
+    .enter{position:relative;width:100%;height:62px;overflow:hidden;border:1px solid rgba(207,177,255,.20);border-radius:22px;background:linear-gradient(135deg,rgba(255,255,255,.105),rgba(155,92,255,.15));backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);color:#fff;font-size:14px;font-weight:750;letter-spacing:.035em;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.13),inset 0 -1px 0 rgba(0,0,0,.15),0 12px 35px rgba(0,0,0,.25),0 0 0 rgba(155,92,255,0);transition:transform .18s cubic-bezier(.2,.8,.2,1),box-shadow .25s ease,border-color .25s ease,background .25s ease;animation:buttonBreath 3.5s ease-in-out infinite}
+    .enter::before{content:"";position:absolute;top:-40%;left:-45%;width:45%;height:180%;transform:rotate(18deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);filter:blur(4px);opacity:0;pointer-events:none;animation:buttonShine 4.5s ease-in-out infinite}.enter::after{content:"";position:absolute;inset:1px;border-radius:21px;background:radial-gradient(circle at 50% 0%,rgba(255,255,255,.10),transparent 55%);pointer-events:none}.enter:hover{border-color:rgba(207,177,255,.30);box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 15px 40px rgba(0,0,0,.28),0 0 28px rgba(155,92,255,.12)}.enter:active{transform:scale(.965);background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(155,92,255,.22));border-color:rgba(207,177,255,.38);box-shadow:inset 0 2px 8px rgba(0,0,0,.16),0 6px 18px rgba(0,0,0,.28),0 0 30px rgba(155,92,255,.18);animation:none}
+    @keyframes buttonBreath{0%,100%{box-shadow:inset 0 1px 0 rgba(255,255,255,.13),inset 0 -1px 0 rgba(0,0,0,.15),0 12px 35px rgba(0,0,0,.25),0 0 12px rgba(155,92,255,.025)}50%{box-shadow:inset 0 1px 0 rgba(255,255,255,.15),inset 0 -1px 0 rgba(0,0,0,.15),0 15px 38px rgba(0,0,0,.27),0 0 25px rgba(155,92,255,.10)}}
+    @keyframes buttonShine{0%{left:-45%;opacity:0}12%{opacity:1}28%{left:115%;opacity:0}100%{left:115%;opacity:0}}
+    .footer{position:relative;margin-top:18px;min-height:18px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(200,170,255,.48);white-space:nowrap;animation:footerPulse 4s ease-in-out infinite}.footer-line{width:25px;height:1px;background:linear-gradient(90deg,transparent,rgba(181,140,255,.45));opacity:.7}.footer-line.right{background:linear-gradient(90deg,rgba(181,140,255,.45),transparent)}.footer-brand{background:linear-gradient(100deg,#a87aff 0%,#d1b5ff 30%,#9b5cff 55%,#c7a5ff 75%,#a87aff 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:footerShine 5s ease-in-out infinite}.footer-dot{color:rgba(155,92,255,.7);font-size:7px;margin:0 1px}@keyframes footerShine{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}@keyframes footerPulse{0%,100%{opacity:.65}50%{opacity:1}}
+    @media (min-width:700px){.content{max-width:520px;margin:0 auto}}
+  </style>
 </head>
 <body>
-<div class="app">
-  <div class="splash" id="splash">
-    <div class="splashGlow splashGlowOne"></div><div class="splashGlow splashGlowTwo"></div><div class="splashGrid"></div>
-    <main class="splashContent">
-      <div class="splashTop"><div class="brandMark">M</div><div><div class="splashBrand">MAALAVO STORE</div><div class="splashBrandSub">DIGITAL STORE</div></div></div>
-      <section class="splashHero">
-        <div class="splashKicker">ЦИФРОВЫЕ ТОВАРЫ</div>
-        <h1>Добро<br><span>пожаловать.</span></h1>
-        <p>Цифровые товары, готовые решения и сервисы — всё необходимое в одном месте.</p>
-        <div class="splashTags"><span>ЦИФРОВЫЕ ТОВАРЫ</span><span>ГОТОВЫЕ РЕШЕНИЯ</span></div>
-      </section>
-      <section class="splashBottom"><button class="shop" id="shopButton" onclick="enterStore()"><span>Войти в магазин</span></button></section>
-    </main>
-  </div>
-
-  <main class="page" id="homePage">
-    <header class="top"><div class="topBrand"><div class="miniLogo">M</div><div><div class="brand">MAALAVO</div><div class="brandSub">STORE</div></div></div><button class="topAction" onclick="openCart()" aria-label="Корзина"><span>◇</span><i id="topCartCount">0</i></button></header>
-    <section class="heroHome"><div class="welcomeSmall">МАГАЗИН ЦИФРОВЫХ ТОВАРОВ</div><h1>Рады снова<br><span class="grad">видеть тебя.</span></h1><p>Выбирай своё — продукты, которые экономят время и делают твои проекты лучше.</p></section>
-    <div class="search"><span class="searchIcon">⌕</span><input id="search" placeholder="Найти товар..." autocomplete="off" spellcheck="false"><button class="searchClear" id="searchClear" type="button" aria-label="Очистить">×</button></div>
-    <div class="sectionHead"><div><span class="sectionEyebrow">КАТАЛОГ</span><h2>Категории</h2></div></div>
-    <div class="categories" id="categories"><button class="cat active" data-cat="all">Все</button><button class="cat" data-cat="bots">Боты</button><button class="cat" data-cat="apps">Приложения</button><button class="cat" data-cat="sites">Сайты</button><button class="cat" data-cat="plugins">Плагины</button><button class="cat" data-cat="avatars">Авы</button><button class="cat" data-cat="accounts">Аккаунты</button></div>
-    <div class="catalogBar"><div><span class="catalogLabel">МАГАЗИН</span><strong>Популярное</strong></div><span class="catalogCount" id="catalogCount"></span></div>
-    <div class="products" id="products"></div>
-    <section class="about"><div class="aboutOrb"></div><div class="aboutLabel">MAALAVO STORE</div><h3 id="aboutTitle">Зачем создан магазин</h3><p id="aboutText">Магазин создан, чтобы цифровые товары можно было находить и покупать быстро, удобно и без лишней суеты.</p><div class="aboutLine"></div><div class="aboutMeta"><span>Цифровые товары</span><span>•</span><span>Быстрая покупка</span></div></section>
-  </main>
-
-  <main class="profilePage" id="profilePage"><section class="profileScreenHead"><div><div class="profileScreenLabel">ACCOUNT</div><h1>Профиль</h1><p>Твой аккаунт, избранное и покупки — здесь.</p></div></section><section class="profileCardMain"><div class="profileCardGlow"></div><div class="profileHeroMain"><div class="avatar profileAvatarMain" id="profileAvatar">Г</div><div class="profileIdentityMain"><div class="pname" id="profileName">Гость</div><div class="profileUsername" id="profileUsername">Telegram не подключён</div><div class="profileStatus" id="profileStatus"><span class="statusDot"></span>Гостевой режим</div></div></div><div class="profileStatsMain"><div><span class="statIcon">⌑</span><b id="profileOrders">0</b><span>Заказов</span></div><div><span class="statIcon">♡</span><b id="profileFavs">0</b><span>Избранное</span></div><div><span class="statIcon">◇</span><b id="profileCart">0</b><span>В корзине</span></div></div></section><section class="profileMenu"><div class="profileMenuTitle">Мой аккаунт</div><button class="profileMenuRow" onclick="openCart()"><span class="rowIcon">◇</span><span class="rowText">Корзина</span><b id="profileCartLabel">0</b><i>›</i></button><button class="profileMenuRow" onclick="openFavs()"><span class="rowIcon">♡</span><span class="rowText">Избранное</span><b id="profileFavLabel">0</b><i>›</i></button><button class="profileMenuRow" onclick="openOrdersInfo()"><span class="rowIcon">▱</span><span class="rowText">Мои заказы</span><b id="profileOrdersLabel">0</b><i>›</i></button></section><section class="profileMenu"><div class="profileMenuTitle">Данные аккаунта</div><div class="profileInfoRow"><span>Имя</span><b id="profileInfoName">Гость</b><i>›</i></div><div class="profileInfoRow"><span>Username</span><b id="profileInfoUsername">—</b><i>›</i></div><div class="profileInfoRow"><span>Telegram ID</span><b id="profileInfoId">—</b><i>›</i></div></section><section class="profileMenu" id="adminProfileSection" style="display:none"><div class="profileMenuTitle">Управление</div><button class="profileMenuRow" onclick="openAdmin()"><span class="rowText">Админ-панель</span><b>Открыть</b><i>›</i></button></section></main>
-
-  <main class="favoritesPage" id="favoritesPage"><section class="favoritesTop"><div><div class="profileScreenLabel">SAVED</div><h1>Избранное</h1><p>Товары, которые ты сохранил.</p></div><span id="favCount">0 сохранено</span></section><div class="favGrid" id="favProducts"></div></main>
-
-  <nav class="nav"><button class="active" id="homeNav" onclick="showHome()"><span class="navIcon">⌂</span><small>Главная</small></button><button id="favNav" onclick="openFavs()"><span class="navIcon">♡</span><small>Избранное</small></button><button id="profileNav" onclick="openProfile()"><span class="navIcon">♙</span><small>Профиль</small></button><button onclick="openSupport()"><span class="navIcon">✦</span><small>Поддержка</small></button></nav>
-  <div class="overlay" id="overlay"><div class="sheet" id="sheet"></div></div><div class="toast" id="toast"></div>
-</div>
-<script src="js/store.js"></script><script src="animations/profile.js"></script>
-<script>(function(){const search=document.getElementById('search'),clear=document.getElementById('searchClear');if(search&&clear){const sync=()=>clear.classList.toggle('show',!!search.value);search.addEventListener('input',sync);clear.addEventListener('click',()=>{search.value='';search.dispatchEvent(new Event('input',{bubbles:true}));search.focus();sync()});sync()}})();</script>
+  <div class="screen"><div class="glow one"></div><div class="glow two"></div><div class="content">
+    <div class="brand"><div class="logo">M</div><div class="brand-text"><div class="brand-name">MAALAVO</div><div class="brand-sub">STORE</div></div></div>
+    <main class="hero"><div class="eyebrow">DIGITAL STORE</div><h1>Добро<br>пожаловать.</h1><p class="description">Всё нужное для твоих проектов — цифровые товары, готовые решения и полезные сервисы в одном месте.</p></main>
+    <div class="bottom"><button class="enter" onclick="enterStore()">Войти в магазин</button><div class="footer"><span class="footer-line"></span><span class="footer-brand">MAALAVO</span><span class="footer-dot">•</span><span class="footer-brand">DIGITAL GOODS</span><span class="footer-line right"></span></div></div>
+  </div></div>
+  <script>function enterStore(){console.log("Вход в магазин")}</script>
 </body>
 </html>
