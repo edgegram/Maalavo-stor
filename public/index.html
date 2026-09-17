@@ -10,37 +10,28 @@
     *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
     html,body{width:100%;height:100%;overflow:hidden;background:#100509;color:#fff;font-family:Inter,Arial,sans-serif}
     body{min-height:100vh}
-
     .screen{position:relative;width:100%;height:100dvh;min-height:100vh;overflow:hidden;background:radial-gradient(circle at 12% 12%,rgba(155,92,255,.14),transparent 34%),radial-gradient(circle at 90% 88%,rgba(112,42,145,.13),transparent 36%),linear-gradient(145deg,#100509 0%,#18070d 45%,#0d0408 100%)}
-
     .glow{position:absolute;width:280px;height:280px;border-radius:50%;pointer-events:none;opacity:.18}
     .glow.one{top:-150px;left:-130px;background:radial-gradient(circle,rgba(155,92,255,.7) 0%,rgba(155,92,255,.2) 35%,transparent 72%)}
     .glow.two{right:-150px;bottom:-140px;background:radial-gradient(circle,rgba(116,44,255,.65) 0%,rgba(116,44,255,.18) 35%,transparent 72%)}
-
-    .content{position:relative;z-index:2;width:100%;height:100%;padding:calc(env(safe-area-inset-top) + 34px) 24px calc(env(safe-area-inset-bottom) + 28px);display:flex;flex-direction:column;justify-content:space-between}
-
-    .brand{display:flex;align-items:center;gap:12px}
-    .logo{width:46px;height:46px;display:block;flex:none;border-radius:14px;object-fit:cover;background:#0b0612;border:1px solid rgba(196,154,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 8px 24px rgba(116,44,255,.18);}
-    .brand-text{display:flex;flex-direction:column;gap:2px}.brand-name{font-size:15px;font-weight:800;letter-spacing:.18em}.brand-sub{font-size:9px;letter-spacing:.24em;color:rgba(255,255,255,.42)}
-
+    .content{position:relative;z-index:2;width:100%;height:100%;padding:calc(env(safe-area-inset-top) + 28px) 24px calc(env(safe-area-inset-bottom) + 28px);display:flex;flex-direction:column;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo{width:64px;height:64px;display:flex;align-items:center;justify-content:center;border-radius:19px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.12);box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 10px 30px rgba(0,0,0,.28);overflow:hidden;flex:0 0 auto}
+    .logo img{width:100%;height:100%;display:block;object-fit:cover}
+    .brand-text{display:flex;flex-direction:column;gap:3px}.brand-name{font-size:16px;font-weight:800;letter-spacing:.2em}.brand-sub{font-size:9px;letter-spacing:.28em;color:rgba(255,255,255,.42)}
     .hero{margin-top:auto;margin-bottom:auto;padding-top:45px;transform:translate3d(0,-37px,0)}
     .eyebrow{display:inline-flex;padding:8px 13px;border-radius:999px;border:1px solid rgba(196,154,255,.16);background:rgba(155,92,255,.06);color:rgba(214,190,255,.72);font-size:9px;font-weight:700;letter-spacing:.2em;margin-bottom:22px}
-
     h1{max-width:360px;font-size:clamp(45px,13vw,68px);line-height:.93;letter-spacing:-.055em;font-weight:800;background:linear-gradient(110deg,#bfa0f5 0%,#a66cff 25%,#d0b6fa 42%,#9250ff 60%,#b58be9 78%,#9c61ff 100%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:welcomeShine 7s ease-in-out infinite;will-change:background-position}
     @keyframes welcomeShine{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-
     .description{max-width:330px;margin-top:24px;color:rgba(255,255,255,.52);font-size:14px;line-height:1.65}.bottom{width:100%}
-
     .enter{position:relative;width:100%;height:62px;overflow:hidden;border:1px solid rgba(207,177,255,.2);border-radius:22px;background:linear-gradient(135deg,rgba(255,255,255,.09),rgba(155,92,255,.13));color:#fff;font-size:14px;font-weight:750;letter-spacing:.035em;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 10px 28px rgba(0,0,0,.22);transition:transform .16s ease,background .2s ease,border-color .2s ease;will-change:transform}
     .enter::before{content:"";position:absolute;top:-40%;left:0;width:38%;height:180%;transform:translate3d(-180%,0,0) rotate(18deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);opacity:0;pointer-events:none;animation:buttonShine 5s ease-in-out infinite;will-change:transform,opacity}
     .enter::after{content:"";position:absolute;inset:1px;border-radius:21px;background:linear-gradient(180deg,rgba(255,255,255,.06),transparent 45%);pointer-events:none}
     .enter:active{transform:scale(.97);background:linear-gradient(135deg,rgba(255,255,255,.07),rgba(155,92,255,.2));border-color:rgba(207,177,255,.34)}
     @keyframes buttonShine{0%,12%{transform:translate3d(-180%,0,0) rotate(18deg);opacity:0}20%{opacity:.8}34%{transform:translate3d(420%,0,0) rotate(18deg);opacity:0}100%{transform:translate3d(420%,0,0) rotate(18deg);opacity:0}}
-
     .footer{position:relative;margin-top:18px;min-height:18px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(200,170,255,.48);white-space:nowrap}
     .footer-line{width:25px;height:1px;background:linear-gradient(90deg,transparent,rgba(181,140,255,.4));opacity:.7}.footer-line.right{background:linear-gradient(90deg,rgba(181,140,255,.4),transparent)}
     .footer-brand{color:#b18ae8}.footer-dot{color:rgba(155,92,255,.65);font-size:7px;margin:0 1px}
-
     @media (hover:hover){.enter:hover{border-color:rgba(207,177,255,.3);background:linear-gradient(135deg,rgba(255,255,255,.11),rgba(155,92,255,.16))}}
     @media (prefers-reduced-motion:reduce){h1,.enter::before{animation:none}.enter{transition:none}}
     @media (min-width:700px){.content{max-width:520px;margin:0 auto}}
@@ -48,29 +39,23 @@
 </head>
 <body>
   <div class="screen">
-    <div class="glow one"></div>
-    <div class="glow two"></div>
+    <div class="glow one"></div><div class="glow two"></div>
     <div class="content">
       <div class="brand">
-        <img class="logo" src="assets/maalavo-logo.svg?v=1" alt="Maalavo Store logo">
+        <div class="logo"><img src="assets/maalavo-logo.svg" alt="Maalavo"></div>
         <div class="brand-text"><div class="brand-name">MAALAVO</div><div class="brand-sub">STORE</div></div>
       </div>
-
       <main class="hero">
         <div class="eyebrow">DIGITAL STORE</div>
         <h1>Добро<br>пожаловать.</h1>
         <p class="description">Всё нужное для твоих проектов — цифровые товары, готовые решения и полезные сервисы в одном месте.</p>
       </main>
-
       <div class="bottom">
         <button class="enter" onclick="enterStore()">Войти в магазин</button>
         <div class="footer"><span class="footer-line"></span><span class="footer-brand">MAALAVO</span><span class="footer-dot">•</span><span class="footer-brand">DIGITAL GOODS</span><span class="footer-line right"></span></div>
       </div>
     </div>
   </div>
-
-  <script>
-    function enterStore(){console.log('Вход в магазин')}
-  </script>
+  <script>function enterStore(){console.log('Вход в магазин')}</script>
 </body>
 </html>
