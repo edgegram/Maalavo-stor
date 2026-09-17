@@ -13,7 +13,6 @@
 
     .screen{position:relative;width:100%;height:100dvh;min-height:100vh;overflow:hidden;background:radial-gradient(circle at 12% 12%,rgba(155,92,255,.14),transparent 34%),radial-gradient(circle at 90% 88%,rgba(112,42,145,.13),transparent 36%),linear-gradient(145deg,#100509 0%,#18070d 45%,#0d0408 100%)}
 
-    /* Лёгкие световые пятна вместо тяжёлого blur/filter */
     .glow{position:absolute;width:280px;height:280px;border-radius:50%;pointer-events:none;opacity:.18}
     .glow.one{top:-150px;left:-130px;background:radial-gradient(circle,rgba(155,92,255,.7) 0%,rgba(155,92,255,.2) 35%,transparent 72%)}
     .glow.two{right:-150px;bottom:-140px;background:radial-gradient(circle,rgba(116,44,255,.65) 0%,rgba(116,44,255,.18) 35%,transparent 72%)}
@@ -21,7 +20,7 @@
     .content{position:relative;z-index:2;width:100%;height:100%;padding:calc(env(safe-area-inset-top) + 34px) 24px calc(env(safe-area-inset-bottom) + 28px);display:flex;flex-direction:column;justify-content:space-between}
 
     .brand{display:flex;align-items:center;gap:12px}
-    .logo{width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:14px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.11);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 8px 24px rgba(0,0,0,.2);font-size:21px;font-weight:800;color:#fff}
+    .logo{width:46px;height:46px;display:block;flex:none;border-radius:14px;object-fit:cover;background:#0b0612;border:1px solid rgba(196,154,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 8px 24px rgba(116,44,255,.18);}
     .brand-text{display:flex;flex-direction:column;gap:2px}.brand-name{font-size:15px;font-weight:800;letter-spacing:.18em}.brand-sub{font-size:9px;letter-spacing:.24em;color:rgba(255,255,255,.42)}
 
     .hero{margin-top:auto;margin-bottom:auto;padding-top:45px;transform:translate3d(0,-37px,0)}
@@ -53,7 +52,7 @@
     <div class="glow two"></div>
     <div class="content">
       <div class="brand">
-        <div class="logo">M</div>
+        <img class="logo" src="assets/maalavo-logo.svg?v=1" alt="Maalavo Store logo">
         <div class="brand-text"><div class="brand-name">MAALAVO</div><div class="brand-sub">STORE</div></div>
       </div>
 
