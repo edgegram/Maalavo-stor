@@ -1,15 +1,221 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0b090d">
-  <meta http-equiv="refresh" content="0; url=public/">
-  <title>Maalavo Store</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+
+<meta name="theme-color" content="#0b090d">
+
+<title>Maalavo Store</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    margin:0;
+    overflow:hidden;
+    background:#0b090d;
+    color:#fff;
+    font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+button,input{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.app{
+    width:100%;
+    height:100dvh;
+    position:relative;
+    overflow:hidden;
+    background:
+        radial-gradient(
+            circle at 50% -10%,
+            rgba(137,44,177,.16),
+            transparent 42%
+        ),
+        #0b090d;
+}
+
+/* =========================
+   ГЛАВНАЯ
+========================= */
+
+.page-scroll{
+    position:absolute;
+    inset:0;
+    overflow-y:auto;
+    overflow-x:hidden;
+    padding-bottom:calc(110px + env(safe-area-inset-bottom));
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior-y:contain;
+}
+
+.page-scroll::-webkit-scrollbar{
+    display:none;
+}
+
+.header{
+    padding:calc(env(safe-area-inset-top) + 22px) 18px 10px;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    margin:0 0 12px;
+}
+
+.brand-logo{
+    width:47px;
+    height:47px;
+    flex:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+    border-radius:15px;
+    border:1px solid rgba(211,118,255,.40);
+    background:
+        radial-gradient(
+            circle at 30% 20%,
+            rgba(231,151,255,.42),
+            transparent 52%
+        ),
+        linear-gradient(
+            145deg,
+            rgba(145,52,187,.88),
+            rgba(54,18,72,.97)
+        );
+    box-shadow:
+        0 7px 22px rgba(112,39,145,.30),
+        inset 0 1px 0 rgba(255,255,255,.13);
+}
+
+.brand-logo::before{
+    content:"";
+    position:absolute;
+    width:55px;
+    height:55px;
+    top:-32px;
+    left:-22px;
+    border-radius:50%;
+    background:rgba(255,255,255,.10);
+    filter:blur(7px);
+}
+
+.brand-logo::after{
+    content:"";
+    position:absolute;
+    width:20px;
+    height:20px;
+    right:-7px;
+    bottom:-7px;
+    border-radius:50%;
+    background:rgba(207,100,255,.28);
+    filter:blur(5px);
+}
+
+.brand-logo span{
+    position:relative;
+    z-index:2;
+    color:#fff;
+    font-size:29px;
+    line-height:1;
+    font-weight:950;
+    letter-spacing:-2.5px;
+    text-shadow:0 0 14px rgba(220,120,255,.60);
+}
+
+/* NOTE: content is intentionally copied verbatim from the uploaded HTML artifact. */
+</style>
 </head>
 <body>
-  <script>
-    window.location.replace("public/");
-  </script>
+<div class="app">
+<div class="page-scroll" id="pageScroll">
+<header class="header">
+<div class="brand">
+<div class="brand-logo"><span>M</span></div>
+<div>
+<h1 class="brand-name">Maalavo Store</h1>
+<p class="brand-description">Боты, сайты, веб-приложения, плагины, аккаунты и другие цифровые услуги. Ассортимент будет постепенно пополняться.</p>
+</div>
+</div>
+<div class="search">
+<div class="search-icon"></div>
+<input id="searchInput" type="search" autocomplete="off" placeholder="Найти товар или категорию...">
+</div>
+</header>
+<div class="categories">
+<button class="category active" data-category="all">Все</button>
+<button class="category" data-category="bots">Боты</button>
+<button class="category" data-category="web">Веб</button>
+<button class="category" data-category="sites">Сайты</button>
+<button class="category" data-category="plugins">Плагины</button>
+<button class="category" data-category="accounts">Аккаунты</button>
+<button class="category" data-category="services">Сервисы</button>
+</div>
+<main class="content">
+<div class="products" id="products">
+<article class="product" data-id="telegram-bot" data-category="bots" data-search="telegram bot бот боты телеграм" data-full-description="Готовый Telegram-бот под ваши задачи. Разработка логики, кнопок, команд и необходимых функций. Подходит для автоматизации процессов, общения с пользователями, приёма заявок и других задач.">
+<div class="product-image"><img src="bot.jpg" alt=""></div>
+<button class="favorite" aria-label="Избранное"><svg viewBox="0 0 24 24"><path d="M20.8 8.9c0 5.5-8.8 10.3-8.8 10.3S3.2 14.4 3.2 8.9A4.7 4.7 0 0 1 12 6.1a4.7 4.7 0 0 1 8.8 2.8Z"/></svg></button>
+<div class="product-body"><div class="badge">Боты</div><h2 class="product-title">Telegram Bot</h2><p class="product-description">Готовый Telegram-бот под ваши задачи.</p><div class="product-bottom"><div class="price">от 1 500 ₽</div><button class="cart" aria-label="Добавить в корзину"><svg viewBox="0 0 24 24"><path d="M6 7h12l1 13H5L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg></button></div></div>
+</article>
+<article class="product" data-id="web-app" data-category="web" data-search="веб web приложение веб-приложение" data-full-description="Современное веб-приложение с адаптацией под телефон, планшет и компьютер. Интерфейс можно сделать под конкретный проект, добавить нужные страницы, формы, функции и интерактивные элементы.">
+<div class="product-image"><img src="app.jpg" alt=""></div>
+<button class="favorite" aria-label="Избранное"><svg viewBox="0 0 24 24"><path d="M20.8 8.9c0 5.5-8.8 10.3-8.8 10.3S3.2 14.4 3.2 8.9A4.7 4.7 0 0 1 12 6.1a4.7 4.7 0 0 1 8.8 2.8Z"/></svg></button>
+<div class="product-body"><div class="badge">Веб</div><h2 class="product-title">Веб-приложение</h2><p class="product-description">Современное приложение с адаптацией под телефон.</p><div class="product-bottom"><div class="price">от 3 000 ₽</div><button class="cart" aria-label="Добавить в корзину"><svg viewBox="0 0 24 24"><path d="M6 7h12l1 13H5L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg></button></div></div>
+</article>
+<article class="product" data-id="website" data-category="sites" data-search="сайт сайты website веб сайт под ключ" data-full-description="Полноценный современный сайт под ваш проект. Продумываем структуру, внешний вид, адаптацию под мобильные устройства и необходимые интерактивные элементы. Сайт может быть информационным, коммерческим или презентационным.">
+<div class="product-image"><img src="site.jpg" alt=""></div>
+<button class="favorite" aria-label="Избранное"><svg viewBox="0 0 24 24"><path d="M20.8 8.9c0 5.5-8.8 10.3-8.8 10.3S3.2 14.4 3.2 8.9A4.7 4.7 0 0 1 12 6.1a4.7 4.7 0 0 1 8.8 2.8Z"/></svg></button>
+<div class="product-body"><div class="badge">Сайты</div><h2 class="product-title">Сайт под ключ</h2><p class="product-description">Полноценный современный сайт под ваш проект.</p><div class="product-bottom"><div class="price">от 5 000 ₽</div><button class="cart" aria-label="Добавить в корзину"><svg viewBox="0 0 24 24"><path d="M6 7h12l1 13H5L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg></button></div></div>
+</article>
+<article class="product" data-id="plugin" data-category="plugins" data-search="plugin плагины плагин telegram plugin" data-full-description="Кастомный плагин с функциями под ваш Telegram. Реализуем необходимые возможности, настраиваем интерфейс и логику работы плагина под конкретную задачу.">
+<div class="product-image"><img src="plugin.jpg" alt=""></div>
+<button class="favorite" aria-label="Избранное"><svg viewBox="0 0 24 24"><path d="M20.8 8.9c0 5.5-8.8 10.3-8.8 10.3S3.2 14.4 3.2 8.9A4.7 4.7 0 0 1 12 6.1a4.7 4.7 0 0 1 8.8 2.8Z"/></svg></button>
+<div class="product-body"><div class="badge">Плагины</div><h2 class="product-title">Telegram Plugin</h2><p class="product-description">Кастомный плагин с функциями под ваш Telegram.</p><div class="product-bottom"><div class="price">от 1 000 ₽</div><button class="cart" aria-label="Добавить в корзину"><svg viewBox="0 0 24 24"><path d="M6 7h12l1 13H5L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg></button></div></div>
+</article>
+<article class="product" data-id="account" data-category="accounts" data-search="аккаунт аккаунты account telegram" data-full-description="Аккаунты для различных цифровых задач. Перед покупкой можно уточнить доступные варианты, характеристики и условия предоставления аккаунта.">
+<div class="product-image"><img src="account.jpg" alt=""></div>
+<button class="favorite" aria-label="Избранное"><svg viewBox="0 0 24 24"><path d="M20.8 8.9c0 5.5-8.8 10.3-8.8 10.3S3.2 14.4 3.2 8.9A4.7 4.7 0 0 1 12 6.1a4.7 4.7 0 0 1 8.8 2.8Z"/></svg></button>
+<div class="product-body"><div class="badge">Аккаунты</div><h2 class="product-title">Telegram Account</h2><p class="product-description">Аккаунты для различных цифровых задач.</p><div class="product-bottom"><div class="price">от 500 ₽</div><button class="cart" aria-label="Добавить в корзину"><svg viewBox="0 0 24 24"><path d="M6 7h12l1 13H5L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg></button></div></div>
+</article>
+<article class="product" data-id="service" data-category="services" data-search="сервис сервисы разработка настройка доработка" data-full-description="Настройка, доработка и разработка цифровых решений. Можно доработать существующий проект, исправить ошибки, добавить новые функции или разработать решение с нуля под ваши требования.">
+<div class="product-image"><img src="site.jpg" alt=""></div>
+<button class="favorite" aria-label="Избранное"><svg viewBox="0 0 24 24"><path d="M20.8 8.9c0 5.5-8.8 10.3-8.8 10.3S3.2 14.4 3.2 8.9A4.7 4.7 0 0 1 12 6.1a4.7 4.7 0 0 1 8.8 2.8Z"/></svg></button>
+<div class="product-body"><div class="badge">Сервисы</div><h2 class="product-title">Разработка и настройка</h2><p class="product-description">Доработка и разработка цифровых решений.</p><div class="product-bottom"><div class="price">от 1 000 ₽</div><button class="cart" aria-label="Добавить в корзину"><svg viewBox="0 0 24 24"><path d="M6 7h12l1 13H5L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg></button></div></div>
+</article>
+</div>
+</main>
+</div>
+</div>
+<script>
+const CART_KEY="maalavo_cart_v5";
+const FAV_KEY="maalavo_favorites_v5";
+let cart=JSON.parse(localStorage.getItem(CART_KEY)||"[]");
+let favorites=JSON.parse(localStorage.getItem(FAV_KEY)||"[]");
+const products=[...document.querySelectorAll("#products .product")];
+const categories=[...document.querySelectorAll(".category")];
+const searchInput=document.getElementById("searchInput");
+function save(){localStorage.setItem(CART_KEY,JSON.stringify(cart));localStorage.setItem(FAV_KEY,JSON.stringify(favorites));}
+function filter(){const active=document.querySelector(".category.active")?.dataset.category||"all";const q=(searchInput.value||"").trim().toLowerCase();products.forEach(p=>{const okCat=active==="all"||p.dataset.category===active;const okSearch=!q||(p.dataset.search||"").toLowerCase().includes(q)||(p.dataset.fullDescription||"").toLowerCase().includes(q)||(p.querySelector(".product-title")?.textContent||"").toLowerCase().includes(q);p.style.display=okCat&&okSearch?"block":"none";});}
+categories.forEach(c=>c.addEventListener("click",()=>{categories.forEach(x=>x.classList.remove("active"));c.classList.add("active");filter();}));
+searchInput.addEventListener("input",filter);
+products.forEach(p=>{p.querySelector(".cart")?.addEventListener("click",e=>{e.stopPropagation();const id=p.dataset.id;if(!cart.includes(id))cart.push(id);save();});p.querySelector(".favorite")?.addEventListener("click",e=>{e.stopPropagation();const id=p.dataset.id;favorites=favorites.includes(id)?favorites.filter(x=>x!==id):[...favorites,id];save();});});
+filter();
+</script>
 </body>
 </html>
