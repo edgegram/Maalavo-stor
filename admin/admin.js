@@ -1,1029 +1,117 @@
 const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+const money = n => new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 2 }).format(Number(n) || 0) + ' ₽';
 
-function toast(message, type = "info") {
-  const el = $("toast");
-
-  if (!el) return;
-
-  el.textContent = message;
-  el.dataset.type = type;
-  el.classList.add("show");
-
-  clearTimeout(window.__toastTimer);
-
-  window.__toastTimer = setTimeout(
-    () => el.classList.remove("show"),
-    3000
-  );
+function toast(t) { $('toast').textContent = t; $('toast').classList.add('show'); clearTimeout(window.tt); window.tt = setTimeout(() => $('toast').classList.remove('show'), 1800); }
+async function api(url, opt = {}) {
+  opt.headers = { ...(opt.headers || {}), 'X-Requested-With': 'XMLHttpRequest' };
+  opt.credentials = 'same-origin';
+  const r = await fetch(url, opt);
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(d.error || 'Ошибка сервера');
+  return d;
 }
-
-
-async function api(path, options = {}) {
-
-  const response = await fetch(path, {
-    ...options,
-
-    credentials: "same-origin",
-
-    cache: "no-store",
-
-    headers: {
-      ...(options.body
-        ? {
-            "Content-Type":
-              "application/json"
-          }
-        : {}),
-
-      ...(options.headers || {})
-    }
-  });
-
-
-  const text =
-    await response.text();
-
-  let data = {};
-
+async function login() {
   try {
-
-    data = text
-      ? JSON.parse(text)
-      : {};
-
-  } catch {
-
-    throw new Error(
-      `Сервер вернул не JSON (${response.status})`
-    );
-
-  }
-
-
-  if (!response.ok) {
-
-    throw new Error(
-      data.error ||
-      `Ошибка сервера: ${response.status}`
-    );
-
-  }
-
-  return data;
+    await api('/api/admin/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: $('lEmail').value.trim(), password: $('lPass').value }) });
+    show();
+  } catch (e) { toast(e.message); }
 }
-
-
-/* =========================
-   LOGIN
-========================= */
-
-async function login(event) {
-
-  if (event) {
-    event.preventDefault();
-  }
-
-  const button =
-    $("loginButton");
-
-  const password =
-    $("password").value.trim();
-
-
-  if (!password) {
-
-    toast(
-      "Введи пароль администратора",
-      "error"
-    );
-
-    $("password").focus();
-
-    return;
-  }
-
-
-  button.disabled = true;
-  button.textContent = "Проверяем…";
-
-
-  try {
-
-    const data =
-      await api(
-        "/api/admin/login",
-        {
-          method: "POST",
-
-          body: JSON.stringify({
-            password
-          })
-        }
-      );
-
-
-    if (!data.ok) {
-
-      throw new Error(
-        "Сервер не подтвердил вход"
-      );
-
-    }
-
-
-    toast(
-      "Вход выполнен",
-      "success"
-    );
-
-
-    await showApp();
-
-  } catch (error) {
-
-    console.error(
-      "ADMIN LOGIN:",
-      error
-    );
-
-    toast(
-      error.message ||
-      "Не удалось войти",
-      "error"
-    );
-
-  } finally {
-
-    button.disabled = false;
-    button.textContent = "Войти";
-
-  }
+async function logout() { try { await api('/api/admin/logout', { method: 'POST' }); } catch {} location.reload(); }
+async function show() {
+  try { await api('/api/admin/me'); $('login').classList.add('hidden'); $('app').classList.remove('hidden'); await loadAll(); }
+  catch { $('app').classList.add('hidden'); $('login').classList.remove('hidden'); }
 }
-
-
-async function showApp() {
-
-  try {
-
-    await api(
-      "/api/admin/me"
-    );
-
-
-    $("login")
-      .classList
-      .add("hidden");
-
-
-    $("app")
-      .classList
-      .remove("hidden");
-
-
-    await loadAll();
-
-  } catch (error) {
-
-    $("login")
-      .classList
-      .remove("hidden");
-
-
-    $("app")
-      .classList
-      .add("hidden");
-
-
-    throw error;
-  }
+function tab(name, el) {
+  document.querySelectorAll('.tab').forEach(x => x.classList.add('hidden'));
+  $(name).classList.remove('hidden');
+  document.querySelectorAll('.tabs button').forEach(x => x.classList.remove('active'));
+  el.classList.add('active');
 }
-
-
-/* =========================
-   TABS
-========================= */
-
-function tab(name, button) {
-
-  document
-    .querySelectorAll(".tab")
-    .forEach(
-      el =>
-        el.classList.add("hidden")
-    );
-
-
-  $(name)
-    .classList
-    .remove("hidden");
-
-
-  document
-    .querySelectorAll(".tabs button")
-    .forEach(
-      el =>
-        el.classList.remove("active")
-    );
-
-
-  button.classList.add("active");
-}
-
-
-/* =========================
-   LOAD
-========================= */
-
 async function loadAll() {
-
-  try {
-
-    const [
-      stats,
-      products,
-      orders,
-      users,
-      about
-    ] = await Promise.all([
-
-      api("/api/admin/stats"),
-
-      api("/api/admin/products"),
-
-      api("/api/admin/orders"),
-
-      api("/api/admin/users"),
-
-      api("/api/admin/about")
-
-    ]);
-
-
-    $("sUsers").textContent =
-      stats.users ?? 0;
-
-    $("sProducts").textContent =
-      stats.products ?? 0;
-
-    $("sOrders").textContent =
-      stats.orders ?? 0;
-
-    $("sRevenue").textContent =
-      money(stats.revenue ?? 0);
-
-
-    renderProducts(
-      products.products || []
-    );
-
-
-    renderOrders(
-      orders.orders || []
-    );
-
-
-    renderUsers(
-      users.users || []
-    );
-
-
-    $("aboutTitle").value =
-      about.title || "";
-
-
-    $("aboutText").value =
-      about.text || "";
-
-
-  } catch (error) {
-
-    console.error(
-      "ADMIN LOAD:",
-      error
-    );
-
-    toast(
-      error.message ||
-      "Не удалось загрузить данные",
-      "error"
-    );
-  }
+  const s = await api('/api/admin/stats');
+  $('sUsers').textContent = s.users; $('sProducts').textContent = s.products; $('sOrders').textContent = s.orders;
+  $('sRevenue').textContent = money(s.revenue); $('sPending').textContent = s.pending;
+  $('pendingPill').textContent = s.pending ? `⏳ ${s.pending} новых заказов` : 'всё обработано';
+  renderProducts((await api('/api/admin/products')).products);
+  renderOrders((await api('/api/admin/orders')).orders);
+  renderUsers((await api('/api/admin/users')).users);
+  const a = await api('/api/me').catch(() => null);
+  const ab = await fetch('/api/about').then(r => r.json());
+  $('aboutTitle').value = ab.title; $('aboutText').value = ab.text; $('aboutUrl').value = ab.supportUrl || '';
 }
-
-
-function money(value) {
-
-  return new Intl.NumberFormat(
-    "ru-RU"
-  ).format(
-    Number(value) || 0
-  ) + " ₽";
-
-}
-
-
-function esc(value) {
-
-  return String(
-    value ?? ""
-  ).replace(
-    /[&<>"']/g,
-    char =>
-      ({
-        "&":"&amp;",
-        "<":"&lt;",
-        ">":"&gt;",
-        '"':"&quot;",
-        "'":"&#39;"
-      })[char]
-  );
-
-}
-
-
-/* =========================
-   PRODUCTS
-========================= */
-
 function renderProducts(list) {
-
-  const box =
-    $("productsList");
-
-
-  box.innerHTML =
-    list.map(p => `
-
-      <div class="row">
-
-        <div class="rowMain">
-
-          ${
-            p.image
-              ? `
-                <img
-                  class="thumb"
-                  src="${esc(p.image)}"
-                  onerror="this.style.display='none'"
-                >
-              `
-              : ""
-          }
-
-          <div>
-
-            <b>
-              ${esc(p.name)}
-            </b>
-
-            <div class="meta">
-              ${money(p.price)}
-              ·
-              ${esc(p.category)}
-              ·
-              ${
-                p.active
-                  ? "активен"
-                  : "скрыт"
-              }
-            </div>
-
-            <div class="meta">
-              ${esc(
-                p.description || ""
-              )}
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <div class="rowActions">
-
-          <button
-            class="btn"
-            onclick='editProduct(${JSON.stringify(p).replace(/'/g, "&#39;")})'
-          >
-            Изменить
-          </button>
-
-
-          ${
-            p.active
-              ? `
-                <button
-                  class="btn danger"
-                  onclick="deleteProduct('${esc(p.id)}')"
-                >
-                  Скрыть
-                </button>
-              `
-              : ""
-          }
-
-        </div>
-
-      </div>
-
-    `).join("")
-
-    ||
-
-    `
-      <div class="empty">
-        Товаров пока нет.
-      </div>
-    `;
+  $('productsList').innerHTML = list.map(p => `<div class="row">
+    ${p.image ? `<img class="thumb" src="${esc(p.image)}">` : '<div class="thumb"></div>'}
+    <div style="flex:1;min-width:0"><b>${esc(p.name)}</b>
+    <div class="meta">${money(p.price)}${p.old_price ? ` · <s>${money(p.old_price)}</s>` : ''} · ${esc(p.category)} · ${esc(p.stock)} · ${p.active ? 'активен' : 'скрыт'}</div></div>
+    <div class="actions"><button class="btn" onclick='editProduct(${JSON.stringify(p).replace(/'/g, "&#39;")})'>Изменить</button>
+    ${p.active ? `<button class="btn danger" onclick="deleteProduct('${p.id}')">Скрыть</button>`
+               : `<button class="btn" onclick="restoreProduct('${p.id}')">Вернуть</button>`}</div></div>`).join('') || '<p style="color:var(--muted)">Товаров нет.</p>';
 }
-
-
+async function uploadImageIfAny(productId) {
+  const f = $('pFile').files[0];
+  if (!f) return null;
+  const fd = new FormData(); fd.append('image', f);
+  const d = await api('/api/admin/products/' + encodeURIComponent(productId) + '/image', { method: 'POST', headers: {}, body: fd });
+  return d.image;
+}
 async function addProduct() {
-
-  const payload = {
-
-    name:
-      $("pName")
-        .value
-        .trim(),
-
-    category:
-      $("pCat").value,
-
-    price:
-      Number(
-        $("pPrice").value
-      ),
-
-    tag:
-      $("pTag")
-        .value
-        .trim(),
-
-    description:
-      $("pDesc")
-        .value
-        .trim(),
-
-    image:
-      $("pImage")
-        .value
-        .trim()
-
-  };
-
-
-  if (!payload.name) {
-
-    return toast(
-      "Укажи название товара",
-      "error"
-    );
-
-  }
-
-
-  if (
-    !Number.isFinite(
-      payload.price
-    ) ||
-    payload.price < 0
-  ) {
-
-    return toast(
-      "Укажи корректную цену",
-      "error"
-    );
-
-  }
-
-
   try {
-
-    await api(
-      "/api/admin/products",
-      {
-        method: "POST",
-
-        body:
-          JSON.stringify(
-            payload
-          )
-      }
-    );
-
-
-    [
-      "pName",
-      "pPrice",
-      "pTag",
-      "pDesc",
-      "pImage"
-    ].forEach(
-      id =>
-        $(id).value = ""
-    );
-
-
-    toast(
-      "Товар добавлен",
-      "success"
-    );
-
-
-    await loadAll();
-
-  } catch (error) {
-
-    toast(
-      error.message,
-      "error"
-    );
-
-  }
+    const b = { name: $('pName').value, category: $('pCat').value, price: Number($('pPrice').value),
+      old_price: $('pOld').value === '' ? null : Number($('pOld').value), tag: $('pTag').value,
+      description: $('pDesc').value, image: $('pImage').value, stock: $('pStock').value };
+    const d = await api('/api/admin/products', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(b) });
+    try { const img = await uploadImageIfAny(d.product.id); if (img) { b.image = img; await api('/api/admin/products/' + d.product.id, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(b) }); } } catch (e) { toast('Товар создан, но картинка не загрузилась: ' + e.message); }
+    ['pName', 'pPrice', 'pOld', 'pTag', 'pDesc', 'pImage', 'pStock', 'pFile'].forEach(id => $(id).value = '');
+    toast('Товар добавлен'); await loadAll();
+  } catch (e) { toast(e.message); }
 }
-
-
-async function editProduct(product) {
-
-  const name =
-    prompt(
-      "Название товара:",
-      product.name
-    );
-
-
-  if (name === null) {
-    return;
-  }
-
-
-  const priceText =
-    prompt(
-      "Цена в ₽:",
-      product.price
-    );
-
-
-  if (priceText === null) {
-    return;
-  }
-
-
-  const price =
-    Number(priceText);
-
-
-  if (
-    !Number.isFinite(price) ||
-    price < 0
-  ) {
-
-    return toast(
-      "Некорректная цена",
-      "error"
-    );
-
-  }
-
-
-  const description =
-    prompt(
-      "Описание:",
-      product.description || ""
-    );
-
-
-  if (description === null) {
-    return;
-  }
-
-
+function editProduct(p) {
+  $('mbox').innerHTML = `<h2>Редактировать товар</h2>
+  <div class="form" style="margin-top:14px">
+  <div class="field"><label>Название</label><input id="eName" value="${esc(p.name)}"></div>
+  <div class="field"><label>Категория</label><input id="eCat" value="${esc(p.category)}"></div>
+  <div class="field"><label>Метка</label><input id="eTag" value="${esc(p.tag)}"></div>
+  <div class="field"><label>Цена ₽</label><input id="ePrice" type="number" step="0.01" value="${p.price}"></div>
+  <div class="field"><label>Старая цена</label><input id="eOld" type="number" step="0.01" value="${p.old_price ?? ''}"></div>
+  <div class="field"><label>Наличие</label><input id="eStock" value="${esc(p.stock)}"></div>
+  <div class="field full"><label>Описание</label><textarea id="eDesc">${esc(p.description)}</textarea></div>
+  <div class="field full"><label>Картинка URL</label><input id="eImage" value="${esc(p.image)}"></div></div>
+  <div class="actions"><button class="btn primary" onclick="saveProduct('${p.id}')">Сохранить</button>
+  <button class="btn" onclick="$('modal').classList.remove('show')">Отмена</button></div>`;
+  $('modal').classList.add('show');
+}
+async function saveProduct(id) {
   try {
-
-    await api(
-      "/api/admin/products/" +
-      encodeURIComponent(
-        product.id
-      ),
-      {
-        method: "PUT",
-
-        body:
-          JSON.stringify({
-            ...product,
-            name:
-              name.trim(),
-            price,
-            description
-          })
-      }
-    );
-
-
-    toast(
-      "Товар сохранён",
-      "success"
-    );
-
-
-    await loadAll();
-
-  } catch (error) {
-
-    toast(
-      error.message,
-      "error"
-    );
-
-  }
+    const b = { name: $('eName').value, category: $('eCat').value, tag: $('eTag').value,
+      price: Number($('ePrice').value), old_price: $('eOld').value === '' ? null : Number($('eOld').value),
+      description: $('eDesc').value, image: $('eImage').value, stock: $('eStock').value };
+    await api('/api/admin/products/' + encodeURIComponent(id), { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(b) });
+    $('modal').classList.remove('show'); toast('Сохранено'); await loadAll();
+  } catch (e) { toast(e.message); }
 }
-
-
-async function deleteProduct(id) {
-
-  if (
-    !confirm(
-      "Скрыть этот товар из каталога?"
-    )
-  ) {
-    return;
-  }
-
-
-  try {
-
-    await api(
-      "/api/admin/products/" +
-      encodeURIComponent(id),
-      {
-        method: "DELETE"
-      }
-    );
-
-
-    toast(
-      "Товар скрыт",
-      "success"
-    );
-
-
-    await loadAll();
-
-  } catch (error) {
-
-    toast(
-      error.message,
-      "error"
-    );
-
-  }
+async function deleteProduct(id) { if (!confirm('Скрыть товар из каталога?')) return; try { await api('/api/admin/products/' + id, { method: 'DELETE' }); toast('Скрыт'); await loadAll(); } catch (e) { toast(e.message); } }
+async function restoreProduct(id) {
+  try { await api('/api/admin/products/' + id, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ active: true }) }); toast('Вернён в каталог'); await loadAll(); } catch (e) { toast(e.message); }
 }
-
-
-/* =========================
-   ORDERS
-========================= */
-
 function renderOrders(list) {
-
-  $("ordersList").innerHTML =
-    list.map(o => `
-
-      <div class="row">
-
-        <div>
-
-          <b>
-            ${esc(o.id)}
-          </b>
-
-          <div class="meta">
-
-            ${esc(
-              o.customer_name ||
-              "Без имени"
-            )}
-
-            ${
-              o.customer_username
-                ? " · @" +
-                  esc(
-                    o.customer_username
-                  )
-                : ""
-            }
-
-          </div>
-
-          <div class="meta">
-
-            ${
-              new Date(
-                o.created_at
-              ).toLocaleString(
-                "ru-RU"
-              )
-            }
-
-          </div>
-
-          <div class="meta">
-
-            ${
-              (o.items || [])
-                .map(
-                  i =>
-                    `${esc(i.name)} × ${i.qty}`
-                )
-                .join(", ")
-            }
-
-          </div>
-
-        </div>
-
-
-        <div class="rowActions">
-
-          <strong>
-            ${money(o.total)}
-          </strong>
-
-          <select
-            onchange="setStatus('${esc(o.id)}', this.value)"
-          >
-
-            ${statusOption(
-              "pending",
-              "Ожидает",
-              o.status
-            )}
-
-            ${statusOption(
-              "paid",
-              "Оплачен",
-              o.status
-            )}
-
-            ${statusOption(
-              "processing",
-              "В работе",
-              o.status
-            )}
-
-            ${statusOption(
-              "completed",
-              "Готов",
-              o.status
-            )}
-
-            ${statusOption(
-              "cancelled",
-              "Отменён",
-              o.status
-            )}
-
-          </select>
-
-        </div>
-
-      </div>
-
-    `).join("")
-
-    ||
-
-    `
-      <div class="empty">
-        Заказов пока нет.
-      </div>
-    `;
+  const st = { pending: 'Ожидает', paid: 'Оплачен', processing: 'В работе', completed: 'Готов', cancelled: 'Отменён' };
+  $('ordersList').innerHTML = list.map(o => `<div class="row"><div style="flex:1;min-width:0">
+    <b>${esc(o.id)}</b> · ${money(o.total)}<div class="meta">${esc(o.customer_name || 'Без имени')} ${esc(o.customer_email || '')} ${esc(o.customer_tg)}</div>
+    <div class="meta">${new Date(o.created_at).toLocaleString('ru-RU')} · ${o.items.map(i => esc(i.name) + ' × ' + i.qty).join(', ')}</div></div>
+    <select onchange="setStatus('${o.id}',this.value)" style="background:#09070d;color:#fff;border:1px solid #352248;border-radius:10px;padding:8px">
+    ${Object.entries(st).map(([v, n]) => `<option value="${v}" ${o.status === v ? 'selected' : ''}>${n}</option>`).join('')}</select></div>`).join('')
+    || '<p style="color:var(--muted)">Заказов нет.</p>';
 }
-
-
-function statusOption(
-  value,
-  label,
-  current
-) {
-
-  return `
-    <option
-      value="${value}"
-      ${
-        value === current
-          ? "selected"
-          : ""
-      }
-    >
-      ${label}
-    </option>
-  `;
-
-}
-
-
-async function setStatus(
-  id,
-  status
-) {
-
-  try {
-
-    await api(
-      "/api/admin/orders/" +
-      encodeURIComponent(id),
-      {
-        method: "PUT",
-
-        body:
-          JSON.stringify({
-            status
-          })
-      }
-    );
-
-
-    toast(
-      "Статус обновлён",
-      "success"
-    );
-
-
-    await loadAll();
-
-  } catch (error) {
-
-    toast(
-      error.message,
-      "error"
-    );
-
-  }
-}
-
-
-/* =========================
-   USERS
-========================= */
-
+async function setStatus(id, status) { try { await api('/api/admin/orders/' + id, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status }) }); toast('Статус обновлён'); await loadAll(); } catch (e) { toast(e.message); } }
 function renderUsers(list) {
-
-  $("usersList").innerHTML =
-    list.map(u => `
-
-      <div class="row">
-
-        <div>
-
-          <b>
-
-            ${esc(
-              [
-                u.first_name,
-                u.last_name
-              ]
-              .filter(Boolean)
-              .join(" ")
-              ||
-              "Без имени"
-            )}
-
-          </b>
-
-          <div class="meta">
-
-            ID
-            ${esc(u.id)}
-
-            ·
-
-            ${
-              u.username
-                ? "@" +
-                  esc(u.username)
-                : "нет username"
-            }
-
-          </div>
-
-        </div>
-
-
-        <div>
-
-          <b>
-            ${u.orders || 0}
-          </b>
-
-          заказов
-
-          <div class="meta">
-
-            ${money(
-              u.spent || 0
-            )}
-
-          </div>
-
-        </div>
-
-      </div>
-
-    `).join("")
-
-    ||
-
-    `
-      <div class="empty">
-        Пользователей пока нет.
-      </div>
-    `;
+  $('usersList').innerHTML = list.map(u => `<div class="row"><div><b>${esc([u.first_name, u.last_name].filter(Boolean).join(' ') || u.email || 'Без имени')}</b>
+    <div class="meta">ID ${u.id} · ${esc(u.email || '')} · ${u.username ? '@' + esc(u.username) : ''} ${u.telegram_id ? '· TG ' + u.telegram_id : ''} ${u.role === 'admin' ? '· 👑' : ''}</div></div>
+    <div><b>${u.orders}</b> заказов<div class="meta">${money(u.spent)}</div></div></div>`).join('') || '<p style="color:var(--muted)">Пользователей нет.</p>';
 }
-
-
-/* =========================
-   ABOUT
-========================= */
-
 async function saveAbout() {
-
-  try {
-
-    await api(
-      "/api/admin/about",
-      {
-        method: "PUT",
-
-        body:
-          JSON.stringify({
-            title:
-              $("aboutTitle").value,
-
-            text:
-              $("aboutText").value
-          })
-      }
-    );
-
-
-    toast(
-      "Раздел сохранён",
-      "success"
-    );
-
-  } catch (error) {
-
-    toast(
-      error.message,
-      "error"
-    );
-
-  }
+  try { await api('/api/admin/about', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ title: $('aboutTitle').value, text: $('aboutText').value, supportUrl: $('aboutUrl').value }) }); toast('Сохранено'); } catch (e) { toast(e.message); }
 }
-
-
-/* =========================
-   START
-========================= */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  async () => {
-
-    $("loginForm")
-      .addEventListener(
-        "submit",
-        login
-      );
-
-
-    $("password")
-      .addEventListener(
-        "keydown",
-        e => {
-
-          if (
-            e.key === "Enter"
-          ) {
-            login(e);
-          }
-
-        }
-      );
-
-
-    try {
-
-      await showApp();
-
-    } catch {
-
-      // Пользователь ещё не авторизован.
-      // Оставляем экран входа.
-
-    }
-
-  }
-);
+$('modal').addEventListener('click', e => { if (e.target.id === 'modal') $('modal').classList.remove('show'); });
+show();
