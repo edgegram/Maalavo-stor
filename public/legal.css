@@ -11,7 +11,12 @@
 #legalReader{position:fixed;inset:0;z-index:300;display:none;background:rgba(5,4,7,.97);backdrop-filter:blur(18px);overflow:auto}
 #legalReader.open{display:block}
 .legal-reader{max-width:820px;margin:0 auto;padding:18px 18px 80px}
-.legal-reader-top{display:none}
+.legal-reader-top{display:none!important}
 .legal-back{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);color:inherit;border-radius:14px;padding:10px 14px;cursor:pointer;font-family:inherit}
 .legal-reader-title{margin:0;font-size:22px;font-weight:900}
 .legal-reader-body{white-space:pre-wrap;line-height:1.65;font-size:14px;color:rgba(255,255,255,.84);font-family:inherit}
+
+/* Legal reader uses the same Maalavo UI without a duplicate document header. */
+.maalavo-legal-head{display:none!important}
+.maalavo-legal-scroll{max-width:820px;margin:0 auto;padding:28px 18px 120px}
+.maalavo-legal-body{white-space:pre-wrap;line-height:1.65;font-size:15px;color:rgba(255,255,255,.84);font-family:inherit}
