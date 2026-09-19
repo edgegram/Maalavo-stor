@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#050507">
+<title>MAALAVO STORE</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="stylesheet" href="css/store.css">
+</head>
+<body>
+<div class="app">
+
+  <div class="splash" id="splash">
+    <div class="splashInner">
+      <div class="brand">MAALAVO STORE</div>
+      <h1><span>Всё</span> <span class="grad">нужное.</span></h1>
+      <p>Цифровые товары: боты, приложения, сайты, плагины, авы и аккаунты — в одном месте.</p>
+      <button class="cta" onclick="enterStore()">За покупками 🛍</button>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <div class="brand">MAALAVO STORE</div>
+    <button class="cartIcon" onclick="openCart()">🛒<b id="cartBadge" class="badge hidden"></b></button>
+  </header>
+
+  <main class="page" id="homePage">
+    <section class="welcome">
+      <div class="hello">Рады видеть тебя здесь</div>
+      <h1><span class="grad">Выбирай своё.</span></h1>
+    </section>
+    <div class="search"><span>⌕</span><input id="search" placeholder="Найти товар..." autocomplete="off"></div>
+    <div class="cats" id="cats"></div>
+    <div class="products" id="products"></div>
+    <section class="about">
+      <div class="aboutLabel">MAALAVO STORE</div>
+      <h3 id="aboutTitle"></h3>
+      <p id="aboutText"></p>
+      <button class="ghost" onclick="openSupport()">Написать в поддержку →</button>
+    </section>
+  </main>
+
+  <main class="page sub" id="favPage">
+    <section class="welcome"><h1><span class="grad">Избранное</span></h1><p class="muted">Товары, которые ты сохранил.</p></section>
+    <div class="products" id="favGrid"></div>
+  </main>
+
+  <main class="page sub" id="profilePage">
+    <section class="welcome"><h1><span class="grad">Профиль</span></h1><p class="muted">Аккаунт и покупки в одном месте.</p></section>
+    <section class="pcard">
+      <div class="avatar" id="pAvatar">Г</div>
+      <div class="pInfo">
+        <div class="pName" id="pName">Гость</div>
+        <div class="pSub" id="pSub">Войди, чтобы сохранять корзину и заказы</div>
+        <div class="pStatus" id="pStatus">Гостевой режим</div>
+      </div>
+    </section>
+    <section class="stats">
+      <div><b id="stOrders">0</b><span>Заказов</span></div>
+      <div><b id="stFavs">0</b><span>Избранное</span></div>
+      <div><b id="stCart">0</b><span>В корзине</span></div>
+    </section>
+    <section class="menu">
+      <button class="mrow" onclick="openCart()"><span>🛒 Корзина</span><b id="mCart">0</b></button>
+      <button class="mrow" onclick="openFavs()"><span>♡ Избранное</span><b id="mFavs">0</b></button>
+      <button class="mrow" onclick="openOrders()"><span>▱ Мои заказы</span><b id="mOrders">0</b></button>
+      <button class="mrow" id="adminRow" style="display:none" onclick="location.href='/admin'"><span>⚙ Админ-панель</span><b>→</b></button>
+      <button class="mrow" id="authRow" onclick="openAuth()"><span>➜ Войти / Регистрация</span><b>›</b></button>
+      <button class="mrow" id="logoutRow" style="display:none" onclick="logout()"><span>⏻ Выйти</span></button>
+    </section>
+  </main>
+
+  <nav class="nav">
+    <button class="active" id="navHome" onclick="screen('home')"><span>⌂</span><small>Главная</small></button>
+    <button id="navFav" onclick="openFavs()"><span>♡</span><small>Избранное</small></button>
+    <button id="navProfile" onclick="screen('profile')"><span>♙</span><small>Профиль</small></button>
+    <button onclick="openSupport()"><span>✦</span><small>Поддержка</small></button>
+  </nav>
+
+  <div class="overlay" id="overlay"><div class="sheet" id="sheet"></div></div>
+  <div class="toast" id="toast"></div>
+</div>
+<script src="js/store.js"></script>
+</body>
+</html>
