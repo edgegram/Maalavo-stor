@@ -6,3 +6,6 @@ body:has(#settingsPage.open) .bottom-nav{display:flex!important;visibility:visib
 body:has(#settingsPage.open) .bottom-nav .nav-item[data-page="settings"]{display:flex!important;visibility:visible!important}
 body:has(#legalReader.open) .bottom-nav{display:none!important}
 #settingsPage.open .maalavo-settings-scroll{padding-bottom:calc(125px + env(safe-area-inset-bottom))!important}
+
+/* SETTINGS CLEANUP: корзина и избранное уже доступны в профиле */
+#settingsPage.open .maalavo-setting[data-setting="cart"],#settingsPage.open .maalavo-setting[data-setting="favorites"]{display:none!important}
