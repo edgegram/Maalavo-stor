@@ -3,7 +3,7 @@ name: Materialize Maalavo Store V31
 on:
   push:
     paths:
-      - 'deploy/v31.tar.gz.b64'
+      - 'deploy/v31.parts/**'
 
 permissions:
   contents: write
@@ -21,9 +21,9 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p /tmp/maalavo-v31
-          base64 -d deploy/v31.tar.gz.b64 | tar -xzf - -C /tmp/maalavo-v31
+          cat deploy/v31.parts/part-* | base64 -d | tar -xzf - -C /tmp/maalavo-v31
           cp -a /tmp/maalavo-v31/. .
-          rm -f deploy/v31.tar.gz.b64
+          rm -rf deploy/v31.parts
 
       - name: Commit V31
         shell: bash
