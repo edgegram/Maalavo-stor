@@ -1,8 +1,0 @@
-{
-  "name": "maalavo-store-backend",
-  "version": "31.0.0",
-  "private": true,
-  "type": "module",
-  "scripts": {"start":"node src/server.js","migrate":"node scripts/migrate.js","seed:admin":"node scripts/seed-admin.js"},
-  "dependencies": {"cors":"^2.8.5","dotenv":"^16.4.5","express":"^4.21.1","jsonwebtoken":"^9.0.2","pg":"^8.13.1"}
-}
