@@ -1,1 +1,0 @@
-import dotenv from "dotenv";dotenv.config();if(!process.env.ADMIN_LOGIN||!process.env.ADMIN_PASSWORD)throw new Error("ADMIN_LOGIN and ADMIN_PASSWORD are required");console.log(`Admin configured: ${process.env.ADMIN_LOGIN}`);
