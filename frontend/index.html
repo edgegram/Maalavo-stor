@@ -1,14 +1,135 @@
 <!DOCTYPE html>
+
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" name="viewport"/>
+<meta content="#0b090d" name="theme-color"/>
+<meta content="dark" name="color-scheme"/>
 <title>Maalavo Store</title>
-<link rel="stylesheet" href="css/style.css">
+<link href="css/style.css" rel="stylesheet"/>
 </head>
 <body>
-<!-- V31 frontend source -->
+<div class="app">
+<div class="welcome-screen" id="welcomeScreen" aria-hidden="false">
+<span class="welcome-pay">pay</span>
+
+  <div class="welcome-background" aria-hidden="true">
+    <div class="welcome-glow welcome-glow-a"></div>
+    <div class="welcome-glow welcome-glow-b"></div>
+    <div class="welcome-grid"></div>
+    <div class="welcome-wave welcome-wave-one"></div>
+    <div class="welcome-wave welcome-wave-two"></div>
+    <div class="welcome-wave welcome-wave-three"></div>
+  </div>
+
+  <div class="welcome-shell" role="dialog" aria-modal="true" aria-labelledby="welcomeTitle">
+    <header class="welcome-header">
+      <div class="welcome-brand-mark" aria-hidden="true"><span>M</span></div>
+      <div class="welcome-brand-wrap">
+        <div class="welcome-brand-main">MAALAVO</div>
+        <div class="welcome-brand-sub">STORE</div>
+      </div>
+    </header>
+
+    <main class="welcome-content">
+      <div class="welcome-eyebrow">DIGITAL STORE</div>
+      <h1 id="welcomeTitle">Добро<br>пожаловать.</h1>
+      <p>Всё нужное для твоих проектов — цифровые товары, готовые решения и полезные сервисы в одном месте.</p>
+      <button class="welcome-enter" id="enterStoreButton" type="button">Войти в магазин</button>
+    </main>
+
+    <footer class="welcome-footer">
+      <span>MAALAVO</span><i></i><span>DIGITAL GOODS</span>
+    </footer>
+  </div>
+</div>
+
+<div class="store-app" id="storeApp" aria-hidden="true">
+  <header class="topbar">
+    <div class="brand">Maalavo Store</div>
+    <button class="cart-button" id="cartButton" type="button">🛒 Корзина <span id="cartCount">0</span></button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow">DIGITAL PRODUCTS & SERVICES</div>
+      <h2>Всё для твоих<br>цифровых проектов.</h2>
+      <p>Боты, сайты, веб-приложения, плагины, автоматизация и разработка цифровых решений под задачу.</p>
+    </section>
+
+    <section class="catalog" id="catalog">
+      <div class="catalog-head">
+        <div>
+          <div class="section-kicker">КАТАЛОГ</div>
+          <h2>Товары и услуги</h2>
+        </div>
+        <input id="searchInput" type="search" placeholder="Найти товар или категорию" autocomplete="off">
+      </div>
+      <div class="filters" id="filters"></div>
+      <div class="products-grid" id="productsGrid"></div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Навигация">
+    <button class="nav-item active" data-section="home" type="button"><span>⌂</span><small>Главная</small></button>
+    <button class="nav-item" data-section="favorites" type="button"><span>♡</span><small>Избранное</small></button>
+    <button class="nav-item" data-section="profile" type="button"><span>♙</span><small>Профиль</small></button>
+    <button class="nav-item" data-section="settings" type="button"><span>⚙</span><small>Настройки</small></button>
+  </nav>
+</div>
+
+<div class="modal" id="productModal" aria-hidden="true">
+  <div class="modal-backdrop" data-close-modal></div>
+  <div class="modal-card">
+    <button class="modal-close" data-close-modal type="button">×</button>
+    <img id="modalProductImage" alt="">
+    <div class="section-kicker" id="modalProductCategory"></div>
+    <h2 id="modalProductTitle"></h2>
+    <p id="modalProductDescription"></p>
+    <div class="modal-price" id="modalProductPrice"></div>
+    <button class="primary-button" id="modalAddButton" type="button">Добавить в корзину</button>
+  </div>
+</div>
+
+<div class="modal" id="cartModal" aria-hidden="true">
+  <div class="modal-backdrop" data-close-cart></div>
+  <div class="modal-card cart-card">
+    <button class="modal-close" data-close-cart type="button">×</button>
+    <div class="section-kicker">ВАШ ЗАКАЗ</div>
+    <h2>Корзина</h2>
+    <div id="cartItems"></div>
+    <div class="cart-total"><span>Итого</span><strong id="cartTotal">0 ₽</strong></div>
+    <button class="primary-button" id="checkoutButton" type="button">Оформить заказ</button>
+  </div>
+</div>
+
+<div class="modal" id="profileModal" aria-hidden="true">
+  <div class="modal-backdrop" data-close-profile></div>
+  <div class="modal-card">
+    <button class="modal-close" data-close-profile type="button">×</button>
+    <div class="profile-card">
+      <div class="profile-avatar" id="profileAvatar">M</div>
+      <div>
+        <div class="section-kicker">АККАУНТ MAALAVO</div>
+        <h2 id="profileName">Гость</h2>
+        <p id="profileUsername">@не указан</p>
+      </div>
+    </div>
+    <div class="profile-meta">
+      <div><small>USER ID</small><strong id="profileId">Не подключён</strong></div>
+      <div><small>USERNAME</small><strong id="profileUsernameMeta">Не указан</strong></div>
+      <div><small>НОМЕР АККАУНТА</small><strong id="profileAccountNumber">—</strong></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" aria-live="polite">
+  <div class="toast-title" id="toastTitle"></div>
+  <div class="toast-subtitle" id="toastSubtitle"></div>
+</div>
+</div>
 <script src="js/config.js"></script>
-<script src="js/app.js"></script>
+<script defer="" src="js/app.js"></script>
 </body>
 </html>
