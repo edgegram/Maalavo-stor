@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" name="viewport"/>
+<meta content="#0b090d" name="theme-color"/>
+<meta content="dark" name="color-scheme"/>
+<title>Maalavo Store</title>
+<link href="frontend/css/style.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="app">
+<div class="welcome-screen" id="welcomeScreen" aria-hidden="false">
+<span class="welcome-pay">pay</span>
+
+  <div class="welcome-background" aria-hidden="true">
+    <div class="welcome-glow welcome-glow-a"></div>
+    <div class="welcome-glow welcome-glow-b"></div>
+    <div class="welcome-grid"></div>
+    <div class="welcome-wave welcome-wave-one"></div>
+    <div class="welcome-wave welcome-wave-two"></div>
+    <div class="welcome-wave welcome-wave-three"></div>
+  </div>
+
+  <div class="welcome-shell" role="dialog" aria-modal="true" aria-labelledby="welcomeTitle">
+    <header class="welcome-header">
+      <div class="welcome-brand-mark" aria-hidden="true"><span>M</span></div>
+      <div class="welcome-brand-wrap">
+        <div class="welcome-brand-main">MAALAVO</div>
+        <div class="welcome-brand-sub">STORE</div>
+      </div>
+    </header>
+
+    <main class="welcome-content">
+      <div class="welcome-pill">DIGITAL STORE</div>
+      <h1 class="welcome-title" id="welcomeTitle">Добро<br/>пожаловать.</h1>
+      <p class="welcome-text">Всё нужное для твоих проектов — цифровые товары, готовые решения и полезные сервисы в одном месте.</p>
+    </main>
+
+    <button class="welcome-start" id="welcomeStart" type="button">
+      <span class="welcome-start-label">Войти в магазин</span>
+    </button>
+
+    <footer class="welcome-footer" aria-hidden="true">
+      <span></span><b>MAALAVO</b><i>•</i><b>DIGITAL GOODS</b><span></span>
+    </footer>
+  </div>
+</div>
+<!-- =====================================================
+     HOME
+===================================================== -->
+<div class="page-scroll" id="pageScroll">
+<header class="header">
+<div class="brand">
+<div class="brand-logo">
+<span>M</span>
+</div>
+<div>
+<h1 class="brand-name">
+                Maalavo Store
+            </h1>
+<p class="brand-description">
+                Боты, сайты, веб-приложения, плагины
+                и разработка цифровых решений под задачу.
+                Ассортимент будет постепенно пополняться.
+            </p>
+</div>
+</div>
+<div class="search">
+<div class="search-icon"></div>
+<input autocomplete="off" id="searchInput" placeholder="Найти товар или категорию..." type="search"/>
+</div>
+</header>
+<div class="categories">
+<button class="category active" data-category="all">
+        Все
+    </button>
+<button class="category" data-category="bots">
+        Боты
+    </button>
+<button class="category" data-category="web">
+        Веб
+    </button>
+<button class="category" data-category="sites">
+        Сайты
+    </button>
+<button class="category" data-category="plugins">
+        Плагины
+    </button>
+<button class="category" data-category="services">
+        Сервисы
+    </button>
+<button class="category" data-category="integrations">Интеграции</button>
+<button class="category" data-category="automation">Автоматизация</button>
+<button class="category" data-category="design">Дизайн</button>
+</div>
+<main class="content">
+<div class="products" id="products">
+<!-- PRODUCT 1 -->
+<article class="product" data-category="bots" data-full-description="Готовый Telegram-бот под ваши задачи. Разработка логики, кнопок, команд и необходимых функций. Подходит для автоматизации процессов, общения с пользователями, приёма заявок и других задач." data-id="telegram-bot" data-search="telegram bot бот боты телеграм">
+<div class="product-image">
+<img alt="" src="frontend/assets/products/telegram-bot.png"/>
+</div>
+<button aria-label="Избранное" class="favorite" type="button">
+<svg viewbox="0 0 24 24">
+<path d="M20.8 8.9c0 5.5-8.8 10.3-8.8 10.3S3.2 14.4 3.2 8.9A4.7 4.7 0 0 1 12 6.1a4.7 4.7 0 0 1 8.8 2.8Z"></path>
+</svg>
+</button>
+<div class="product-body">
+<div class="badge">
+            Боты
+        </div>
+<h2 class="product-title">
+            Telegram Bot
+        </h2>
+<p class="product-description">
+            Готовый Telegram-бот под ваши задачи.
+        </p>
+<div class="product-bottom">
+<div class="price">
+                от 1 500 ₽
+            </div>
+<button aria-label="Добавить в корзину" class="cart" type="button">
+<svg viewbox="0 0 24 24">
+<path d="M6 7h12l1 13H5L6 7Z"></path>
+<path d="M9 7a3 3 0 0 1 6 0"></path>
+</svg>
+</button>
+</div>
+</div>
+</article>
+<!-- PRODUCT 2 -->
+<article class="product" data-category="web" data-full-description="Современное веб-приложение с адаптацией под телефон, планшет и компьютер. Интерфейс можно сделать под конкретный проект, добавить нужные страницы, формы, функции и интерактивные элементы." data-id="web-app" data-search="веб web приложение веб-приложение">
+<div class="product-image">
+<img alt="" src="frontend/assets/products/web-app.png"/>
+</div>
+<button aria-label="Избранное" class="favorite" type="button">
+<svg viewbox="0 0 24 24">
+<path d="M20.8 8.9c0 5.5-8.8 10.3-8.8 10.3S3.2 14.4 3.2 8.9A4.7 4.7 0 0 1 12 6.1a4.7 4.7 0 0 1 8.8 2.8Z"></path>
+</svg>
+</button>
+<div class="product-body">
+<div class="badge">
+            Веб
+        </div>
+<h2 class="product-title">
+            Веб-приложение
+        </h2>
+<p class="product-description">
+            Современное приложение с адаптацией под телефон.
+        </p>
+<div class="product-bottom">
+<div class="price">
+                от 3 000 ₽
+            </div>
+<button aria-label="Добавить в корзину" class="cart" type="button">
+<svg viewbox="0 0 24 24">
+<path d="M6 7h12l1 13H5L6 7Z"></path>
+<path d="M9 7a3 3 0 0 1 6 0"></path>
+</svg>
+</button>
+</div>
+</div>
+</article>
+<!-- PRODUCT 3 -->
+<article class="product" data-category="sites" data-full-description="Полноценный современный сайт под ваш проект. Продумываем структуру, внешний вид, адаптацию под мобильные устройства и необходимые интерактивные элементы. Сайт может быть информационным, коммерческим или презентационным." data-id="website" data-search="сайт сайты website веб сайт под ключ">
+<div class="product-image">
+<img alt="" src="frontend/assets/products/website.png"/>
+</div>
+<button aria-label="Избранное" class="favorite" type="button">
+<svg viewbox="0 0 24 24">
+<path d="M20.8 8.9c0 5.5-8.8 10.3-8.8 10.3S3.2 14.4 3.2 8.9A4.7 4.7 0 0 1 12 6.1a4.7 4.7 0 0 1 8.8 2.8Z"></path>
+</svg>
+</button>
+<div class="product-body">
+<div class="badge">
+            Сайты
+        </div>
+<h2 class="product-title">
+            Сайт под ключ
+        </h2>
+<p class="product-description">
+            Полноценный современный сайт под ваш проект.
+        </p>
+<div class="product-bottom">
+<div class="price">
+                от 5 000 ₽
+            </div>
+<button aria-label="Добавить в корзину" class="cart" type="button">
+<svg viewbox="0 0 24 24">
+<path d="M6 7h12l1 13H5L6 7Z"></path>
+<path d="M9 7a3 3 0 0 1 6 0"></path>
+</svg>
+</button>
+</div>
+</div>
+</article>
+<!-- PRODUCT 4 -->
+<article class="product" data-category="plugins" data-full-description="Кастомный плагин с функциями под ваш Telegram. Реализуем необходимые возможности, настраиваем интерфейс и логику работы плагина под конкретную задачу." data-id="plugin" data-search="plugin плагины плагин telegram plugin">
+<div class="product-image">
+<img alt="" src="frontend/assets/products/plugin.png"/>
+</div>
+<button aria-label="Избранное" class="favorite" type="button">
+<svg viewbox="0 0 24 24">
+<path d="M20.8 8.9c0 5.5-8.8 10.3-8.8 10.3S3.2 14.4 3.2 8.9A4.7 4.7 0 0 1 12 6.1a4.7 4.7 0 0 1 8.8 2.8Z"></path>
+</svg>
+</button>
+<div class="product-body">
+<div class="badge">
+            Плагины
+        </div>
+<h2 class="product-title">
+            Telegram Plugin
+        </h2>
+<p class="product-description">
+            Кастомный плагин с функциями под ваш Telegram.
+        </p>
+<div class="product-bottom">
+<div class="price">
+                от 1 000 ₽
+            </div>
+<button aria-label="Добавить в корзину" class="cart" type="button">
+<svg viewbox="0 0 24 24">
+<path d="M6 7h12l1 13H5L6 7Z"></path>
+<path d="M9 7a3 3 0 0 1 6 0"></path>
+</svg>
+</button>
+</div>
+</div>
+</article>
+<!-- PRODUCT 5 -->
+<article class="product" data-category="services" data-full-description="Поиск и исправление проблем в сайтах, веб-приложениях, веб-сервисах и Telegram-ботах. Разбираем ошибку, находим причину, вносим исправление и проверяем результат. Работа выполняется в веб-среде: APK, EXE и IPA-сборки не входят в услугу." data-id="bug-fix" data-search="ошибки баги исправление баг фиксы debug ремонт сайта веб приложения telegram бот">
+<div class="product-image"><img alt="Исправление ошибок" src="frontend/assets/products/bug-fix.png"/></div>
+<button aria-label="Избранное" class="favorite" type="button"><svg viewbox="0 0 24 24"><path d="M20.8 8.9c0 5.5-8.8 10.3-8.8 10.3S3.2 14.4 3.2 8.9A4.7 4.7 0 0 1 12 6.1a4.7 4.7 0 0 1 8.8 2.8Z"></path></svg></button>
+<div class="product-body"><div class="badge">Сервисы</div><h2 class="product-title">Исправление ошибок</h2><p class="product-description">Исправление проблем в сайтах, веб-приложениях и Telegram-ботах.</p><div class="product-bottom"><div class="price">от 800 ₽</div><button aria-label="Добавить в корзину" class="cart" type="button"><svg viewbox="0 0 24 24"><path d="M6 7h12l1 13H5L6 7Z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg></button></div></div>
+</article>
+<!-- PRODUCT 6 -->
+<article class="product" data-category="services" data-full-description="Настройка, доработка и разработка цифровых решений. Можно доработать существующий проект, исправить ошибки, добавить новые функции или разработать решение с нуля под ваши требования." data-id="service" data-search="сервис сервисы разработка настройка доработка">
+<div class="product-image">
+<img alt="" src="frontend/assets/products/service.png"/>
+</div>
+<button aria-label="Избранное" class="favorite" type="button">
+<svg viewbox="0 0 24 24">
+<path d="M20.8 8.9c0 5.5-8.8 10.3-8.8 10.3S3.2 14.4 3.2 8.9A4.7 4.7 0 0 1 12 6.1a4.7 4.7 0 0 1 8.8 2.8Z"></path>
+</svg>
+</button>
+<div class="product-body">
+<div class="badge">
+            Сервисы
+        </div>
+<h2 class="product-title">
+            Разработка
+        </h2>
+<p class="product-description">
+            Настройка, доработка и разработка цифровых решений.
+        </p>
+<div class="product-bottom">
+<div class="price">
+                от 1 000 ₽
+            </div>
+<button aria-label="Добавить в корзину" class="cart" type="button">
+<svg viewbox="0 0 24 24">
+<path d="M6 7h12l1 13H5L6 7Z"></path>
+<path d="M9 7a3 3 0 0 1 6 0"></path>
+</svg>
+</button>
+</div>
+</div>
+</article>
+<!-- PRODUCT 7 -->
+<article class="product" data-category="sites" data-full-description="Одностраничный сайт для услуги, продукта или запуска: структура, адаптивная верстка, формы и понятные призывы к действию. Работа выполняется как веб-сайт, который открывается в браузере; APK, EXE и IPA-сборки не делаем." data-id="landing-page" data-search="лендинг landing page одностраничный сайт посадочная страница">
+<div class="product-image"><img alt="Лендинг" src="frontend/assets/products/landing-page.png"/></div><button aria-label="Избранное" class="favorite" type="button"><svg viewbox="0 0 24 24"><path d="M20.8 8.9c0 5.5-8.8 10.3-8.8 10.3S3.2 14.4 3.2 8.9A4.7 4.7 0 0 1 12 6.1a4.7 4.7 0 0 1 8.8 2.8Z"></path></svg></button><div class="product-body"><div class="badge">Сайты</div><h2 class="product-title">Лендинг</h2><p class="product-description">Современный сайт в браузере под услугу, продукт или проект.</p><div class="product-bottom"><div class="price">от 3 500 ₽</div><button aria-label="Добавить в корзину" class="cart" type="button"><svg viewbox="0 0 24 24"><path d="M6 7h12l1 13H5L6 7Z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg></button></div></div></article>
+<!-- PRODUCT 8 -->
+<article class="product" data-category="web" data-full-description="Веб-панель для управления товарами, заказами или внутренними процессами проекта: таблицы, фильтры, формы, статусы и нужные действия. Панель работает в браузере; отдельные APK, EXE и IPA-сборки не требуются и не входят в услугу." data-id="admin-panel" data-search="админ панель dashboard панель управления личный кабинет">
+<div class="product-image"><img alt="Админ-панель" src="frontend/assets/products/admin-panel.png"/></div><button aria-label="Избранное" class="favorite" type="button"><svg viewbox="0 0 24 24"><path d="M20.8 8.9c0 5.5-8.8 10.3-8.8 10.3S3.2 14.4 3.2 8.9A4.7 4.7 0 0 1 12 6.1a4.7 4.7 0 0 1 8.8 2.8Z"></path></svg></button><div class="product-body"><div class="badge">Веб</div><h2 class="product-title">Админ-панель</h2><p class="product-description">Удобная панель управления сайтом, заказами, товарами и данными.</p><div class="product-bottom"><div class="price">от 5 000 ₽</div><button aria-label="Добавить в корзину" class="cart" type="button"><svg viewbox="0 0 24 24"><path d="M6 7h12l1 13H5L6 7Z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg></button></div></div></article>
+<!-- PRODUCT 9 -->
+<article class="product" data-category="integrations" data-full-description="Подключение внешних API и сервисов к сайту, веб-приложению или Telegram-боту: формы, уведомления, обмен данными и обработка событий. Работа ведётся с веб-сервисами и API; APK, EXE и IPA-сборки не разрабатываем." data-id="api-integration" data-search="api интеграция api integration webhook подключение сервисов">
+<div class="product-image"><img alt="API-интеграция" src="frontend/assets/products/api-integration.png"/></div><button aria-label="Избранное" class="favorite" type="button"><svg viewbox="0 0 24 24"><path d="M20.8 8.9c0 5.5-8.8 10.3-8.8 10.3S3.2 14.4 3.2 8.9A4.7 4.7 0 0 1 12 6.1a4.7 4.7 0 0 1 8.8 2.8Z"></path></svg></button><div class="product-body"><div class="badge">Интеграции</div><h2 class="product-title">API-интеграция</h2><p class="product-description">Подключим сайт, веб-приложение или бота к нужному API.</p><div class="product-bottom"><div class="price">от 1 500 ₽</div><button aria-label="Добавить в корзину" class="cart" type="button"><svg viewbox="0 0 24 24"><path d="M6 7h12l1 13H5L6 7Z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg></button></div></div></article>
+<!-- PRODUCT 10 -->
+<article class="product" data-category="automation" data-full-description="Автоматизация повторяющихся действий в сайтах, веб-приложениях и онлайн-сервисах: обработка заявок, уведомления, перенос данных и другие рабочие сценарии. Решения запускаются в веб-среде или через онлайн-сервисы; APK, EXE и IPA-сборки не делаем." data-id="automation" data-search="автоматизация процессы скрипт workflow обработка">
+<div class="product-image"><img alt="Автоматизация" src="frontend/assets/products/automation.png"/></div><button aria-label="Избранное" class="favorite" type="button"><svg viewbox="0 0 24 24"><path d="M20.8 8.9c0 5.5-8.8 10.3-8.8 10.3S3.2 14.4 3.2 8.9A4.7 4.7 0 0 1 12 6.1a4.7 4.7 0 0 1 8.8 2.8Z"></path></svg></button><div class="product-body"><div class="badge">Автоматизация</div><h2 class="product-title">Автоматизация</h2><p class="product-description">Автоматизируем рутину на сайте, в веб-приложении и онлайн-сервисах.</p><div class="product-bottom"><div class="price">от 2 000 ₽</div><button aria-label="Добавить в корзину" class="cart" type="button"><svg viewbox="0 0 24 24"><path d="M6 7h12l1 13H5L6 7Z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg></button></div></div></article>
+<!-- PRODUCT 11 -->
+<article class="product" data-category="design" data-full-description="Редизайн интерфейса сайта или веб-приложения: структура экранов, визуальная система, карточки, формы, состояния и адаптация под разные размеры экрана. Речь именно о веб-интерфейсе в браузере; APK, EXE и IPA-сборки не делаем." data-id="ui-redesign" data-search="дизайн ui ux редизайн интерфейс сайта веб приложения">
+<div class="product-image"><img alt="UI UX дизайн" src="frontend/assets/products/ui-redesign.png"/></div><button aria-label="Избранное" class="favorite" type="button"><svg viewbox="0 0 24 24"><path d="M20.8 8.9c0 5.5-8.8 10.3-8.8 10.3S3.2 14.4 3.2 8.9A4.7 4.7 0 0 1 12 6.1a4.7 4.7 0 0 1 8.8 2.8Z"></path></svg></button><div class="product-body"><div class="badge">Дизайн</div><h2 class="product-title">UI/UX редизайн</h2><p class="product-description">Переделаем веб-интерфейс, чтобы им было проще и приятнее пользоваться.</p><div class="product-bottom"><div class="price">от 2 500 ₽</div><button aria-label="Добавить в корзину" class="cart" type="button"><svg viewbox="0 0 24 24"><path d="M6 7h12l1 13H5L6 7Z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg></button></div></div></article>
+<!-- PRODUCT 12 -->
+<article class="product" data-category="automation" data-full-description="Веб-инструмент для обработки данных: CSV и JSON, фильтрация, очистка, массовое переименование и другие повторяющиеся операции. Решение работает через браузер или веб-сервис; APK, EXE и IPA-сборки не делаем." data-id="data-tool" data-search="обработка данных csv json таблицы скрипт конвертер">
+<div class="product-image"><img alt="Инструмент для данных" src="frontend/assets/products/data-tool.png"/></div><button aria-label="Избранное" class="favorite" type="button"><svg viewbox="0 0 24 24"><path d="M20.8 8.9c0 5.5-8.8 10.3-8.8 10.3S3.2 14.4 3.2 8.9A4.7 4.7 0 0 1 12 6.1a4.7 4.7 0 0 1 8.8 2.8Z"></path></svg></button><div class="product-body"><div class="badge">Автоматизация</div><h2 class="product-title">Инструмент для данных</h2><p class="product-description">Веб-инструмент для обработки и преобразования данных без ручной рутины.</p><div class="product-bottom"><div class="price">от 1 500 ₽</div><button aria-label="Добавить в корзину" class="cart" type="button"><svg viewbox="0 0 24 24"><path d="M6 7h12l1 13H5L6 7Z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg></button></div></div></article>
+</div>
+</main>
+</div>
+<!-- =====================================================
+     FAVORITES
+===================================================== -->
+<section aria-hidden="true" class="favorites-page" id="favoritesPage">
+<div class="favorites-scroll" id="favoritesScroll">
+<header class="favorites-header">
+<h1 class="favorites-title">
+                Избранное
+            </h1>
+<p class="favorites-subtitle" id="favoritesSubtitle">
+                Сохранённые товары
+            </p>
+</header>
+<main class="favorites-content">
+<div class="products" id="favoritesProducts"></div>
+<div class="favorites-empty" id="favoritesEmpty">
+<div class="favorites-empty-icon">
+<svg viewbox="0 0 24 24">
+<path d="M20.8 8.9c0 5.5-8.8 10.3-8.8 10.3S3.2 14.4 3.2 8.9A4.7 4.7 0 0 1 12 6.1a4.7 4.7 0 0 1 8.8 2.8Z"></path>
+</svg>
+</div>
+<h2 class="favorites-empty-title">
+                    Пока здесь пусто
+                </h2>
+<p class="favorites-empty-text">
+                    Добавляйте понравившиеся товары
+                    в избранное, и они появятся здесь.
+                </p>
+</div>
+</main>
+</div>
+</section>
+<!-- =====================================================
+     PROFILE
+===================================================== -->
+<section aria-hidden="true" class="profile-page" id="profilePage">
+<div class="profile-scroll" id="profileScroll">
+<header class="profile-header">
+<div class="profile-kicker">MAALAVO STORE</div>
+<div class="profile-heading-row">
+<div>
+<h1 class="profile-heading">Профиль</h1>
+<p class="profile-subheading">Управляйте заказами и разделами магазина.</p>
+</div>
+<span class="profile-online"><span></span>Онлайн</span>
+</div>
+</header>
+<main class="profile-main">
+<section aria-label="Профиль пользователя" class="profile-user-card" id="profileUserCard">
+<div class="profile-user-top">
+<div class="profile-avatar profile-avatar-image" id="profileAvatar" aria-hidden="true">
+<span id="profileAvatarFallback">M</span>
+<img id="profileAvatarImage" alt="" hidden>
+</div>
+<div class="profile-user-copy">
+<h2 id="profileDisplayName">Гость</h2>
+<p class="profile-username" id="profileUsername">@не указан</p>
+</div>
+</div>
+<div class="profile-user-meta">
+<div class="profile-user-meta-item">
+<span>USER ID</span>
+<strong id="profileUserId">Не подключён</strong>
+</div>
+<div class="profile-user-meta-item">
+<span>USERNAME</span>
+<strong id="profileUsernameMeta">Не указан</strong>
+</div>
+<div class="profile-user-meta-item profile-account-number">
+<span>НОМЕР АККАУНТА</span>
+<strong id="profileAccountNumber">—</strong>
+</div>
+</div>
+</section>
+<div class="profile-section-label">РАЗДЕЛЫ</div>
+<section aria-label="Разделы профиля" class="profile-actions profile-actions-main">
+<button class="profile-action-card profile-cart-card" id="profileCartButton" data-profile-screen="cart" type="button">
+    <span class="profile-action-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 8h14v11H5z"></path>
+            <path d="M8 8a4 4 0 0 1 8 0"></path>
+            <path d="M9 13h6"></path>
+        </svg>
+    </span>
+    <span class="profile-action-copy">
+        <strong>Корзина</strong>
+        <small id="profileCartDescription">Корзина пуста</small>
+    </span>
+    <span class="profile-action-arrow">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m9 5 7 7-7 7"></path>
+        </svg>
+    </span>
+</button>
+
+<button class="profile-action-card" data-profile-screen="orders" type="button">
+<span class="profile-action-icon"><svg viewBox="0 0 24 24"><path d="M6 4h12v16H6z"></path><path d="M9 8h6M9 12h6M9 16h4"></path></svg></span>
+<span class="profile-action-copy"><strong>Мои заказы</strong><small>История ваших заказов</small></span>
+<span class="profile-action-arrow"><svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"></path></svg></span>
+</button>
+<button class="profile-action-card" data-profile-screen="purchases" type="button">
+<span class="profile-action-icon"><svg viewBox="0 0 24 24"><path d="M5 8h14v11H5z"></path><path d="M8 8a4 4 0 0 1 8 0"></path><path d="M9 13h6"></path></svg></span>
+<span class="profile-action-copy"><strong>Мои покупки</strong><small>Купленные товары</small></span>
+<span class="profile-action-arrow"><svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"></path></svg></span>
+</button>
+<button class="profile-action-card" data-profile-screen="notifications" type="button">
+<span class="profile-action-icon"><svg viewBox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z"></path><path d="M10 21h4"></path></svg></span>
+<span class="profile-action-copy"><strong>Уведомления</strong><small>Статусы и обновления</small></span>
+<span class="profile-action-arrow"><svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"></path></svg></span>
+</button>
+<button class="profile-action-card" data-profile-screen="messages" type="button">
+<span class="profile-action-icon"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 3V5Z"></path><path d="M8 9h8M8 12h5"></path></svg></span>
+<span class="profile-action-copy"><strong>Сообщения</strong><small>Сообщения по заказам</small></span>
+<span class="profile-action-arrow"><svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"></path></svg></span>
+</button>
+<button class="profile-action-card" data-profile-screen="services" type="button">
+<span class="profile-action-icon"><svg viewBox="0 0 24 24"><path d="M5 7h14v12H5z"></path><path d="M8 7V5h8v2M9 11h6M9 15h4"></path></svg></span>
+<span class="profile-action-copy"><strong>Мои услуги</strong><small>Заявки на разработку</small></span>
+<span class="profile-action-arrow"><svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"></path></svg></span>
+</button>
+<button class="profile-action-card" data-profile-screen="materials" type="button">
+<span class="profile-action-icon"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"></path><path d="M15 3v4h4M9 12h6M9 16h4"></path></svg></span>
+<span class="profile-action-copy"><strong>Материалы</strong><small>Файлы и результаты</small></span>
+<span class="profile-action-arrow"><svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"></path></svg></span>
+</button>
+<button class="profile-action-card" data-profile-screen="status" type="button">
+<span class="profile-action-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><path d="M12 8v5l3 2"></path></svg></span>
+<span class="profile-action-copy"><strong>Статус заказа</strong><small>Текущий статус заказа</small></span>
+<span class="profile-action-arrow"><svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"></path></svg></span>
+</button>
+<button class="profile-action-card" data-profile-screen="feedback" type="button">
+<span class="profile-action-icon"><svg viewBox="0 0 24 24"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z"></path></svg></span>
+<span class="profile-action-copy"><strong>Оценить заказ</strong><small>Отзыв о заказе</small></span>
+<span class="profile-action-arrow"><svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"></path></svg></span>
+</button>
+</section>
+</main>
+</div>
+</section>
+<!-- =====================================================
+     SETTINGS
+===================================================== -->
+<section aria-hidden="true" class="settings-page" id="settingsPage">
+<div class="settings-scroll" id="settingsScroll">
+<header class="settings-header">
+<div>
+<h1 class="profile-heading">Настройки</h1>
+<p class="profile-subheading">Параметры приложения, уведомления и информация о проекте.</p>
+</div>
+</header>
+<main class="settings-main">
+<div class="profile-section-label">ПАРАМЕТРЫ</div>
+<section aria-label="Настройки" class="profile-actions settings-actions">
+<button class="profile-action-card" data-settings-screen="appearance" type="button">
+<span class="profile-action-icon"><svg viewbox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></span>
+<span class="profile-action-copy"><strong>Внешний вид</strong><small>Анимации, размер текста и интерфейс</small></span>
+<span class="profile-action-arrow"><svg viewbox="0 0 24 24"><path d="m9 5 7 7-7 7"></path></svg></span>
+</button>
+<button class="profile-action-card" data-settings-screen="notificationsSettings" type="button">
+<span class="profile-action-icon"><svg viewbox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z"></path><path d="M10 21h4"></path></svg></span>
+<span class="profile-action-copy"><strong>Уведомления</strong><small>Какие события показывать в приложении</small></span>
+<span class="profile-action-arrow"><svg viewbox="0 0 24 24"><path d="m9 5 7 7-7 7"></path></svg></span>
+</button>
+<button class="profile-action-card" data-settings-screen="privacy" type="button">
+<span class="profile-action-icon"><svg viewbox="0 0 24 24"><path d="M12 3 20 6v5c0 5-3.4 8.2-8 10-4.6-1.8-8-5-8-10V6l8-3Z"></path><path d="m9 12 2 2 4-4"></path></svg></span>
+<span class="profile-action-copy"><strong>Приватность</strong><small>Что хранится в браузере и как это работает</small></span>
+<span class="profile-action-arrow"><svg viewbox="0 0 24 24"><path d="m9 5 7 7-7 7"></path></svg></span>
+</button>
+<button class="profile-action-card" data-settings-screen="storage" type="button">
+<span class="profile-action-icon"><svg viewbox="0 0 24 24"><path d="M5 5h14v14H5z"></path><path d="M8 9h8M8 13h8M8 17h5"></path></svg></span>
+<span class="profile-action-copy"><strong>Данные</strong><small>Корзина, избранное и очистка локальных данных</small></span>
+<span class="profile-action-arrow"><svg viewbox="0 0 24 24"><path d="m9 5 7 7-7 7"></path></svg></span>
+</button>
+<button class="profile-action-card" data-settings-screen="accessibility" type="button">
+<span class="profile-action-icon"><svg viewbox="0 0 24 24"><circle cx="12" cy="5" r="2"></circle><path d="M5 8h14M12 8v12M8 20l4-6 4 6"></path></svg></span>
+<span class="profile-action-copy"><strong>Доступность</strong><small>Удобство чтения и движения интерфейса</small></span>
+<span class="profile-action-arrow"><svg viewbox="0 0 24 24"><path d="m9 5 7 7-7 7"></path></svg></span>
+</button>
+<button class="profile-action-card" data-settings-screen="support" type="button">
+<span class="profile-action-icon"><svg viewbox="0 0 24 24"><path d="M4 13a8 8 0 0 1 16 0v4a2 2 0 0 1-2 2h-3v-6h5"></path><path d="M4 13v6h3v-6H4Z"></path><path d="M12 19h3"></path></svg></span>
+<span class="profile-action-copy"><strong>Поддержка</strong><small>Заказ, оплата, товар или разработка</small></span>
+<span class="profile-action-arrow"><svg viewbox="0 0 24 24"><path d="m9 5 7 7-7 7"></path></svg></span>
+</button>
+<button class="profile-action-card" data-settings-screen="help" type="button">
+<span class="profile-action-icon"><svg viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M9.7 9a2.5 2.5 0 1 1 4.1 1.9c-1.2.9-1.8 1.3-1.8 2.6"></path><path d="M12 17.2v.1"></path></svg></span>
+<span class="profile-action-copy"><strong>Помощь</strong><small>Как пользоваться магазином и заказывать</small></span>
+<span class="profile-action-arrow"><svg viewbox="0 0 24 24"><path d="m9 5 7 7-7 7"></path></svg></span>
+</button>
+<button class="profile-action-card" data-settings-screen="aboutProject" type="button">
+<span class="profile-action-icon"><svg viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 10v6M12 7.5v.1"></path></svg></span>
+<span class="profile-action-copy"><strong>О проекте</strong><small>Зачем создан Maalavo Store</small></span>
+<span class="profile-action-arrow"><svg viewbox="0 0 24 24"><path d="m9 5 7 7-7 7"></path></svg></span>
+</button>
+<button class="profile-action-card" data-settings-screen="userAgreement" type="button">
+<span class="profile-action-icon"><svg viewbox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"></path><path d="M15 3v4h4M9 11h6M9 15h6M9 19h4"></path></svg></span>
+<span class="profile-action-copy"><strong>Пользовательское соглашение</strong><small>Условия использования Maalavo Store</small></span>
+<span class="profile-action-arrow"><svg viewbox="0 0 24 24"><path d="m9 5 7 7-7 7"></path></svg></span>
+</button>
+<button class="profile-action-card" data-settings-screen="privacyPolicy" type="button">
+<span class="profile-action-icon"><svg viewbox="0 0 24 24"><path d="M12 3 20 6v5c0 5-3.4 8.2-8 10-4.6-1.8-8-5-8-10V6l8-3Z"></path><path d="M9 12h6M9 15h4"></path></svg></span>
+<span class="profile-action-copy"><strong>Политика конфиденциальности</strong><small>Как обрабатываются данные</small></span>
+<span class="profile-action-arrow"><svg viewbox="0 0 24 24"><path d="m9 5 7 7-7 7"></path></svg></span>
+</button>
+</section>
+</main>
+</div>
+</section>
+<!-- FULLSCREEN PROFILE SCREENS -->
+<section aria-hidden="true" class="profile-subpage" id="profileSubpage">
+<div class="profile-subpage-scroll" id="profileSubpageScroll">
+<header class="profile-subpage-header">
+<button aria-label="Назад" class="profile-subpage-back" id="profileSubpageBack" type="button">
+<svg viewbox="0 0 24 24"><path d="m15 5-7 7 7 7"></path></svg>
+</button>
+<div class="profile-subpage-heading">
+<h1 id="profileSubpageTitle">Раздел</h1>
+</div>
+</header>
+<main class="profile-subpage-content" id="profileSubpageContent"></main>
+</div>
+</section>
+<!-- =====================================================
+     BOTTOM NAV
+===================================================== -->
+<nav class="bottom-nav">
+<button class="nav-item active" data-page="home" type="button">
+<svg viewbox="0 0 24 24">
+<path d="m3 10 9-7 9 7"></path>
+<path d="M5 9v11h14V9"></path>
+<path d="M9 20v-6h6v6"></path>
+</svg>
+<span>
+            Главная
+        </span>
+</button>
+<button class="nav-item" data-page="favorites" type="button">
+<svg viewbox="0 0 24 24">
+<path d="M20.8 8.9c0 5.5-8.8 10.3-8.8 10.3S3.2 14.4 3.2 8.9A4.7 4.7 0 0 1 12 6.1a4.7 4.7 0 0 1 8.8 2.8Z"></path>
+</svg>
+<span>
+            Избранное
+        </span>
+</button>
+<button class="nav-item" data-page="profile" type="button">
+<svg viewbox="0 0 24 24">
+<circle cx="12" cy="8" r="3.5"></circle>
+<path d="M5 20c.8-4 3.1-6 7-6s6.2 2 7 6"></path>
+</svg>
+<span>
+            Профиль
+        </span>
+</button>
+<button class="nav-item" data-page="settings" type="button">
+<svg viewbox="0 0 24 24">
+<path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"></path>
+<path d="M19.4 15a1.8 1.8 0 0 0 .36 1.98l.06.06-1.82 1.82-.06-.06a1.8 1.8 0 0 0-1.98-.36 1.8 1.8 0 0 0-1.08 1.65V20h-2.58v-.09a1.8 1.8 0 0 0-1.08-1.65 1.8 1.8 0 0 0-1.98.36l-.06.06-1.82-1.82.06-.06A1.8 1.8 0 0 0 5.4 15a1.8 1.8 0 0 0-1.65-1.08H3.66v-2.58h.09A1.8 1.8 0 0 0 5.4 10.26a1.8 1.8 0 0 0-.36-1.98l-.06-.06L6.8 6.4l.06.06a1.8 1.8 0 0 0 1.98.36A1.8 1.8 0 0 0 9.92 5.17V5h2.58v.17a1.8 1.8 0 0 0 1.08 1.65 1.8 1.8 0 0 0 1.98-.36l.06-.06 1.82 1.82-.06.06a1.8 1.8 0 0 0 1.65 1.08h.09v2.58h-.09A1.8 1.8 0 0 0 19.4 15Z"></path>
+</svg>
+<span>
+            Настройки
+        </span>
+</button>
+</nav>
+<!-- =====================================================
+     PRODUCT PAGE
+===================================================== -->
+<section aria-hidden="true" class="product-page" id="productPage">
+<div class="product-page-scroll" id="productPageScroll">
+<div class="product-page-image">
+<img alt="" id="productPageImage" src=""/>
+<div class="product-page-top">
+<button aria-label="Назад" class="product-back" id="productBack" type="button">
+<svg viewbox="0 0 24 24">
+<path d="m15 18-6-6 6-6"></path>
+</svg>
+</button>
+<button aria-label="Избранное" class="product-page-favorite" id="productPageFavorite" type="button">
+<svg viewbox="0 0 24 24">
+<path d="M20.8 8.9c0 5.5-8.8 10.3-8.8 10.3S3.2 14.4 3.2 8.9A4.7 4.7 0 0 1 12 6.1a4.7 4.7 0 0 1 8.8 2.8Z"></path>
+</svg>
+</button>
+</div>
+</div>
+<div class="product-page-content">
+<div class="product-page-category" id="productPageCategory"></div>
+<h1 class="product-page-title" id="productPageTitle"></h1>
+<p class="product-page-description" id="productPageDescription"></p>
+<div class="product-page-buy">
+<div class="product-page-price-box">
+<div class="product-page-price-label">
+                        Стоимость
+                    </div>
+<div class="product-page-price" id="productPagePrice"></div>
+</div>
+<button class="product-page-cart" id="productPageCart" type="button">
+                    Добавить в корзину
+                </button>
+</div>
+</div>
+</div>
+</section>
+<!-- =====================================================
+     CHECKOUT
+===================================================== -->
+<section aria-hidden="true" class="checkout-page" id="checkoutPage">
+  <div class="checkout-scroll" id="checkoutScroll">
+    <header class="checkout-header">
+      <button aria-label="Назад" class="checkout-back" id="checkoutBack" type="button">
+        <svg viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"></path></svg>
+      </button>
+      <div>
+        <div class="checkout-kicker">ОФОРМЛЕНИЕ</div>
+        <h1>Заказ</h1>
+      </div>
+    </header>
+
+    <main class="checkout-content">
+      <section class="checkout-card checkout-summary-card">
+        <div class="checkout-card-head">
+          <div>
+            <span class="checkout-label">ВАШ ЗАКАЗ</span>
+            <h2 id="checkoutCount">0 товаров</h2>
+          </div>
+          <span class="checkout-total" id="checkoutTotal">от 0 ₽</span>
+        </div>
+        <div class="checkout-items" id="checkoutItems"></div>
+      </section>
+
+      <section class="checkout-card">
+        <div class="checkout-card-head simple">
+          <div>
+            <span class="checkout-label">КОНТАКТЫ</span>
+            <h2>Куда отправить заказ</h2>
+          </div>
+        </div>
+        <label class="checkout-field">
+          <span>Имя</span>
+          <input id="checkoutName" type="text" maxlength="80" autocomplete="name" placeholder="Как к вам обращаться?">
+        </label>
+        <label class="checkout-field">
+          <span>Telegram</span>
+          <input id="checkoutTelegram" type="text" maxlength="80" autocomplete="off" placeholder="@username">
+        </label>
+        <label class="checkout-field">
+          <span>Комментарий</span>
+          <textarea id="checkoutComment" maxlength="1000" rows="4" placeholder="Коротко опишите, что нужно сделать"></textarea>
+        </label>
+      </section>
+
+      <section class="checkout-note">
+        <span class="checkout-note-icon">✓</span>
+        <p>После оформления заказ сохранится в вашем профиле. Для согласования деталей откроется Telegram.</p>
+      </section>
+
+      <button class="checkout-submit" id="checkoutSubmit" type="button">
+        <span>Оформить заказ</span>
+        <span>→</span>
+      </button>
+      <p class="checkout-error" id="checkoutError" role="alert" hidden></p>
+    </main>
+  </div>
+</section>
+
+<!-- =====================================================
+     TOAST
+===================================================== -->
+<div class="toast" id="toast">
+<div class="toast-icon" id="toastIcon"></div>
+<div class="toast-text">
+<div class="toast-title" id="toastTitle"></div>
+<div class="toast-subtitle" id="toastSubtitle"></div>
+</div>
+</div>
+</div>
+<script src="frontend/js/config.js"></script>
+<script defer="" src="frontend/js/app.js"></script>
+</body>
+</html>
