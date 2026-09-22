@@ -1,0 +1,39 @@
+name: Materialize Maalavo Store V31
+
+on:
+  push:
+    paths:
+      - 'deploy/v31.tar.gz.b64'
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Extract V31
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/maalavo-v31
+          base64 -d deploy/v31.tar.gz.b64 | tar -xzf - -C /tmp/maalavo-v31
+          cp -a /tmp/maalavo-v31/. .
+          rm -f deploy/v31.tar.gz.b64
+
+      - name: Commit V31
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m "Deploy Maalavo Store V31"
+          git push
