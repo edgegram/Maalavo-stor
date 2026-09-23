@@ -1,5 +1,2 @@
-/* Railway backend URL.
-   For local same-origin development keep /api.
-   For GitHub Pages replace with your Railway URL, e.g. https://api.example.com/api
-*/
-window.MAALAVO_API_URL = window.MAALAVO_API_URL || "/api";
+/* Railway backend API URL. */
+window.MAALAVO_API_URL = "https://maalavo-stor-production-6edd.up.railway.app/api";
