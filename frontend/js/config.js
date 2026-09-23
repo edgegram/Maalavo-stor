@@ -20,9 +20,58 @@ function maalavoDeviceId() {
     }
 }
 
+function renderTelegramProfile(user) {
+    const name = user.name || "Гость";
+    const username = user.username || "";
+    const telegramId = String(user.id || "");
+    const accountNumber = String(user.accountNumber || "");
+    const avatar = user.avatar || "";
+
+    localStorage.setItem("maalavo_user", JSON.stringify({
+        name,
+        username,
+        id: telegramId,
+        accountNumber,
+        avatar
+    }));
+
+    const setText = (id, value) => {
+        const element = document.getElementById(id);
+        if (element) element.textContent = value;
+    };
+
+    setText("profileDisplayName", name);
+    setText("profileUsername", username ? `@${username}` : "@не указан");
+    setText("profileUsernameMeta", username ? `@${username}` : "Не указан");
+    setText("profileUserId", telegramId || "Не подключён");
+    setText("profileAccountNumber", accountNumber ? `#${accountNumber.replace(/^#/, "")}` : "—");
+
+    const image = document.getElementById("profileAvatarImage");
+    const fallback = document.getElementById("profileAvatarFallback");
+    if (image) {
+        image.onerror = () => {
+            image.hidden = true;
+            image.removeAttribute("src");
+        };
+        if (avatar) {
+            image.src = avatar;
+            image.alt = `Аватар ${name}`;
+            image.hidden = false;
+        } else {
+            image.hidden = true;
+            image.removeAttribute("src");
+        }
+    }
+    if (fallback) {
+        fallback.textContent = name.trim().split(/\s+/).filter(Boolean).map((part) => part[0]).join("").slice(0, 2).toUpperCase() || "M";
+    }
+
+    window.dispatchEvent(new CustomEvent("maalavo:telegram-profile", { detail: user }));
+}
+
 async function syncTelegramProfile() {
     const webApp = window.Telegram?.WebApp;
-    if (!webApp) return;
+    if (!webApp) return false;
 
     try {
         webApp.ready();
@@ -30,7 +79,7 @@ async function syncTelegramProfile() {
 
         const telegramUser = webApp.initDataUnsafe?.user;
         const initData = String(webApp.initData || "").trim();
-        if (!telegramUser?.id || !initData) return;
+        if (!telegramUser?.id || !initData) return false;
 
         const response = await fetch(`${window.MAALAVO_API_URL}/users/sync`, {
             method: "POST",
@@ -42,43 +91,37 @@ async function syncTelegramProfile() {
         });
 
         const payload = await response.json().catch(() => ({}));
-        if (!response.ok || !payload.user) throw new Error(payload.error || `HTTP ${response.status}`);
-
-        const user = payload.user;
-        const name = user.displayName || [telegramUser.first_name, telegramUser.last_name].filter(Boolean).join(" ") || telegramUser.username || "Гость";
-        const username = user.username || telegramUser.username || "";
-        const telegramId = String(user.telegramId || telegramUser.id);
-        const accountNumber = user.accountNumber ? String(user.accountNumber) : "";
-        const avatar = user.avatarUrl || telegramUser.photo_url || "";
-
-        localStorage.setItem("maalavo_user", JSON.stringify({ name, username, id: telegramId, accountNumber, avatar }));
-
-        const setText = (id, value) => {
-            const element = document.getElementById(id);
-            if (element) element.textContent = value;
-        };
-        setText("profileDisplayName", name);
-        setText("profileUsername", username ? `@${username}` : "@не указан");
-        setText("profileUsernameMeta", username ? `@${username}` : "Не указан");
-        setText("profileUserId", telegramId);
-        setText("profileAccountNumber", accountNumber ? `#${accountNumber}` : "—");
-
-        const image = document.getElementById("profileAvatarImage");
-        const fallback = document.getElementById("profileAvatarFallback");
-        if (image) {
-            if (avatar) {
-                image.src = avatar;
-                image.alt = `Аватар ${name}`;
-                image.hidden = false;
-            } else {
-                image.hidden = true;
-                image.removeAttribute("src");
-            }
+        if (!response.ok || !payload.user) {
+            throw new Error(payload.error || `HTTP ${response.status}`);
         }
-        if (fallback) fallback.textContent = name.trim().split(/\s+/).map(part => part[0]).join("").slice(0, 2).toUpperCase() || "M";
+
+        const remote = payload.user;
+        renderTelegramProfile({
+            name: remote.displayName || [telegramUser.first_name, telegramUser.last_name].filter(Boolean).join(" ") || telegramUser.username || "Гость",
+            username: remote.username || telegramUser.username || "",
+            id: remote.telegramId || telegramUser.id,
+            accountNumber: remote.accountNumber || "",
+            avatar: remote.avatarUrl || telegramUser.photo_url || ""
+        });
+        return true;
     } catch (error) {
         console.warn("Telegram profile sync failed:", error);
+        return false;
     }
 }
 
-window.addEventListener("DOMContentLoaded", syncTelegramProfile);
+async function waitForTelegramProfile() {
+    for (let attempt = 0; attempt < 30; attempt += 1) {
+        if (await syncTelegramProfile()) return;
+        await new Promise((resolve) => setTimeout(resolve, 250));
+    }
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+    void waitForTelegramProfile();
+});
+window.addEventListener("load", () => {
+    void waitForTelegramProfile();
+});
+setTimeout(() => { void waitForTelegramProfile(); }, 1000);
+setTimeout(() => { void waitForTelegramProfile(); }, 3000);
