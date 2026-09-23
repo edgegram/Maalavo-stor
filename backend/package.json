@@ -1,12 +1,12 @@
 {
   "name": "maalavo-store-backend",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "private": true,
   "type": "module",
   "engines": { "node": ">=22.0.0" },
   "scripts": {
-    "start": "node src/server-v3.js",
-    "dev": "node --watch src/server-v3.js",
+    "start": "node src/server-admin.js",
+    "dev": "node --watch src/server-admin.js",
     "migrate": "node scripts/migrate.js",
     "seed-admin": "node scripts/seed-admin.js"
   },
