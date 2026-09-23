@@ -1,7 +1,7 @@
 /* Maalavo frontend runtime configuration. */
 window.MAALAVO_API_URL = "https://maalavo-stor-production-6edd.up.railway.app/api";
 
-/* Load the official Telegram Mini App runtime before app.js executes. */
+/* Telegram Mini App runtime. */
 if (!window.Telegram?.WebApp) {
     document.write('<script src="https://telegram.org/js/telegram-web-app.js"><\/script>');
 }
@@ -22,23 +22,23 @@ function maalavoDeviceId() {
 
 async function syncTelegramProfile() {
     const webApp = window.Telegram?.WebApp;
-    const telegramUser = webApp?.initDataUnsafe?.user;
-    if (!telegramUser?.id) return;
+    if (!webApp) return;
 
     try {
         webApp.ready();
         webApp.expand();
 
+        const telegramUser = webApp.initDataUnsafe?.user;
+        const initData = String(webApp.initData || "").trim();
+        if (!telegramUser?.id || !initData) return;
+
         const response = await fetch(`${window.MAALAVO_API_URL}/users/sync`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                deviceId: maalavoDeviceId(),
-                telegramId: String(telegramUser.id),
-                username: telegramUser.username || null,
-                displayName: [telegramUser.first_name, telegramUser.last_name].filter(Boolean).join(" ") || telegramUser.username || "Гость",
-                avatarUrl: telegramUser.photo_url || null
-            })
+            headers: {
+                "Content-Type": "application/json",
+                "X-Telegram-Init-Data": initData
+            },
+            body: JSON.stringify({ deviceId: maalavoDeviceId() })
         });
 
         const payload = await response.json().catch(() => ({}));
