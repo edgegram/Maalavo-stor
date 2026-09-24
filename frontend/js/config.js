@@ -77,9 +77,47 @@ async function syncTelegramProfile() {
 
 async function waitForTelegramProfile() {
     for (let attempt = 0; attempt < 30; attempt += 1) {
-        if (await syncTelegramProfile()) return;
+        if (await syncTelegramProfile()) return true;
         await new Promise((resolve) => setTimeout(resolve, 250));
     }
+    return false;
+}
+
+function openMaalavoStore() {
+    const welcome = document.getElementById("welcomeScreen");
+    const page = document.getElementById("pageScroll");
+    if (welcome) {
+        welcome.classList.add("hidden");
+        welcome.setAttribute("aria-hidden", "true");
+        welcome.style.pointerEvents = "none";
+        welcome.style.visibility = "hidden";
+    }
+    if (page) {
+        page.classList.add("active");
+        page.removeAttribute("aria-hidden");
+        page.style.visibility = "visible";
+    }
+    const webApp = window.Telegram?.WebApp;
+    if (webApp) {
+        try {
+            webApp.ready();
+            webApp.expand();
+        } catch (error) {
+            console.warn("Telegram WebApp initialization failed:", error);
+        }
+    }
+    void waitForTelegramProfile();
+}
+
+function bindWelcomeButton() {
+    const button = document.getElementById("welcomeStart");
+    if (!button || button.dataset.maalavoWelcomeBound === "true") return;
+    button.dataset.maalavoWelcomeBound = "true";
+    button.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        openMaalavoStore();
+    }, { capture: true });
 }
 
 function loadRuntimeEnhancements() {
@@ -96,7 +134,23 @@ function loadRuntimeEnhancements() {
     document.head.appendChild(reviews);
 }
 
-window.addEventListener("DOMContentLoaded", () => { void waitForTelegramProfile(); loadRuntimeEnhancements(); });
-window.addEventListener("load", () => { void waitForTelegramProfile(); loadRuntimeEnhancements(); });
-setTimeout(() => { void waitForTelegramProfile(); loadRuntimeEnhancements(); }, 1000);
-setTimeout(() => { void waitForTelegramProfile(); loadRuntimeEnhancements(); }, 3000);
+window.addEventListener("DOMContentLoaded", () => {
+    bindWelcomeButton();
+    void waitForTelegramProfile();
+    loadRuntimeEnhancements();
+});
+window.addEventListener("load", () => {
+    bindWelcomeButton();
+    void waitForTelegramProfile();
+    loadRuntimeEnhancements();
+});
+setTimeout(() => {
+    bindWelcomeButton();
+    void waitForTelegramProfile();
+    loadRuntimeEnhancements();
+}, 1000);
+setTimeout(() => {
+    bindWelcomeButton();
+    void waitForTelegramProfile();
+    loadRuntimeEnhancements();
+}, 3000);
