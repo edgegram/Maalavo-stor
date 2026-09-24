@@ -145,11 +145,18 @@ function bindWelcomeButton() {
 
 function loadRuntimeEnhancements() {
     if (document.querySelector('script[data-maalavo-runtime-enhancements]')) return;
+
+    const cartFix = document.createElement('script');
+    cartFix.src = 'js/cart-fix.js?v=20260924-1';
+    cartFix.dataset.maalavoCartFix = 'true';
+    document.head.appendChild(cartFix);
+
     const script = document.createElement('script');
     script.src = 'js/remote-catalog.js?v=20260924-2';
     script.defer = true;
     script.dataset.maalavoRuntimeEnhancements = 'true';
     document.head.appendChild(script);
+
     const reviews = document.createElement('script');
     reviews.src = 'js/orders-reviews.js?v=20260924-3';
     reviews.defer = true;
