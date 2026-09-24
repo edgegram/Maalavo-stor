@@ -1,188 +1,25 @@
 (() => {
   'use strict';
-
-  const API = 'https://maalavo-stor-production-6edd.up.railway.app/api';
-  const state = { token: localStorage.getItem('maalavo_admin_token') || '', editingId: null };
-  const $ = (id) => document.getElementById(id);
-
-  async function request(path, options = {}) {
-    const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) };
-    if (state.token) headers.Authorization = `Bearer ${state.token}`;
-    const response = await fetch(`${API}${path}`, { ...options, headers });
-    let data = {};
-    try { data = await response.json(); } catch {}
-    if (!response.ok) throw new Error(data.error || `Ошибка ${response.status}`);
-    return data;
-  }
-
-  function esc(value) {
-    return String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
-  }
-
-  function toast(message) {
-    const el = $('toast');
-    el.textContent = message;
-    el.classList.add('show');
-    setTimeout(() => el.classList.remove('show'), 2200);
-  }
-
-  function showLogin() {
-    $('appView').classList.add('hidden');
-    $('loginView').classList.remove('hidden');
-  }
-
-  function handleAuthError(error) {
-    if (/авториза|сессия|401/i.test(error.message)) {
-      state.token = '';
-      localStorage.removeItem('maalavo_admin_token');
-      showLogin();
-      return;
-    }
-    toast(error.message);
-  }
-
-  async function login(event) {
-    event.preventDefault();
-    $('loginError').textContent = '';
-    try {
-      const data = await request('/admin/login', {
-        method: 'POST',
-        body: JSON.stringify({ username: $('username').value.trim(), password: $('password').value })
-      });
-      state.token = data.token;
-      localStorage.setItem('maalavo_admin_token', state.token);
-      $('adminName').textContent = data.admin.username;
-      $('loginView').classList.add('hidden');
-      $('appView').classList.remove('hidden');
-      await loadAll();
-    } catch (error) {
-      $('loginError').textContent = error.message;
-    }
-  }
-
-  async function loadAll() {
-    const me = await request('/admin/me');
-    $('adminName').textContent = me.admin.username;
-    await Promise.all([loadStats(), loadOrders(), loadProducts()]);
-  }
-
-  async function loadStats() {
-    const { stats } = await request('/admin/stats');
-    $('sOrders').textContent = stats.orders;
-    $('sNew').textContent = '—';
-    $('sCompleted').textContent = '—';
-    $('sUsers').textContent = stats.users;
-    $('sRevenue').textContent = `${Number(stats.revenue).toLocaleString('ru-RU')} ₽`;
-  }
-
-  async function loadOrders() {
-    const { orders } = await request('/admin/orders');
-    const root = $('ordersList');
-    root.innerHTML = orders.length ? orders.map((order) => {
-      const items = order.items.map((item) => `${esc(item.title)} × ${item.quantity}`).join(', ');
-      return `<article class="order">
-        <div class="order-head"><div><div class="order-id">#${esc(order.publicId)}</div>
-        <div class="meta">${esc(order.name)} · ${esc(order.telegram)} · ${new Date(order.createdAt).toLocaleString('ru-RU')}</div></div>
-        <span class="status">${esc(order.status)}</span></div>
-        <div class="order-items">${items || 'Без позиций'} · <b>${Number(order.totalFrom).toLocaleString('ru-RU')} ₽</b></div>
-        ${order.accountNumber ? `<div class="meta">Аккаунт: #${esc(order.accountNumber)}</div>` : ''}
-        ${order.comment ? `<div class="meta">${esc(order.comment)}</div>` : ''}
-        <div class="order-actions"><select data-order-id="${esc(order.id)}">
-          <option value="new" ${order.status === 'new' ? 'selected' : ''}>Новый</option>
-          <option value="in_progress" ${order.status === 'in_progress' ? 'selected' : ''}>В работе</option>
-          <option value="paid" ${order.status === 'paid' ? 'selected' : ''}>Оплачен</option>
-          <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>Выполнен</option>
-          <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Отменён</option>
-        </select></div></article>`;
-    }).join('') : '<p class="muted">Заказов пока нет.</p>';
-
-    root.querySelectorAll('select[data-order-id]').forEach((select) => {
-      select.addEventListener('change', async () => {
-        try {
-          await request(`/admin/orders/${encodeURIComponent(select.dataset.orderId)}`, {
-            method: 'PATCH',
-            body: JSON.stringify({ status: select.value })
-          });
-          toast('Статус обновлён');
-          await loadStats();
-        } catch (error) { handleAuthError(error); }
-      });
-    });
-  }
-
-  async function loadProducts() {
-    const { products } = await request('/admin/products');
-    const root = $('productsList');
-    root.innerHTML = products.length ? products.map((product) => `<article class="product">
-      <div><div class="product-head"><div><h3>${esc(product.title)}</h3>
-      <div class="meta">${esc(product.id)} · ${esc(product.category)} · ${product.active ? 'активен' : 'скрыт'}</div></div>
-      <strong>от ${Number(product.priceFrom).toLocaleString('ru-RU')} ₽</strong></div>
-      <p class="muted">${esc(product.description)}</p></div>
-      <div class="actions"><button class="ghost edit-product" data-id="${esc(product.id)}">Изменить</button>
-      <button class="ghost danger delete-product" data-id="${esc(product.id)}">${product.active ? 'Скрыть' : 'Удалить'}</button></div></article>`).join('') : '<p class="muted">Товаров нет.</p>';
-
-    root.querySelectorAll('.edit-product').forEach((button) => button.onclick = () => openEditor(products.find((p) => p.id === button.dataset.id)));
-    root.querySelectorAll('.delete-product').forEach((button) => button.onclick = async () => {
-      if (!confirm('Скрыть товар из магазина?')) return;
-      try {
-        await request(`/admin/products/${encodeURIComponent(button.dataset.id)}`, { method: 'DELETE' });
-        toast('Товар скрыт');
-        await loadProducts();
-      } catch (error) { handleAuthError(error); }
-    });
-  }
-
-  function openEditor(product = null) {
-    state.editingId = product?.id || null;
-    $('editorTitle').textContent = product ? 'Изменить товар' : 'Новый товар';
-    $('pId').value = product?.id || '';
-    $('pId').disabled = Boolean(product);
-    $('pTitle').value = product?.title || '';
-    $('pCategory').value = product?.category || '';
-    $('pDescription').value = product?.description || '';
-    $('pPrice').value = product?.priceFrom ?? 0;
-    $('pSort').value = product?.sortOrder ?? 0;
-    $('pImage').value = product?.imageUrl || '';
-    $('pActive').checked = product?.active ?? true;
-    $('editorError').textContent = '';
-    $('productEditor').classList.remove('hidden');
-  }
-
-  async function saveProduct(event) {
-    event.preventDefault();
-    const product = {
-      title: $('pTitle').value.trim(), category: $('pCategory').value.trim(), description: $('pDescription').value.trim(),
-      priceFrom: Number($('pPrice').value), imageUrl: $('pImage').value.trim() || null, active: $('pActive').checked, sortOrder: Number($('pSort').value)
-    };
-    try {
-      if (state.editingId) {
-        await request(`/admin/products/${encodeURIComponent(state.editingId)}`, { method: 'PATCH', body: JSON.stringify(product) });
-      } else {
-        product.id = $('pId').value.trim();
-        await request('/admin/products', { method: 'POST', body: JSON.stringify(product) });
-      }
-      $('productEditor').classList.add('hidden');
-      toast('Товар сохранён');
-      await loadProducts();
-    } catch (error) { $('editorError').textContent = error.message; }
-  }
-
-  $('loginForm').addEventListener('submit', login);
-  $('logout').onclick = () => { state.token = ''; localStorage.removeItem('maalavo_admin_token'); showLogin(); };
-  $('refreshOrders').onclick = () => loadOrders().then(loadStats).catch(handleAuthError);
-  $('newProduct').onclick = () => openEditor();
-  $('closeEditor').onclick = $('cancelEditor').onclick = () => $('productEditor').classList.add('hidden');
-  $('productForm').addEventListener('submit', saveProduct);
-  document.querySelectorAll('.tab').forEach((tab) => tab.onclick = () => {
-    document.querySelectorAll('.tab').forEach((x) => x.classList.remove('active'));
-    tab.classList.add('active');
-    $('ordersTab').classList.toggle('hidden', tab.dataset.tab !== 'orders');
-    $('productsTab').classList.toggle('hidden', tab.dataset.tab !== 'products');
-  });
-
-  if (state.token) {
-    $('loginView').classList.add('hidden');
-    $('appView').classList.remove('hidden');
-    loadAll().catch(handleAuthError);
-  }
+  const API='https://maalavo-stor-production-6edd.up.railway.app/api';
+  const state={token:localStorage.getItem('maalavo_admin_token')||'',editingId:null};
+  const $=id=>document.getElementById(id);
+  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  async function request(path,opt={}){const headers={'Content-Type':'application/json',...(opt.headers||{})};if(state.token)headers.Authorization=`Bearer ${state.token}`;const r=await fetch(`${API}${path}`,{...opt,headers});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.error||`Ошибка ${r.status}`);return d;}
+  function toast(m){const e=$('toast');e.textContent=m;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2200);}
+  function loginView(){ $('appView').classList.add('hidden');$('loginView').classList.remove('hidden'); }
+  function authError(e){if(/401|авториза|сессия/i.test(e.message)){state.token='';localStorage.removeItem('maalavo_admin_token');loginView();return;}toast(e.message);}
+  async function login(e){e.preventDefault();$('loginError').textContent='';try{const d=await request('/admin/login',{method:'POST',body:JSON.stringify({username:$('username').value.trim(),password:$('password').value})});state.token=d.token;localStorage.setItem('maalavo_admin_token',state.token);$('adminName').textContent=d.admin.username;$('loginView').classList.add('hidden');$('appView').classList.remove('hidden');await loadAll();}catch(x){$('loginError').textContent=x.message;}}
+  async function loadAll(){const me=await request('/admin/me');$('adminName').textContent=me.admin.username;await Promise.all([loadStats(),loadOrders(),loadProducts(),loadReviews()]);}
+  async function loadStats(){const d=await request('/admin/stats'),s=d.stats;$('sOrders').textContent=s.orders;$('sNew').textContent=s.statuses?.new||0;$('sCompleted').textContent=s.statuses?.completed||0;$('sUsers').textContent=s.users;$('sRevenue').textContent=`${Number(s.revenue).toLocaleString('ru-RU')} ₽`;ensureReviewsTab(s.reviews||0);}
+  function statusLabel(s){return({new:'Новый',in_progress:'В работе',paid:'Оплачен',completed:'Получен',cancelled:'Отменён'})[s]||s;}
+  async function loadOrders(){const d=await request('/admin/orders');const root=$('ordersList');root.innerHTML=d.orders.length?d.orders.map(o=>`<article class="order"><div class="order-head"><div><div class="order-id">#${esc(o.publicId)}</div><div class="meta">${esc(o.name)} · ${esc(o.telegram)} · ${new Date(o.createdAt).toLocaleString('ru-RU')}</div></div><span class="status">${esc(o.statusLabel||statusLabel(o.status))}</span></div><div class="meta">${o.status==='cancelled'?'Отменён':`Очередь №${Number(o.queuePosition||0)}`} ${o.accountNumber?`· Аккаунт #${esc(o.accountNumber)}`:''}</div><div class="order-items">${o.items.map(i=>`${esc(i.title)} × ${Number(i.quantity)} `).join(', ')} · <b>${Number(o.totalFrom).toLocaleString('ru-RU')} ₽</b></div>${o.comment?`<div class="meta">${esc(o.comment)}</div>`:''}<div class="order-actions"><select data-order-id="${esc(o.id)}">${['new','in_progress','paid','completed','cancelled'].map(s=>`<option value="${s}" ${o.status===s?'selected':''}>${statusLabel(s)}</option>`).join('')}</select></div></article>`).join(''):'<p class="muted">Заказов пока нет.</p>';root.querySelectorAll('select[data-order-id]').forEach(sel=>sel.onchange=async()=>{try{await request(`/admin/orders/${encodeURIComponent(sel.dataset.orderId)}`,{method:'PATCH',body:JSON.stringify({status:sel.value})});toast('Статус обновлён');await Promise.all([loadStats(),loadOrders()]);}catch(e){authError(e);}});}
+  async function loadProducts(){const d=await request('/admin/products'),root=$('productsList');root.innerHTML=d.products.length?d.products.map(p=>`<article class="product"><div><div class="product-head"><div><h3>${esc(p.title)}</h3><div class="meta">${esc(p.id)} · ${esc(p.category)} · ${p.active?'активен':'скрыт'}</div></div><strong>от ${Number(p.priceFrom).toLocaleString('ru-RU')} ₽</strong></div><p class="muted">${esc(p.description)}</p></div><div class="actions"><button class="ghost edit-product" data-id="${esc(p.id)}">Изменить</button><button class="ghost danger delete-product" data-id="${esc(p.id)}">${p.active?'Скрыть':'Удалить'}</button></div></article>`).join(''):'<p class="muted">Товаров нет.</p>';root.querySelectorAll('.edit-product').forEach(b=>b.onclick=()=>openEditor(d.products.find(p=>p.id===b.dataset.id)));root.querySelectorAll('.delete-product').forEach(b=>b.onclick=async()=>{if(!confirm('Скрыть товар из магазина?'))return;try{await request(`/admin/products/${encodeURIComponent(b.dataset.id)}`,{method:'DELETE'});toast('Товар скрыт');await loadProducts();}catch(e){authError(e);}});}
+  async function loadReviews(){if(!$('reviewsList'))return;try{const d=await request('/admin/reviews');$('reviewsList').innerHTML=d.reviews.length?d.reviews.map(r=>`<article class="review-admin"><div><strong>${esc(r.title)}</strong><span>${'★'.repeat(Number(r.rating))}${'☆'.repeat(5-Number(r.rating))}</span></div><div class="meta">${esc(r.displayName||'Покупатель')}${r.username?` · @${esc(r.username)}`:''} · заказ #${esc(r.orderId)} · ${new Date(r.createdAt).toLocaleString('ru-RU')}</div><p>${esc(r.text||'')}</p></article>`).join(''):'<p class="muted">Отзывов пока нет.</p>';}catch(e){authError(e);}}
+  function ensureReviewsTab(count){const tabs=document.querySelector('.tabs');if(!tabs||document.querySelector('[data-tab="reviews"]'))return;const b=document.createElement('button');b.className='tab';b.dataset.tab='reviews';b.textContent=`Отзывы${count?` (${count})`:''}`;tabs.appendChild(b);const app=$('appView');const sec=document.createElement('section');sec.id='reviewsTab';sec.className='tab-panel hidden';sec.innerHTML='<div class="section-head"><div><h2>Отзывы покупателей</h2><p class="muted">Отзывы доступны только после статуса «Получен».</p></div></div><div id="reviewsList"></div>';app.appendChild(sec);b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('ordersTab').classList.toggle('hidden',b.dataset.tab!=='orders');$('productsTab').classList.toggle('hidden',b.dataset.tab!=='products');$('reviewsTab').classList.toggle('hidden',b.dataset.tab!=='reviews');if(b.dataset.tab==='reviews')loadReviews();};const style=document.createElement('style');style.textContent='.review-admin{padding:14px;border:1px solid #ffffff12;border-radius:14px;margin-top:10px}.review-admin>div:first-child{display:flex;justify-content:space-between}.review-admin span{color:#ffd166}.review-admin p{white-space:pre-wrap;color:#ffffffc0}';document.head.appendChild(style);}
+  function openEditor(p=null){state.editingId=p?.id||null;$('editorTitle').textContent=p?'Изменить товар':'Новый товар';$('pId').value=p?.id||'';$('pId').disabled=Boolean(p);$('pTitle').value=p?.title||'';$('pCategory').value=p?.category||'';$('pDescription').value=p?.description||'';$('pPrice').value=p?.priceFrom??0;$('pSort').value=p?.sortOrder??0;$('pImage').value=p?.imageUrl||'';$('pActive').checked=p?.active??true;$('editorError').textContent='';$('productEditor').classList.remove('hidden');}
+  async function saveProduct(e){e.preventDefault();const p={title:$('pTitle').value.trim(),category:$('pCategory').value.trim(),description:$('pDescription').value.trim(),priceFrom:Number($('pPrice').value),imageUrl:$('pImage').value.trim()||null,active:$('pActive').checked,sortOrder:Number($('pSort').value)};try{if(state.editingId)await request(`/admin/products/${encodeURIComponent(state.editingId)}`,{method:'PATCH',body:JSON.stringify(p)});else{p.id=$('pId').value.trim();await request('/admin/products',{method:'POST',body:JSON.stringify(p)});}$('productEditor').classList.add('hidden');toast('Товар сохранён');await loadProducts();}catch(e){$('editorError').textContent=e.message;}}
+  $('loginForm').addEventListener('submit',login);$('logout').onclick=()=>{state.token='';localStorage.removeItem('maalavo_admin_token');loginView();};$('refreshOrders').onclick=()=>loadAll().catch(authError);$('newProduct').onclick=()=>openEditor();$('closeEditor').onclick=$('cancelEditor').onclick=()=>$('productEditor').classList.add('hidden');$('productForm').addEventListener('submit',saveProduct);
+  document.querySelectorAll('.tab').forEach(tab=>tab.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));tab.classList.add('active');$('ordersTab').classList.toggle('hidden',tab.dataset.tab!=='orders');$('productsTab').classList.toggle('hidden',tab.dataset.tab!=='products');if($('reviewsTab'))$('reviewsTab').classList.add('hidden');if(tab.dataset.tab==='reviews')loadReviews();});
+  if(state.token){$('loginView').classList.add('hidden');$('appView').classList.remove('hidden');loadAll().catch(authError);} 
+  setInterval(()=>{if(state.token&& !$('appView').classList.contains('hidden'))Promise.all([loadStats(),loadOrders(),loadProducts(),loadReviews()]).catch(authError);},10000);
 })();
