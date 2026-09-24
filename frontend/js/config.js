@@ -3,7 +3,7 @@ window.MAALAVO_API_URL = "https://maalavo-stor-production-6edd.up.railway.app/ap
 
 /* Telegram Mini App runtime. */
 if (!window.Telegram?.WebApp) {
-    document.write('<script src="https://telegram.org/js/telegram-web-app.js"><\/script>');
+    document.write('<script src="https://telegram.org/js/telegram-web-app.js"><\\/script>');
 }
 
 function maalavoDeviceId() {
@@ -117,11 +117,22 @@ async function waitForTelegramProfile() {
     }
 }
 
+function loadRuntimeEnhancements() {
+    if (document.querySelector('script[data-maalavo-runtime-enhancements]')) return;
+    const script = document.createElement('script');
+    script.src = 'js/remote-catalog.js?v=20260924-1';
+    script.defer = true;
+    script.dataset.maalavoRuntimeEnhancements = 'true';
+    document.head.appendChild(script);
+}
+
 window.addEventListener("DOMContentLoaded", () => {
     void waitForTelegramProfile();
+    loadRuntimeEnhancements();
 });
 window.addEventListener("load", () => {
     void waitForTelegramProfile();
+    loadRuntimeEnhancements();
 });
-setTimeout(() => { void waitForTelegramProfile(); }, 1000);
-setTimeout(() => { void waitForTelegramProfile(); }, 3000);
+setTimeout(() => { void waitForTelegramProfile(); loadRuntimeEnhancements(); }, 1000);
+setTimeout(() => { void waitForTelegramProfile(); loadRuntimeEnhancements(); }, 3000);
