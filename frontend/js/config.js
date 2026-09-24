@@ -3,7 +3,10 @@ window.MAALAVO_API_URL = "https://maalavo-stor-production-6edd.up.railway.app/ap
 
 /* Telegram Mini App runtime. */
 if (!window.Telegram?.WebApp) {
-    document.write('<script src="https://telegram.org/js/telegram-web-app.js"><\\/script>');
+    const telegramScript = document.createElement("script");
+    telegramScript.src = "https://telegram.org/js/telegram-web-app.js";
+    telegramScript.async = true;
+    document.head.appendChild(telegramScript);
 }
 
 function maalavoDeviceId() {
@@ -86,17 +89,28 @@ async function waitForTelegramProfile() {
 function openMaalavoStore() {
     const welcome = document.getElementById("welcomeScreen");
     const page = document.getElementById("pageScroll");
+
     if (welcome) {
         welcome.classList.add("hidden");
         welcome.setAttribute("aria-hidden", "true");
         welcome.style.pointerEvents = "none";
         welcome.style.visibility = "hidden";
+        welcome.style.opacity = "0";
+        welcome.style.display = "none";
     }
+
     if (page) {
         page.classList.add("active");
         page.removeAttribute("aria-hidden");
         page.style.visibility = "visible";
+        page.style.display = "block";
+        page.style.opacity = "1";
+        page.style.pointerEvents = "auto";
+        page.style.zIndex = "20";
     }
+
+    document.body.style.overflow = "hidden";
+
     const webApp = window.Telegram?.WebApp;
     if (webApp) {
         try {
@@ -106,6 +120,7 @@ function openMaalavoStore() {
             console.warn("Telegram WebApp initialization failed:", error);
         }
     }
+
     void waitForTelegramProfile();
 }
 
@@ -113,22 +128,30 @@ function bindWelcomeButton() {
     const button = document.getElementById("welcomeStart");
     if (!button || button.dataset.maalavoWelcomeBound === "true") return;
     button.dataset.maalavoWelcomeBound = "true";
-    button.addEventListener("click", (event) => {
-        event.preventDefault();
-        event.stopPropagation();
+
+    const enter = (event) => {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            event.stopImmediatePropagation?.();
+        }
         openMaalavoStore();
-    }, { capture: true });
+    };
+
+    button.addEventListener("click", enter, { capture: true });
+    button.addEventListener("pointerup", enter, { capture: true });
+    button.addEventListener("touchend", enter, { capture: true, passive: false });
 }
 
 function loadRuntimeEnhancements() {
     if (document.querySelector('script[data-maalavo-runtime-enhancements]')) return;
     const script = document.createElement('script');
-    script.src = 'js/remote-catalog.js?v=20260924-1';
+    script.src = 'js/remote-catalog.js?v=20260924-2';
     script.defer = true;
     script.dataset.maalavoRuntimeEnhancements = 'true';
     document.head.appendChild(script);
     const reviews = document.createElement('script');
-    reviews.src = 'js/orders-reviews.js?v=20260924-2';
+    reviews.src = 'js/orders-reviews.js?v=20260924-3';
     reviews.defer = true;
     reviews.dataset.maalavoOrdersReviews = 'true';
     document.head.appendChild(reviews);
@@ -148,7 +171,12 @@ setTimeout(() => {
     bindWelcomeButton();
     void waitForTelegramProfile();
     loadRuntimeEnhancements();
-}, 1000);
+}, 500);
+setTimeout(() => {
+    bindWelcomeButton();
+    void waitForTelegramProfile();
+    loadRuntimeEnhancements();
+}, 1500);
 setTimeout(() => {
     bindWelcomeButton();
     void waitForTelegramProfile();
