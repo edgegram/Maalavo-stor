@@ -296,7 +296,7 @@ app.get('/api/orders', wrap(async (req,res) => {
     SELECT o.id,o.public_id AS "publicId",o.name,o.telegram,o.comment,o.total_from AS "totalFrom",o.status,
       o.created_at AS "createdAt",o.updated_at AS "updatedAt",
       ROW_NUMBER() OVER (ORDER BY o.created_at ASC) AS "queuePosition",
-      COALESCE(json_agg(json_build_object('productId',oi.product_id,'title',oi.title,'priceFrom',oi.price_from,'quantity',oi.quantity)) FILTER (WHERE oi.id IS NOT NULL),'[]') AS items
+      COALESCE(json_agg(json_build_object('productId',oi.product_id,'title',oi.title,'priceFrom',oi.price_from,'quantity',oi.quantity,'reviewed',EXISTS(SELECT 1 FROM product_reviews pr WHERE pr.order_id=o.id AND pr.product_id=oi.product_id))) FILTER (WHERE oi.id IS NOT NULL),'[]') AS items
     FROM orders o LEFT JOIN order_items oi ON oi.order_id=o.id
     WHERE o.user_id=$1 GROUP BY o.id ORDER BY o.created_at DESC`, [user.id]);
   res.json({ok:true,orders:rows.map((row)=>({...row,totalFrom:Number(row.totalFrom),queuePosition:Number(row.queuePosition),statusLabel:getStatusLabel(row.status)}))});
@@ -308,7 +308,7 @@ app.get('/api/orders/:publicId', wrap(async (req,res) => {
   if (!user) return error(res,401,'Пользователь не найден');
   const { rows } = await pool.query(`
     SELECT o.id,o.public_id AS "publicId",o.name,o.telegram,o.comment,o.total_from AS "totalFrom",o.status,o.created_at AS "createdAt",o.updated_at AS "updatedAt",
-      COALESCE(json_agg(json_build_object('productId',oi.product_id,'title',oi.title,'priceFrom',oi.price_from,'quantity',oi.quantity)) FILTER (WHERE oi.id IS NOT NULL),'[]') AS items
+      COALESCE(json_agg(json_build_object('productId',oi.product_id,'title',oi.title,'priceFrom',oi.price_from,'quantity',oi.quantity,'reviewed',EXISTS(SELECT 1 FROM product_reviews pr WHERE pr.order_id=o.id AND pr.product_id=oi.product_id))) FILTER (WHERE oi.id IS NOT NULL),'[]') AS items
     FROM orders o LEFT JOIN order_items oi ON oi.order_id=o.id
     WHERE o.public_id=$1 AND o.user_id=$2 GROUP BY o.id`, [req.params.publicId,user.id]);
   if (!rows[0]) return error(res,404,'Заказ не найден');
