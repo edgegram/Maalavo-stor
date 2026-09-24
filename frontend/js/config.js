@@ -146,22 +146,29 @@ function bindWelcomeButton() {
 function loadRuntimeEnhancements() {
     if (document.querySelector('script[data-maalavo-runtime-enhancements]')) return;
 
+    const loadRemaining = () => {
+        if (!document.querySelector('script[data-maalavo-runtime-enhancements]')) {
+            const script = document.createElement('script');
+            script.src = 'js/remote-catalog.js?v=20260924-2';
+            script.defer = true;
+            script.dataset.maalavoRuntimeEnhancements = 'true';
+            document.head.appendChild(script);
+
+            const reviews = document.createElement('script');
+            reviews.src = 'js/orders-reviews.js?v=20260924-3';
+            reviews.defer = true;
+            reviews.dataset.maalavoOrdersReviews = 'true';
+            document.head.appendChild(reviews);
+        }
+    };
+
     const cartFix = document.createElement('script');
     cartFix.src = 'js/cart-fix.js?v=20260924-1';
+    cartFix.async = false;
     cartFix.dataset.maalavoCartFix = 'true';
+    cartFix.onload = loadRemaining;
+    cartFix.onerror = loadRemaining;
     document.head.appendChild(cartFix);
-
-    const script = document.createElement('script');
-    script.src = 'js/remote-catalog.js?v=20260924-2';
-    script.defer = true;
-    script.dataset.maalavoRuntimeEnhancements = 'true';
-    document.head.appendChild(script);
-
-    const reviews = document.createElement('script');
-    reviews.src = 'js/orders-reviews.js?v=20260924-3';
-    reviews.defer = true;
-    reviews.dataset.maalavoOrdersReviews = 'true';
-    document.head.appendChild(reviews);
 }
 
 window.addEventListener("DOMContentLoaded", () => {
