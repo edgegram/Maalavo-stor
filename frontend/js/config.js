@@ -3,7 +3,7 @@ window.MAALAVO_API_URL = "https://maalavo-stor-production-6edd.up.railway.app/ap
 
 /* Telegram Mini App runtime. */
 if (!window.Telegram?.WebApp) {
-    document.write('<script src="https://telegram.org/js/telegram-web-app.js"><\/script>');
+    document.write('<script src="https://telegram.org/js/telegram-web-app.js"><\\/script>');
 }
 
 function maalavoDeviceId() {
@@ -26,37 +26,21 @@ function renderTelegramProfile(user) {
     const telegramId = String(user.id || "");
     const accountNumber = String(user.accountNumber || "");
     const avatar = user.avatar || "";
-
     localStorage.setItem("maalavo_user", JSON.stringify({ name, username, id: telegramId, accountNumber, avatar }));
-
-    const setText = (id, value) => {
-        const element = document.getElementById(id);
-        if (element) element.textContent = value;
-    };
-
+    const setText = (id, value) => { const element = document.getElementById(id); if (element) element.textContent = value; };
     setText("profileDisplayName", name);
     setText("profileUsername", username ? `@${username}` : "@не указан");
     setText("profileUsernameMeta", username ? `@${username}` : "Не указан");
     setText("profileUserId", telegramId || "Не подключён");
     setText("profileAccountNumber", accountNumber ? `#${accountNumber.replace(/^#/, "")}` : "—");
-
     const image = document.getElementById("profileAvatarImage");
     const fallback = document.getElementById("profileAvatarFallback");
     if (image) {
         image.onerror = () => { image.hidden = true; image.removeAttribute("src"); };
-        if (avatar) {
-            image.src = avatar;
-            image.alt = `Аватар ${name}`;
-            image.hidden = false;
-        } else {
-            image.hidden = true;
-            image.removeAttribute("src");
-        }
+        if (avatar) { image.src = avatar; image.alt = `Аватар ${name}`; image.hidden = false; }
+        else { image.hidden = true; image.removeAttribute("src"); }
     }
-    if (fallback) {
-        fallback.textContent = name.trim().split(/\s+/).filter(Boolean).map((part) => part[0]).join("").slice(0, 2).toUpperCase() || "M";
-    }
-
+    if (fallback) fallback.textContent = name.trim().split(/\s+/).filter(Boolean).map((part) => part[0]).join("").slice(0, 2).toUpperCase() || "M";
     window.dispatchEvent(new CustomEvent("maalavo:telegram-profile", { detail: user }));
 }
 
@@ -69,7 +53,6 @@ async function syncTelegramProfile() {
         const telegramUser = webApp.initDataUnsafe?.user;
         const initData = String(webApp.initData || "").trim();
         if (!telegramUser?.id || !initData) return false;
-
         const response = await fetch(`${window.MAALAVO_API_URL}/users/sync`, {
             method: "POST",
             headers: { "Content-Type": "application/json", "X-Telegram-Init-Data": initData },
@@ -77,7 +60,6 @@ async function syncTelegramProfile() {
         });
         const payload = await response.json().catch(() => ({}));
         if (!response.ok || !payload.user) throw new Error(payload.error || `HTTP ${response.status}`);
-
         const remote = payload.user;
         renderTelegramProfile({
             name: remote.displayName || [telegramUser.first_name, telegramUser.last_name].filter(Boolean).join(" ") || telegramUser.username || "Гость",
@@ -103,10 +85,15 @@ async function waitForTelegramProfile() {
 function loadRuntimeEnhancements() {
     if (document.querySelector('script[data-maalavo-runtime-enhancements]')) return;
     const script = document.createElement('script');
-    script.src = 'js/remote-catalog.js?v=20260924-2';
+    script.src = 'js/remote-catalog.js?v=20260924-1';
     script.defer = true;
     script.dataset.maalavoRuntimeEnhancements = 'true';
     document.head.appendChild(script);
+    const reviews = document.createElement('script');
+    reviews.src = 'js/orders-reviews.js?v=20260924-2';
+    reviews.defer = true;
+    reviews.dataset.maalavoOrdersReviews = 'true';
+    document.head.appendChild(reviews);
 }
 
 window.addEventListener("DOMContentLoaded", () => { void waitForTelegramProfile(); loadRuntimeEnhancements(); });
