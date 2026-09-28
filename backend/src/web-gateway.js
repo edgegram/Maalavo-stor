@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const PORT = Number(process.env.PORT || 8080);
 const BACKEND_PORT = Number(process.env.BACKEND_PORT || 8081);
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const FRONTEND_ROOT = path.join(ROOT, 'frontend');
 const ADMIN_ROOT = path.join(ROOT, 'admin');
 
