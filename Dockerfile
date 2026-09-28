@@ -6,6 +6,8 @@ COPY backend/package*.json ./
 RUN npm install --omit=dev
 
 COPY backend/ ./
+COPY frontend/ ./frontend/
+COPY admin/ ./admin/
 
 EXPOSE 8080
 
